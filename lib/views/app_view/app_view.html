@@ -1,0 +1,98 @@
+<!-- Polymer Element HTML import links go here (above <polymer-element> tag) -->
+<link rel="import" href="../../../../packages/polymer/polymer.html">
+<link rel="import" href="../../../../packages/core_elements/core_scaffold.html">
+<link rel="import" href="../../../../packages/core_elements/core_header_panel.html">
+<link rel="import" href="../../../../packages/core_elements/core_drawer_panel.html">
+<link rel="import" href="../../../../packages/core_elements/core_toolbar.html">
+<link rel="import" href="../../../../packages/core_elements/core_menu.html">
+<link rel="import" href="../../../../packages/core_elements/core_item.html">
+<link rel="import" href="../../../../packages/core_elements/core_icon.html">
+<link rel="import" href="../../../../packages/paper_elements/paper_tabs.html">
+<link rel="import" href="../../../../packages/paper_elements/paper_tab.html">
+<link rel="import" href="../../../../packages/paper_elements/paper_button.html">
+
+
+<polymer-element name="app-view">
+  <template>
+    <style>
+      :host, core-scaffold, .content {
+        height: 100%;
+      }
+
+      #drawer-header {
+        color: rgb(255, 255, 255);
+        background-color: rgb(79, 125, 201);
+      }
+
+      .menu-header-text {
+        font-size: 0.9em;
+      }
+
+      .content {
+        padding: 0 15px;
+      }
+
+      .box-container {
+        width: 475px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: white;
+      }
+
+      .user-select-none {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      img {
+        -moz-user-drag: -moz-none;
+        -webkit-user-drag: none;
+        user-drag: none;
+      }
+    </style>
+
+    <!--
+      Scaffold
+      The scaffold contains a <core-drawer-panel>, a <core-header-panel>, and a <core-toolbar>.
+      Use attributes on the scaffold's children to indicate where they should be placed.
+      Elements with no scaffold attributes are "distributed" into the main content area (not in the scaffold's Shadow DOM).
+
+      Scaffold Attributes
+      responsiveWidth: The width at which the scaffold will automatically collapse the drawer panel (default: 600px)
+      mode: Sets the mode of the main area's <core-header-panel> (default: "seamed")
+
+      Scaffold Child Attributes
+      navigation: the element (0-1) marked with this attribute goes into the <core-drawer-panel>
+      tool: an element (0...) marked with this attribute is included in the main area's <core-toolbar>
+    -->
+
+    <core-scaffold>
+      <core-header-panel mode="seamed" navigation flex>
+        <core-toolbar id="drawer-header">
+          <span class="menu-header-text">Menu</span>
+        </core-toolbar>
+
+        <core-menu valueattr="label" theme="core-light-theme">
+          <core-item icon="send" label="Abilities"></core-item>
+          <core-item icon="send" label="Race"></core-item>
+        </core-menu>
+      </core-header-panel>
+
+      <div tool>Div tool what is this?!</div>
+      <core-icon icon="{{icon}}" aria-label="folder" role="img"></core-icon>
+      <div class="content">
+        <p>If the menu drawer is hidden, press the hamburger button to display. Resize your browser window to cause it to collapse.</p>
+
+        <div class="box-container">
+          {{bindingTest}}
+        </div>
+      </div>
+    </core-scaffold>
+  </template>
+
+  <script type="application/dart" src="app_view.dart"></script>
+</polymer-element>

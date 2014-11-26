@@ -1,0 +1,10 @@
+name: Character_Gen_DD5
+description: A Polymer Dart application.
+dependencies:
+  core_elements: any
+  paper_elements: any
+  intl: any
+  polymer: any
+transformers:
+- polymer:
+    entry_points: web/index.html
