@@ -5,12 +5,17 @@
 <link rel="import" href="../../../../packages/core_elements/core_drawer_panel.html">
 <link rel="import" href="../../../../packages/core_elements/core_toolbar.html">
 <link rel="import" href="../../../../packages/core_elements/core_menu.html">
+<link rel="import" href="../../../../packages/core_elements/core_selector.html">
 <link rel="import" href="../../../../packages/core_elements/core_item.html">
+<link rel="import" href="../../../../packages/core_elements/core_pages.html">
 <link rel="import" href="../../../../packages/core_elements/core_icon.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_tabs.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_tab.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_button.html">
-
+<link rel="import" href="../../../../packages/paper_elements/paper_item.html">
+<link rel="import" href="../../../../packages/paper_elements/paper_input.html">
+<link rel="import" href="../../../../packages/paper_elements/paper_radio_button.html">
+<link rel="import" href="../../../../packages/paper_elements/paper_radio_group.html">
 
 <polymer-element name="app-view">
   <template>
@@ -77,19 +82,85 @@
         </core-toolbar>
 
         <core-menu valueattr="label" theme="core-light-theme">
-          <core-item icon="send" label="Abilities"></core-item>
-          <core-item icon="send" label="Race"></core-item>
+          <core-item icon="send" label="Abilities"><a on-tap="{{changeView}}" data-view="ABILITIES_VIEW"></a></core-item>
+          <core-item icon="send" label="Race"><a on-tap="{{changeView}}" data-view="RACE_VIEW"></a></core-item>
+          <core-item icon="send" label="Class"><a on-tap="{{changeView}}" data-view="CLASS_VIEW"></a></core-item>
+          <!--core-item icon="send" label="thing 1"><a on-tap="{{changeView}}" data-view="VERB_VIEW"></a></core-item>
+          <core-item icon="send" label="thing 2"><a on-tap="{{changeView}}" data-view="VOCAB_VIEW"></a></core-item>
+          <core-item icon="send" label="thing 3?"><a on-tap="{{changeView}}" data-view="DIC_VIEW"></a></core-item-->
         </core-menu>
       </core-header-panel>
 
-      <div tool>Div tool what is this?!</div>
-      <core-icon icon="{{icon}}" aria-label="folder" role="img"></core-icon>
+      <div tool><strong>Character Creator</strong></div>
+      
       <div class="content">
-        <p>If the menu drawer is hidden, press the hamburger button to display. Resize your browser window to cause it to collapse.</p>
 
-        <div class="box-container">
-          {{bindingTest}}
-        </div>
+         <!-- <div class="box-container"> Do I need these?! -->
+          <template if="{{currentView == 'INTRO_VIEW'}}">
+                <p>Pull out the side menu and roll some abilities scores to get started!</p>
+            <paper-tabs class="transparent-teal">
+              <paper-tab> 
+                <div class="box-container" vertical layout center>
+                  {{bindingTest_intro}}
+                </div>
+              </paper-tab>
+            </paper-tabs>
+          </template>
+
+         <template if="{{currentView == 'ABILITIES_VIEW'}}">
+              <paper-tabs selected="{{tabSelected}}" class="transparent-teal">
+                <paper-tab>{{bindingTest_abilities}}</paper-tab>
+                <paper-tab>Examples</paper-tab>
+              </paper-tabs>
+            
+            <!--  -->
+            <core-pages selected="{{tabSelected}}">
+              <div horizontal layout>
+              
+              </div>                  
+            </core-pages> <!-- ABILITIES_VIEW Core Pages, End. -->  
+          </template>
+
+         <template if="{{currentView == 'RACE_VIEW'}}">
+              <paper-tabs selected="{{tabSelected}}" class="transparent-teal">
+                <paper-tab>Declensions</paper-tab>
+                <paper-tab>Examples</paper-tab>
+              </paper-tabs>
+            
+            <!--  -->
+            <core-pages selected="{{tabSelected}}">
+              <div vertical layout>
+               <br><div>Choose your race!</div><br>
+                <paper-radio-group selected="" vertical layout>
+                  <paper-radio-button name="Human" label="Human"></paper-radio-button>
+                  <paper-radio-button name="Elf" label="Elf"></paper-radio-button>
+                  <paper-radio-button name="Tiefling" label="Tiefling"></paper-radio-button>
+                  <paper-radio-button name="Dwarf" label="Dwarf"></paper-radio-button>
+                  <paper-radio-button name="Halfling" label="Halfling"></paper-radio-button>
+                  <paper-radio-button name="Gnome" label="Gnome"></paper-radio-button>
+                  <paper-radio-button name="Dragonborn" label="Dragonborn"></paper-radio-button>
+                  </paper-radio-group>
+              </div>                  
+            </core-pages> <!-- RACE_VIEW Core Pages, End. -->  
+          </template>
+
+         <template if="{{currentView == 'CLASS_VIEW'}}">
+              <paper-tabs selected="{{tabSelected}}" class="transparent-teal">
+                <paper-tab>Declensions</paper-tab>
+                <paper-tab>Examples</paper-tab>
+              </paper-tabs>
+            
+            <!--  -->
+            <core-pages selected="{{tabSelected}}">
+              <div horizontal layout>
+              
+              </div>                  
+            </core-pages> <!-- CLASS_VIEW Core Pages, End. -->  
+          </template>
+
+         <!-- </div> Do I need these?! -->
+        
+        
       </div>
     </core-scaffold>
   </template>
