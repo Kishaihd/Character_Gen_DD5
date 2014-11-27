@@ -5,6 +5,8 @@ import 'package:polymer/polymer.dart';
 import '../../model/global.dart';
 import 'package:polymer_expressions/filter.dart';
 import '../../utils/filters.dart';
+import 'package:core_elements/core_icon.dart';
+import 'package:core_elements/core_icon_button.dart';
 
 @CustomTag('app-view')
 class AppView extends PolymerElement {
@@ -18,7 +20,8 @@ class AppView extends PolymerElement {
   bool _logInitialized = initLog();
 
   @observable String bindingTest = "Binding is working...";
-  @observable String bindingTest_abilities = "Abilities. Sup.";
+  @observable String bindingTest_abilities1 = "Abilities Page one. Sup.";
+  @observable String bindingTest_abilities2 = "Abilities Page two. Sup.";
   @observable String bindingTest_intro = "Main page. Sup.";
   @observable bool abilitiesDone = false;
   @observable bool raceDone = false;
@@ -41,6 +44,8 @@ class AppView extends PolymerElement {
   // life-cycle method called by the Polymer framework when the element is attached to the DOM
   @override void attached() {
     super.attached();
+    CoreIconButton menuButton = querySelector('core-scaffold::shadow core-icon-button');
+    menuButton.icon = 'folder';
     log.info("$runtimeType::attached()");
   }
 
@@ -53,5 +58,6 @@ class AppView extends PolymerElement {
     // prevent app reload on <form> submission
     event.preventDefault();
   }
+  
 }
 

@@ -23,7 +23,7 @@
       :host, core-scaffold, .content {
         height: 100%;
       }
-
+      
       #drawer-header {
         color: rgb(255, 255, 255);
         background-color: rgb(79, 125, 201);
@@ -76,7 +76,7 @@
     -->
 
     <core-scaffold>
-      <core-header-panel mode="seamed" navigation flex>
+      <core-header-panel  mode="seamed" navigation flex>
         <core-toolbar id="drawer-header">
           <span class="menu-header-text">Menu</span>
         </core-toolbar>
@@ -90,7 +90,7 @@
           <core-item icon="send" label="thing 3?"><a on-tap="{{changeView}}" data-view="DIC_VIEW"></a></core-item-->
         </core-menu>
       </core-header-panel>
-
+ 
       <div tool><strong>Character Creator</strong></div>
       
       <div class="content">
@@ -109,14 +109,18 @@
 
          <template if="{{currentView == 'ABILITIES_VIEW'}}">
               <paper-tabs selected="{{tabSelected}}" class="transparent-teal">
-                <paper-tab>{{bindingTest_abilities}}</paper-tab>
-                <paper-tab>Examples</paper-tab>
+                <paper-tab>Roll For Stats</paper-tab>
+                <paper-tab>Manual Input</paper-tab>
               </paper-tabs>
             
             <!--  -->
             <core-pages selected="{{tabSelected}}">
               <div horizontal layout>
+                {{bindingTest_abilities1}}
+              </div>
               
+              <div>
+                {{bindingTest_abilities2}}
               </div>                  
             </core-pages> <!-- ABILITIES_VIEW Core Pages, End. -->  
           </template>
