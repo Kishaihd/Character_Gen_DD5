@@ -9,6 +9,7 @@
 <link rel="import" href="../../../../packages/core_elements/core_item.html">
 <link rel="import" href="../../../../packages/core_elements/core_pages.html">
 <link rel="import" href="../../../../packages/core_elements/core_icon.html">
+<link rel="import" href="../../../../packages/core_elements/core_collapse.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_tabs.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_tab.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_button.html">
@@ -125,25 +126,32 @@
             </core-pages> <!-- ABILITIES_VIEW Core Pages, End. -->  
           </template>
 
-         <template if="{{currentView == 'RACE_VIEW'}}">
-              <paper-tabs selected="{{tabSelected}}" class="transparent-teal">
-                <paper-tab>Declensions</paper-tab>
-                <paper-tab>Examples</paper-tab>
-              </paper-tabs>
+          <template if="{{currentView == 'RACE_VIEW'}}">
+            <paper-tabs selected="{{tabSelected}}" class="transparent-teal">
+              <paper-tab>Declensions</paper-tab>
+              <paper-tab>Examples</paper-tab>
+            </paper-tabs>
             
             <!--  -->
             <core-pages selected="{{tabSelected}}">
               <div vertical layout>
-               <br><div>Choose your race!</div><br>
-                <paper-radio-group selected="" vertical layout>
-                  <paper-radio-button name="Human" label="Human"></paper-radio-button>
-                  <paper-radio-button name="Elf" label="Elf"></paper-radio-button>
-                  <paper-radio-button name="Tiefling" label="Tiefling"></paper-radio-button>
-                  <paper-radio-button name="Dwarf" label="Dwarf"></paper-radio-button>
-                  <paper-radio-button name="Halfling" label="Halfling"></paper-radio-button>
-                  <paper-radio-button name="Gnome" label="Gnome"></paper-radio-button>
-                  <paper-radio-button name="Dragonborn" label="Dragonborn"></paper-radio-button>
-                  </paper-radio-group>
+                <br><div></div><br>
+                <paper-radio-group selected="" vertical layout> Choose your race!
+                  <paper-radio-button name="Human" label="Human"><a on-tap="{{changeRraceChoice}}" race-view="Human"></a></paper-radio-button>
+                  <paper-radio-button name="Elf" label="Elf"><a on-tap="{{changeRraceChoice}}" race-view="Elf"></a></paper-radio-button>
+                    <core-collapse id="elf">
+                      <paper-radio-group selected="" vertical layout>
+                        <paper-radio-button name="High Elf" label="High Elf"></paper-radio-button>
+                        <paper-radio-button name="Wood Elf" label="Wood Elf"></paper-radio-button>
+                        <paper-radio-button name="Dark Elf" label="Dark Elf"></paper-radio-button>
+                      </paper-radio-group>
+                    </core-collapse>
+                  <paper-radio-button name="Tiefling" label="Tiefling"><a on-tap="{{changeRraceChoice}}" race-view="Tiefling"></a></paper-radio-button>
+                  <paper-radio-button name="Dwarf" label="Dwarf"><a on-tap="{{changeRraceChoice}}" race-view="Dwarf"></a></paper-radio-button>
+                  <paper-radio-button name="Halfling" label="Halfling"><a on-tap="{{changeRraceChoice}}" race-view="Halfling"></a></paper-radio-button>
+                  <paper-radio-button name="Gnome" label="Gnome"><a on-tap="{{changeRraceChoice}}" race-view="Gnome"></a></paper-radio-button>
+                  <paper-radio-button name="Dragonborn" label="Dragonborn"><a on-tap="{{changeRraceChoice}}" race-view="Dragonborn"></a></paper-radio-button>
+                </paper-radio-group>
               </div>                  
             </core-pages> <!-- RACE_VIEW Core Pages, End. -->  
           </template>
