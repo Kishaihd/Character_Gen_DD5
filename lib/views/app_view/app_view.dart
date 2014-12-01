@@ -14,13 +14,13 @@ class AppView extends PolymerElement {
   static const String INTRO_VIEW = "INTRO_VIEW";
   static const String ABILITIES_VIEW = "ABILITIES_VIEW";
   static const String RACE_VIEW = "RACE_VIEW";
-    static const String HUMAN = "Human";
-    static const String ELF = "Elf";
-    static const String DWARF = "Dwarf";
-    static const String GNOME = "Gnome";
-    static const String HALFLING = "Halfling";
-    static const String TIEFLING = "Tiefling";
-    static const String HALF_ELF = "Half Elf";
+    static const String HUMAN = "HUMAN";
+    static const String ELF = "ELF";
+    static const String DWARF = "DWARF";
+    static const String GNOME = "GNOME";
+    static const String HALFLING = "HALFLING";
+    static const String TIEFLING = "TIEFLING";
+    static const String HALF_ELF = "HALF_ELF";
   static const String CLASS_VIEW = "CLASS_VIEW";
   
   // initialize system log
@@ -43,7 +43,7 @@ class AppView extends PolymerElement {
     currentView = target.attributes['data-view'];
   }
   
-  void changeRraceChoice(Event e, var detail, Element target) {
+  void changeRaceChoice(Event e, var detail, Element target) {
     raceChoice = target.attributes['race-view'];
   }
   
