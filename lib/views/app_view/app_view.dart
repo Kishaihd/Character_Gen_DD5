@@ -61,6 +61,14 @@ class AppView extends PolymerElement {
     log.info("$runtimeType::attached()");
   }
 
+  void toggleCollapse(Event event, var detail, CoreCollapse target) {
+    target.toggle();
+  }
+  
+  void toggle(CoreCollapse target) {
+    target.toggle();
+  }
+  
   // a sample event handler function
   void eventHandler(Event event, var detail, Element target) {
     log.info("$runtimeType::eventHandler()");

@@ -59,6 +59,53 @@
         -webkit-user-drag: none;
         user-drag: none;
       }
+      
+      
+
+      
+        .list {
+          display: block;
+          border: 1px solid #ccc;
+          border-bottom: none;
+          background: #666;
+          color: white;
+          list-style: none;
+          margin: 4px 0em 0em 0em;
+          padding: 0;
+        }
+        
+        .elfList {
+          margin: 2em 0px 0px 2em;
+        }
+        
+        .dwarfList {
+          margin: 3em 0px 0px 2em;
+        }
+        
+        .list > * {
+          height: 40px;
+          line-height: 40px;
+          padding: 0 20px;
+          border-bottom: 1px solid #ccc;
+        }
+        
+        .list > *.core-selected {
+          background: #333;
+        }
+        
+        li {
+          height: 30px;
+        }
+        
+        li.core-selected:after {
+          content: "\2713";
+          position: absolute;
+          padding-left: 10px;
+        }
+      
+      
+        
+      
     </style>
 
     <!--
@@ -127,46 +174,67 @@
           </template>
 
           <template if="{{currentView == 'RACE_VIEW'}}">
-            <paper-tabs selected="{{tabSelected}}" class="transparent-teal">
+            <!--paper-tabs selected="{{tabSelected}}" class="transparent-teal">
               <paper-tab>Declensions</paper-tab>
               <paper-tab>Examples</paper-tab>
-            </paper-tabs>
+            </paper-tabs-->
             
             <!--  -->
-            <core-pages selected="{{tabSelected}}">
-              <div horizontal layout>
-                <div>
-                <paper-radio-group selected="Human" vertical layout> 
-                  <paper-radio-button name="Human" label="Human"><a on-select="{{changeRaceChoice}}" race-view="Human"></a></paper-radio-button>
-                  <paper-radio-button name="ELF" label="Elf"><a on-select="{{changeRaceChoice}}" race-view="ELF"></a></paper-radio-button>
-                  <paper-radio-button name="Tiefling" label="Tiefling"><a on-tap="{{changeRaceChoice}}" race-view="Tiefling"></a></paper-radio-button>
-                  <paper-radio-button name="Dwarf" label="Dwarf"><a on-tap="{{changeRaceChoice}}" race-view="Dwarf"></a></paper-radio-button>
-                  <paper-radio-button name="Halfling" label="Halfling"><a on-tap="{{changeRaceChoice}}" race-view="HAFLING"></a></paper-radio-button>
-                  <paper-radio-button name="Gnome" label="Gnome"><a on-tap="{{changeRaceChoice}}" race-view="GNOME"></a></paper-radio-button>
-                  <paper-radio-button name="Dragonborn" label="Dragonborn"><a on-tap="{{changeRaceChoice}}" race-view="DRAGONBORN"></a></paper-radio-button>
-                </paper-radio-group>
-                </div>
-                  <div>
-                  <template if="{{raceChoice == 'ELF'}}">
-                      <paper-radio-group selected="High Elf" vertical layout>
+            <!--core-pages selected="{{tabSelected}}"-->
+              <div class="bigRaceDiv" horizontal layout>
+                <div horizontal layout>
+                  
+                  <core-selector class="list" selected="HUMAN">
+                    <core-item name="HUMAN" on-tap="{{toggle}}">Human<a on-tap="{{changeRaceChoice}}" race-view="HUMAN"></a></core-item>
+                    <core-item name="DWARF" on-tap="{{toggle}}">Dwarf<a on-tap="{{changeRaceChoice}}" race-view="DWARF"></a></core-item>
+                    <core-item name="ELF" on-tap="{{toggle}}">Elf<a on-tap="{{changeRaceChoice}}" race-view="ELF"></a></core-item>
+                      <core-collapse id="collapse">
+                        <div>
+                          <paper-radio-group class="elfList" selected="High Elf" vertical layout>
+                            <paper-radio-button name="High Elf" label="High Elf"></paper-radio-button>
+                            <paper-radio-button name="Wood Elf" label="Wood Elf"></paper-radio-button>
+                            <paper-radio-button name="Dark Elf" label="Dark Elf"></paper-radio-button>
+                          </paper-radio-group>
+                        </div>
+                      </core-collapse>
+                      <script>
+                        Polymer('core-collapse', {
+                          toggle: function() {
+                            this.$.collapse.toggle();
+                          }
+                        });
+                      </script>
+                    <core-item name="GNOME">Gnome<a on-tap="{{changeRaceChoice}}" race-view="GNOME"></a></core-item>
+                    <core-item name="HALFLING">Halfling<a on-tap="{{changeRaceChoice}}" race-view="HAFLING"></a></core-item>
+                    <core-item name="DRAGONBORN">Dragonborn<a on-tap="{{changeRaceChoice}}" race-view="DRAGONBORN"></a></core-item>
+                    <core-item name="TIEFLING">Tiefling<a on-tap="{{changeRaceChoice}}" race-view="TIEFLING"></a></core-item>
+                  </core-selector>
+                  
+                  <!--div>  
+                    <template if="{{raceChoice == 'ELF'}}">
+                      <paper-radio-group class="elfList" selected="High Elf" vertical layout>
                         <paper-radio-button name="High Elf" label="High Elf"></paper-radio-button>
                         <paper-radio-button name="Wood Elf" label="Wood Elf"></paper-radio-button>
                         <paper-radio-button name="Dark Elf" label="Dark Elf"></paper-radio-button>
                       </paper-radio-group>
-                  </template>
-                    
-                  <template if="{{raceChoice == 'DWARF'}}">
-                      <paper-radio-group selected="" vertical layout>
-                        <paper-radio-button name="High Elf" label="High Elf"></paper-radio-button>
-                        <paper-radio-button name="Wood Elf" label="Wood Elf"></paper-radio-button>
-                        <paper-radio-button name="Dark Elf" label="Dark Elf"></paper-radio-button>
+                    </template>
+                  </div-->
+
+                  
+                  <div>
+                    <template if="{{raceChoice == 'DWARF'}}">
+                      <paper-radio-group class="dwarfList" selected="Hill Dwarf" vertical layout>
+                        <paper-radio-button name="Hill Dwarf" label="Hill Dwarf"></paper-radio-button>
+                        <paper-radio-button name="Mountain Dwarf" label="Mountain Dwarf"></paper-radio-button>
+                        <paper-radio-button name="Duergar" label="Duergar"></paper-radio-button>
                       </paper-radio-group>
                     </template>      
+                  </div>
+                </div>
                   
-                  
-                    </div>
+                        
               </div>                  
-            </core-pages> <!-- RACE_VIEW Core Pages, End. -->  
+            <!--/core-pages--> <!-- RACE_VIEW Core Pages, End. -->  
           </template>
 
          <template if="{{currentView == 'CLASS_VIEW'}}">
