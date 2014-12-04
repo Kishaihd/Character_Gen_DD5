@@ -22,6 +22,14 @@ class AppView extends PolymerElement {
     static const String TIEFLING = "TIEFLING";
     static const String HALF_ELF = "HALF_ELF";
   static const String CLASS_VIEW = "CLASS_VIEW";
+  static final List ABILITIES = [
+    "Strength",
+    "Dexterity",
+    "Constitution",
+    "Intelligence",
+    "Wisdom",
+    "Charisma"
+  ];
   
   // initialize system log
   bool _logInitialized = initLog();

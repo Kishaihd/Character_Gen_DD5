@@ -1,11 +1,13 @@
 library model.dice;
 
-import 'dart:math'show Random;
+import 'dart:math' show Random;
 
 class Die {
   static const String ERROR = "Roll Error";
   int _sides;
   int _value;  
+  
+  Random rand = new Random(new DateTime.now().millisecondsSinceEpoch);
   
   Die([int sides]) {
     if (sides != null) {
@@ -15,15 +17,24 @@ class Die {
   
   int rollDie([int sides]) {
     if (sides == null) {
-      return new Random().nextInt(_sides) + 1;  
+      return rand.nextInt(_sides) + 1;  
     }
     else {
-      return new Random().nextInt(sides) + 1;      
+      return rand.nextInt(sides) + 1;      
     }
   }
   
-  int rollDndStats() {
+  int rollDndAbility([int number_of_dice]) {
+    int theRoll = 0;
+    int numOfDice;
     
+    if (number_of_dice == null) {
+      numOfDice = 3;
+    }
+    for (int i = 0; i < numOfDice; i++) {
+      theRoll += rollDie(6);
+    }    
+    return theRoll;  
   }
   
     String rollToString(int qty, int sides, int mod, {bool htmlOutput: true}) {

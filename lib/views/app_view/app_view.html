@@ -17,6 +17,8 @@
 <link rel="import" href="../../../../packages/paper_elements/paper_input.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_radio_button.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_radio_group.html">
+<link rel="import" href="../../../../packages/paper_elements/paper_input.html">
+
 
 <polymer-element name="app-view">
   <template>
@@ -166,7 +168,13 @@
               </div>
               
               <div vertical layout> <!-- Manual Inputs -->
-                {{bindingTest_abilities2}}
+                <table>
+                    <tr layout template repeat="{{ability in ABILITIES}}">
+                      <th><paper-input label="{{item}}">{{item}}</paper-input></th>
+                    </tr>                                
+                  </table>
+                
+                <paper-input layout template repeat="{{ability in d.mdts.keys}}"></paper-input>
               </div>                  
             </core-pages> <!-- ABILITIES_VIEW Core Pages, End. -->  
           </template>
@@ -185,7 +193,7 @@
                   <core-selector class="list" selected="HUMAN">
                     <core-item name="HUMAN" on-tap="{{toggle}}">Human<a on-tap="{{changeRaceChoice}}" race-view="HUMAN"></a></core-item>
                     <core-item name="DWARF" on-tap="{{toggle}}">Dwarf<a on-tap="{{changeRaceChoice}}" race-view="DWARF"></a></core-item>
-                    <core-item name="ELF" on-tap="{{toggle}}">Elf<a on-tap="{{changeRaceChoice}}" race-view="ELF"></a></core-item>
+                    <core-item name="ELF" on-tap="{{toggleCollapse}}">Elf<a on-tap="{{changeRaceChoice}}" race-view="ELF"></a></core-item>
                       <core-collapse id="collapse">
                         <div>
                           <paper-radio-group class="elfList" selected="High Elf" vertical layout>
@@ -195,13 +203,7 @@
                           </paper-radio-group>
                         </div>
                       </core-collapse>
-                      <script>
-                        Polymer('core-collapse', {
-                          toggle: function() {
-                            this.$.collapse.toggle();
-                          }
-                        });
-                      </script>
+                      
                     <core-item name="GNOME">Gnome<a on-tap="{{changeRaceChoice}}" race-view="GNOME"></a></core-item>
                     <core-item name="HALFLING">Halfling<a on-tap="{{changeRaceChoice}}" race-view="HAFLING"></a></core-item>
                     <core-item name="DRAGONBORN">Dragonborn<a on-tap="{{changeRaceChoice}}" race-view="DRAGONBORN"></a></core-item>
