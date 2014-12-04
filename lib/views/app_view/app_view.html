@@ -77,7 +77,7 @@
         }
         
         .elfList {
-          margin: 2em 0px 0px 2em;
+          margin: 5em 0px 0px 2em;
         }
         
         .dwarfList {
@@ -190,36 +190,29 @@
               <div class="bigRaceDiv" horizontal layout>
                 <div horizontal layout>
                   
+                  <div>
                   <core-selector class="list" selected="HUMAN">
                     <core-item name="HUMAN" on-tap="{{toggle}}">Human<a on-tap="{{changeRaceChoice}}" race-view="HUMAN"></a></core-item>
                     <core-item name="DWARF" on-tap="{{toggle}}">Dwarf<a on-tap="{{changeRaceChoice}}" race-view="DWARF"></a></core-item>
-                    <core-item name="ELF" on-tap="{{toggleCollapse}}">Elf<a on-tap="{{changeRaceChoice}}" race-view="ELF"></a></core-item>
-                      <core-collapse id="collapse">
-                        <div>
-                          <paper-radio-group class="elfList" selected="High Elf" vertical layout>
-                            <paper-radio-button name="High Elf" label="High Elf"></paper-radio-button>
-                            <paper-radio-button name="Wood Elf" label="Wood Elf"></paper-radio-button>
-                            <paper-radio-button name="Dark Elf" label="Dark Elf"></paper-radio-button>
-                          </paper-radio-group>
-                        </div>
-                      </core-collapse>
-                      
+                    <core-item name="ELF" on-tap="{{toggle}}">Elf<a on-tap="{{changeRaceChoice}}" race-view="ELF"></a></core-item>   
                     <core-item name="GNOME">Gnome<a on-tap="{{changeRaceChoice}}" race-view="GNOME"></a></core-item>
                     <core-item name="HALFLING">Halfling<a on-tap="{{changeRaceChoice}}" race-view="HAFLING"></a></core-item>
                     <core-item name="DRAGONBORN">Dragonborn<a on-tap="{{changeRaceChoice}}" race-view="DRAGONBORN"></a></core-item>
                     <core-item name="TIEFLING">Tiefling<a on-tap="{{changeRaceChoice}}" race-view="TIEFLING"></a></core-item>
                   </core-selector>
-                  
-                  <!--div>  
-                    <template if="{{raceChoice == 'ELF'}}">
-                      <paper-radio-group class="elfList" selected="High Elf" vertical layout>
-                        <paper-radio-button name="High Elf" label="High Elf"></paper-radio-button>
-                        <paper-radio-button name="Wood Elf" label="Wood Elf"></paper-radio-button>
-                        <paper-radio-button name="Dark Elf" label="Dark Elf"></paper-radio-button>
-                      </paper-radio-group>
-                    </template>
-                  </div-->
-
+                  </div>
+               
+                  <div>
+                      <template if="{{raceChoice == 'ELF'}}">
+                      <!--core-collapse id="collapse"-->
+                          <paper-radio-group class="elfList" selected="High Elf" vertical layout>
+                            <paper-radio-button name="High Elf" label="High Elf"></paper-radio-button>
+                            <paper-radio-button name="Wood Elf" label="Wood Elf"></paper-radio-button>
+                            <paper-radio-button name="Dark Elf" label="Dark Elf"></paper-radio-button>
+                          </paper-radio-group>
+                      <!--/core-collapse-->
+                      </template>
+                  </div>
                   
                   <div>
                     <template if="{{raceChoice == 'DWARF'}}">

@@ -22,7 +22,7 @@ class AppView extends PolymerElement {
     static const String TIEFLING = "TIEFLING";
     static const String HALF_ELF = "HALF_ELF";
   static const String CLASS_VIEW = "CLASS_VIEW";
-  static final List ABILITIES = [
+  static final List ABILITIES = [ // Might not even need these.
     "Strength",
     "Dexterity",
     "Constitution",
@@ -49,10 +49,12 @@ class AppView extends PolymerElement {
   
   void changeView(Event e, var detail, Element target) {
     currentView = target.attributes['data-view'];
+    log.info("$runtimeType::changeView()");
   }
   
   void changeRaceChoice(Event e, var detail, Element target) {
     raceChoice = target.attributes['race-view'];
+    log.info("$runtimeType::changeRaceChoice()");
   }
   
   // filters and transformers can be referenced as class fields
@@ -69,13 +71,12 @@ class AppView extends PolymerElement {
     log.info("$runtimeType::attached()");
   }
 
-  void toggleCollapse(Event event, var detail, CoreCollapse target) {
-    target.toggle();
+  void toggle(Event event, var detail, Element target) {
+    CoreCollapse c = $['collapse'];
+    c.toggle();
+    log.info("$runtimeType::toggleCollapse()");
   }
   
-  void toggle(CoreCollapse target) {
-    target.toggle();
-  }
   
   // a sample event handler function
   void eventHandler(Event event, var detail, Element target) {
