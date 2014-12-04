@@ -123,12 +123,12 @@
       tool: an element (0...) marked with this attribute is included in the main area's <core-toolbar>
     -->
 
-    <core-scaffold>
-      <core-header-panel  mode="seamed" navigation flex>
+    <core-scaffold responsiveWidth="800px">
+      <core-header-panel mode="waterfall" navigation flex>
         <core-toolbar id="drawer-header">
           <span class="menu-header-text">Menu</span>
         </core-toolbar>
-
+        
         <core-menu valueattr="label" theme="core-light-theme">
           <core-item icon="send" label="Abilities"><a on-tap="{{changeView}}" data-view="ABILITIES_VIEW"></a></core-item>
           <core-item icon="send" label="Race"><a on-tap="{{changeView}}" data-view="RACE_VIEW"></a></core-item>
@@ -145,17 +145,13 @@
 
          <!-- <div class="box-container"> Do I need these?! -->
           <template if="{{currentView == 'INTRO_VIEW'}}">
-                <p>Pull out the side menu and roll some abilities scores to get started!</p>
-            <paper-tabs class="transparent-teal">
-              <paper-tab> 
+                <h4>Pull out the side menu and roll some abilities scores to get started!</h4> 
                 <div class="box-container" vertical layout center>
                   {{bindingTest_intro}}
                 </div>
-              </paper-tab>
-            </paper-tabs>
           </template>
-
-         <template if="{{currentView == 'ABILITIES_VIEW'}}">
+          
+          <template if="{{currentView == 'ABILITIES_VIEW'}}">
               <paper-tabs selected="{{tabSelected}}" class="transparent-teal">
                 <paper-tab>Roll For Stats</paper-tab>
                 <paper-tab>Manual Input</paper-tab>
@@ -163,11 +159,13 @@
             
             <!--  -->
             <core-pages selected="{{tabSelected}}">
-              <div horizontal layout>
+              <div vertical layout> <!-- Roll for stats -->
                 {{bindingTest_abilities1}}
+                
+                
               </div>
               
-              <div>
+              <div vertical layout> <!-- Manual Inputs -->
                 {{bindingTest_abilities2}}
               </div>                  
             </core-pages> <!-- ABILITIES_VIEW Core Pages, End. -->  
