@@ -154,7 +154,7 @@
           </template>
           
           <template if="{{currentView == 'ABILITIES_VIEW'}}">
-              <paper-tabs selected="{{tabSelected}}" class="transparent-teal">
+              <paper-tabs selected="{{tabSelected}}">
                 <paper-tab>Roll For Stats</paper-tab>
                 <paper-tab>Manual Input</paper-tab>
               </paper-tabs>
@@ -162,19 +162,27 @@
             <!--  -->
             <core-pages selected="{{tabSelected}}">
               <div vertical layout> <!-- Roll for stats -->
-                {{bindingTest_abilities1}}
-                
-                
+                <paper-input label="Strength" floatinglabel=true></paper-input>
+                <br>
+                <paper-input label="Strength" floatinglabel=true></paper-input>
+                <br>
+                <paper-input label="Strength" floatinglabel=true></paper-input>
+                <br>
+                <paper-input label="Strength" floatinglabel=true></paper-input>
+                <br>
+                <paper-input label="Strength" floatinglabel=true></paper-input>
+                <br>
+                <paper-input label="Strength" floatinglabel=true></paper-input>
               </div>
               
               <div vertical layout> <!-- Manual Inputs -->
-                <table>
+                <!--table>
                     <tr layout template repeat="{{ability in ABILITIES}}">
-                      <th><paper-input label="{{item}}">{{item}}</paper-input></th>
+                      <th><paper-input label="{{ability}}">{{ability}}</paper-input></th>
                     </tr>                                
                   </table>
                 
-                <paper-input layout template repeat="{{ability in d.mdts.keys}}"></paper-input>
+                <paper-input layout template repeat="{{ability in ABILITIES}}"></paper-input-->
               </div>                  
             </core-pages> <!-- ABILITIES_VIEW Core Pages, End. -->  
           </template>
