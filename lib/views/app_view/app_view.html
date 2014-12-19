@@ -105,6 +105,9 @@
           padding-left: 10px;
         }
       
+        #statInputs {
+          padding: 1em;
+        }
       
         
       
@@ -145,7 +148,6 @@
       
       <div class="content">
 
-         <!-- <div class="box-container"> Do I need these?! -->
           <template if="{{currentView == 'INTRO_VIEW'}}">
                 <h4>Pull out the side menu and roll some abilities scores to get started!</h4> 
                 <div class="box-container" vertical layout center>
@@ -162,43 +164,26 @@
             <!--  -->
             <core-pages selected="{{tabSelected}}">
               <div vertical layout> <!-- Roll for stats -->
-                <paper-input label="Strength" floatinglabel=true></paper-input>
-                <br>
-                <paper-input label="Strength" floatinglabel=true></paper-input>
-                <br>
-                <paper-input label="Strength" floatinglabel=true></paper-input>
-                <br>
-                <paper-input label="Strength" floatinglabel=true></paper-input>
-                <br>
-                <paper-input label="Strength" floatinglabel=true></paper-input>
-                <br>
-                <paper-input label="Strength" floatinglabel=true></paper-input>
+                
               </div>
               
               <div vertical layout> <!-- Manual Inputs -->
-                <!--table>
-                    <tr layout template repeat="{{ability in ABILITIES}}">
-                      <th><paper-input label="{{ability}}">{{ability}}</paper-input></th>
-                    </tr>                                
-                  </table>
                 
-                <paper-input layout template repeat="{{ability in ABILITIES}}"></paper-input-->
               </div>                  
-            </core-pages> <!-- ABILITIES_VIEW Core Pages, End. -->  
+            </core-pages> <!-- ABILITIES_VIEW Core Pages, End.-->  
           </template>
 
           <template if="{{currentView == 'RACE_VIEW'}}">
-            <!--paper-tabs selected="{{tabSelected}}" class="transparent-teal">
+            <paper-tabs selected="{{tabSelected}}" class="transparent-teal">
               <paper-tab>Declensions</paper-tab>
               <paper-tab>Examples</paper-tab>
-            </paper-tabs-->
+            </paper-tabs>
             
             <!--  -->
-            <!--core-pages selected="{{tabSelected}}"-->
-              <div class="bigRaceDiv" horizontal layout>
+            <core-pages selected="{{tabSelected}}">
+              <div horizontal layout>
+                
                 <div horizontal layout>
-                  
-                  <div>
                   <core-selector class="list" selected="HUMAN">
                     <core-item name="HUMAN" on-tap="{{toggle}}">Human<a on-tap="{{changeRaceChoice}}" race-view="HUMAN"></a></core-item>
                     <core-item name="DWARF" on-tap="{{toggle}}">Dwarf<a on-tap="{{changeRaceChoice}}" race-view="DWARF"></a></core-item>
@@ -212,13 +197,11 @@
                
                   <div>
                       <template if="{{raceChoice == 'ELF'}}">
-                      <!--core-collapse id="collapse"-->
                           <paper-radio-group class="elfList" selected="High Elf" vertical layout>
                             <paper-radio-button name="High Elf" label="High Elf"></paper-radio-button>
                             <paper-radio-button name="Wood Elf" label="Wood Elf"></paper-radio-button>
                             <paper-radio-button name="Dark Elf" label="Dark Elf"></paper-radio-button>
                           </paper-radio-group>
-                      <!--/core-collapse-->
                       </template>
                   </div>
                   
@@ -231,14 +214,13 @@
                       </paper-radio-group>
                     </template>      
                   </div>
-                </div>
                   
                         
               </div>                  
-            <!--/core-pages--> <!-- RACE_VIEW Core Pages, End. -->  
+            </core-pages> <!-- RACE_VIEW Core Pages, End. -->  
           </template>
 
-         <template if="{{currentView == 'CLASS_VIEW'}}">
+          <template if="{{currentView == 'CLASS_VIEW'}}">
               <paper-tabs selected="{{tabSelected}}" class="transparent-teal">
                 <paper-tab>Declensions</paper-tab>
                 <paper-tab>Examples</paper-tab>
@@ -251,13 +233,9 @@
               </div>                  
             </core-pages> <!-- CLASS_VIEW Core Pages, End. -->  
           </template>
-
-         <!-- </div> Do I need these?! -->
-        
-        
-      </div>
+               
+      </div> <!-- End class="content" -->
     </core-scaffold>
-  </template>
 
   <script type="application/dart" src="app_view.dart"></script>
 </polymer-element>

@@ -2,7 +2,7 @@ library model.Skill;
 
 import 'Ability.dart';
 
-class Skill {
+class Skill /*implements Comparable*/ {
   final String _name;
   int _originalValue; // Used only for converting from a class skill to a non-class skill. (If user is a dumb-dumb and switches back and forth between IS and is NOT a class skill)
   int _value;
@@ -33,10 +33,12 @@ class Skill {
     increaseValue(proficiencyBonus);
   }
   
-  void notClasSkill() {
+  void notClassSkill() {
     _value = _originalValue;  
   }
-  
+
+
+
   String get name => _name;
   int get score => _value;
   bool get isAClassSkill => classSkill;  

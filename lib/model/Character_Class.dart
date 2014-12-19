@@ -31,8 +31,8 @@ class CharClass {
   int _spellsKnown;
   int _spellSlots;
   
-  
-  CharClass(Entity entity) {
+  //Entity entity
+  CharClass() {
     _level = 1;
     calcProficiencyBonus();
   }
@@ -48,10 +48,7 @@ class CharClass {
     calcProficiencyBonus();
   }
   
-  void calcCasterStats(Ability ability) {
-    _spellAttackMod = (calcProficiencyBonus() + ability.mod);
-    _spellSaveDC = (BASE_SPELL_MOD + _spellAttackMod);
-  }
+  
   
 //  void calcSpellSaveDC() {
 //    
@@ -80,6 +77,11 @@ class CharClass {
     return _proficiencyBonus;
   }
   
+  void calcCasterStats(Ability ability) {
+    _spellAttackMod = (_proficiencyBonus + ability.mod);
+    _spellSaveDC = (BASE_SPELL_MOD + _spellAttackMod);
+  }  
+  
   
   // Getters.
   String get name => _name;
@@ -99,8 +101,11 @@ class CharClass {
   int get cantripsKnown => _cantripsKnown;
   int get spellsKnown => _spellsKnown;
   int get spellSlots => _spellSlots;
+  int get baseSpellMod => BASE_SPELL_MOD;
   
-  
+  // Setters.
+  //void setProficiencyBonus(int proficiency) {_proficiencyBonus = proficiency;}
+    
 } // End CharClass parent class.
 
 
@@ -116,7 +121,7 @@ class Warlock extends CharClass {
   int _invocationsKnown = 0;
   
   // What a huge constructor...
-  Warlock(Entity entity) : super(entity) {
+  Warlock() { //(Entity entity) : super(entity)
     _name = "Warlock";
     _hitDie = 8;
     _level = level;
@@ -142,7 +147,7 @@ class Warlock extends CharClass {
     _description = "The Warlock is a wielder of magic that is derived from a bargain with an extraplanar entity.";
         
     calcProficiencyBonus();
-    calcCasterStats(entity.Charisma);    
+//  calcCasterStats(Entity entity.Charisma);    
 
   }
   
