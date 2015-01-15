@@ -1,27 +1,38 @@
-library model.Entity;
+library model.entity;
 
-//import 'dart:io';
-import 'Ability.dart';
-import 'Skill.dart';
-import 'Character_Class.dart';
-import 'Race.dart';
+
+import 'ability.dart';
+import 'skill.dart';
+import 'character_class.dart';
+import 'race.dart';
 
 class Entity {
+  // Living attributes
   String _name;
-  //String _race;
   CharClass _charClass;
   Race _charRace;
   String _type; // eg. Humanoid, Abberation, Construct etc.
   String _alignment;
   String _size;
+  int _movement;
+  
+  // Patron attributes
+  String _deity;
+  String _patron;
+  
+  // Game attributes
   int _level;
   int _hitDie;
   int _maxHitPoints;
   int _currentHitPoints;
+  final int BASE_AC = 10;
   int _armorClass;
   int _proficiencyBonus;
-  int _movement;
   String _status;
+  
+  // Equipment attributes
+  int _armor = 0;
+  int _shield = 0;
   
   Ability Strength = new Ability("Strength");
   Ability Dexterity = new Ability("Dexterity");
@@ -56,12 +67,14 @@ class Entity {
   Skill Performance;
   Skill Persuasion;
   
+  // Skill Lists by corresponding Ability
   List<Skill> strSkills = [];
   List<Skill> dexSkills = [];
   List<Skill> intSkills = [];
   List<Skill> wisSkills = [];
   List<Skill> chaSkills = [];
   
+  // Master Skill list
   List<List> fullSkillList;
   
   // Does not include Constitution.
@@ -71,15 +84,20 @@ class Entity {
   
   // Parameterized constructor.
   // Name, Character's class, Race, ability scores.
-  Entity(this._name, CharClass characterClass, Race race, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
-    _status = "normal";
+  Entity(this._name, Race race, CharClass characterClass, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
+    _status = "Normal";
     _level = 1;
 
     _charRace = race;
     _type = race.type;
+    _size = race.size;
     _charClass = characterClass;
     _hitDie = characterClass.hitDie;
+    _movement = race.speed;
+    _proficiencyBonus = characterClass.proficiencyBonus;
+    _alignment = "Neutral Good"; // Default. Set after creation.
     
+    // Put rolled stats into their respective abilities.
     Strength.setAbility(strength);
     Dexterity.setAbility(dexterity);
     Constitution.setAbility(constitution);
@@ -88,17 +106,32 @@ class Entity {
     Charisma.setAbility(charisma);           
     abilities = [Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma];
     
-    // Add racial bonuses to Abilities.
-    abilities.forEach((Ability ability) {
-      for (int i = 0; i < race.racialAbilities.length; i++) {
-        if (ability.name == race.racialAbilities[i]) {
-          ability.increaseAbility(race.racialAbilities[i]);
-        }        
-      }      
-    });
-
+    // Now add Racial ability modifiers.
+    addRacialAbilities(_charRace, abilities);
+    
+    // Calc HP.
     _maxHitPoints = (characterClass.hitDie + Constitution.mod);
     _currentHitPoints = _maxHitPoints;    
+    
+    // 
+    Athletics = new Skill("Athletics", Strength);
+    Acrobatics = new Skill("Acrobatics", Dexterity);
+    SleightOfHand = new Skill("SleightOfHand", Dexterity);
+    Stealth = new Skill("Stealth", Dexterity);
+    Arcana = new Skill("Arcana", Intelligence);
+    History = new Skill("History", Intelligence);
+    Investigation = new Skill("Investigation", Intelligence);
+    Nature = new Skill("Nature", Intelligence);
+    Religion = new Skill("Religion", Intelligence);
+    AnimalHandling = new Skill("AnimalHandling", Wisdom);
+    Insight = new Skill("Insight", Wisdom);
+    Medicine = new Skill("Medicine", Wisdom);
+    Perception = new Skill("Perception", Wisdom);
+    Survival = new Skill("Survival", Wisdom);
+    Deception = new Skill("Deception", Charisma);
+    Intimidation = new Skill("Intimidation", Charisma);
+    Performance = new Skill("Performance", Charisma);
+    Persuasion = new Skill("Persuasion", Charisma);
     
     strSkills = [Athletics];
     dexSkills = [Acrobatics, SleightOfHand, Stealth];
@@ -107,88 +140,81 @@ class Entity {
     chaSkills = [Deception, Intimidation, Performance, Persuasion];
     
     fullSkillList = [strSkills, dexSkills, intSkills, wisSkills, chaSkills];
-    abilitiesForSkills = [Strength.score, Dexterity.score, Intelligence.score, Wisdom.score, Charisma.score];  
-    
-    
+    abilitiesForSkills = [Strength.mod, Dexterity.mod, Intelligence.mod, Wisdom.mod, Charisma.mod];  
+       
+    skillsPlusAbilities(_charRace, _charClass);    
+
+    _armorClass = calcArmorClass();
     
   } // End constructor.
   
-  void chosenSkillProficiency(Skill skill) {
-    skill.isClassSkill(_charClass.proficiencyBonus);
+    
+  int calcArmorClass() {
+    return (BASE_AC + Dexterity.mod + _armor);   
   }
   
+  String showAcSources() {
+    String armorBonuses = "Base: $BASE_AC\n Dexterity: ${Dexterity.mod}\n Armor: ";
+    /*
+     * Armor
+     * Dex
+     * Dodge
+     * 
+     * 
+     * if (tempBonus == true)
+     */
+    return armorBonuses;
+  }
+  
+  // Add racial bonuses to Abilities.
+  void addRacialAbilities(Race race, List<Ability> abilities) {
+    abilities.forEach((Ability ability) {
+      for (int i = 0; i < race.racialAbilities.length; i++) {
+        if (ability.name == race.racialAbilities[i]) {
+          ability.increaseAbility(race.racialAbilities[i]);
+        } // End if        
+      } // End for     
+    }); // End .forEach
+  } // End addRacialAbilities()
+  
+  String getDeityPatron() {
+    if (_deity == null && _patron == null) {
+      return "None";
+    }
+    else if (_deity == null) {
+      return _patron;
+    }
+    else {
+      return _deity;
+    }
+  }
+  
+  @override String toString() {
+    return 
+        "Name: $_name   Race: ${_charRace.name}   Class: ${_charClass.name}  Level: $_level"
+        "\nAlignment: $_alignment   Size: $_size   Hit Die: d${_hitDie}"
+        "\nHP: $_maxHitPoints   Armor Class: $_armorClass   Speed: $_movement"
+        "\nProficiency Bonus: $_proficiencyBonus   Status: $_status"
+        "\nDeity/Patron: ";
+  }
+  
+  void chooseSkillProficiency(Skill skill) {
+    skill.isClassSkill(_charClass.proficiencyBonus);
+  }
   
 //  void refactor() {
 //  }
   
-//  int calcAbilityMod(int abilityScore) {
-//    return (abilityScore/2 - 5).floor();
-//  }
-  
-  // Run after race (and class?) is/are selected.
+  // First loops through and adds all ability modifiers to skills.
   void skillsPlusAbilities(Race race, CharClass charClass) {
-    // First loops adds all ability modifiers to skills.
-    for (int i = 0; i < abilitiesForSkills.length; i++) {     
-      fullSkillList[i].forEach((List<Skill> subSkillList) { 
-        subSkillList.forEach((Skill skill) {
-          skill.setValue(abilitiesForSkills[i]);  
-        }); // End subSkillList.forEach
+    for (int idx = 0; idx < abilitiesForSkills.length; idx++) {
+      fullSkillList[idx].forEach((Skill skill) {
+          skill.setValue(abilitiesForSkills[idx]);
       }); // End fullSkillList.forEach
-    } // End for loop
-    
-    //Second loop sets skill proficiencies.
-    // Isn't there some function to find any key in a Map where it's value equals something else?    
-    for (int i = 0; i < fullSkillList.length; i++) {
-      fullSkillList[i].forEach((List<Skill> subSkillList) {
-        subSkillList.forEach((Skill skill) {
-          for (int j = 0; j < race.skillProficiencies.length; j++) {
-            if (skill.name == race.skillProficiencies[j]) {
-              skill.isClassSkill(charClass.proficiencyBonus);
-            } // End if.
-          } // End For j.
-        }); // End subSkillList.forEach().
-      }); // End fullSkillList.forEach().        
-    }
-  }
-
-
+    } // End for idx loop
+  } // End skillsPlusAbilities()
   
-  
-  //  void skillsPlusAbilities() {    
-//    List<Map> newSkillList = [];
-//    for (int i = 0; i < abilitiesForSkills.length; i++) {     
-//      skillList[i].forEach((String skillName,int skillRank) { 
-//        skillList[i][skillName] = skillRank + calcAbilityMod(abilitiesForSkills[i]);
-//            }); 
-//    }
-//  } 
-
-  
-  
-//  // Adds racial bonuses to abilities and skills?
-//  void addRace() {
-//    switch (_race) {
-//      case 'human':
-//        abilities.forEach((Ability ability) {
-//          ability.increaseAbility(1);
-//          _movement = 30;
-//      });
-//        
-//        break;
-//      case 'elf':
-//        
-//        break;
-//      default:
-//        
-//    }
-//    
-//    
-//  } // End addRace()
-  
-//  void chooseSkillProficiency(Skill skill) {
-//    skill.increaseValue(_proficiency);
-//  }
-  
+ 
 //  void chooseStatIncrease() {
 //    print("This function is only for the command line version of this app!\n"
 //          "Choose a stat to increase, nigga! (s)tr, (d)ex, (c)on, (i)nt, (w)is, (c)ha.");
@@ -252,8 +278,7 @@ class Entity {
   void changeStatus(String newStatus) {
     _status = newStatus;
   // Throw in some if (_status == _____) 
-    // statements to add mechanics and maybe flavor text.
-    
+    // statements to add mechanics and maybe flavor text.    
   }
   
   // Getters
@@ -265,18 +290,21 @@ class Entity {
   int get charisma => Charisma.score;
   int get currentHP => _currentHitPoints;
   int get level => _level;
-  int get HD => _charClass.hitDie;
+  String get HitDie => "d${_charClass.hitDie}";
   int get maxHP => _maxHitPoints;
   int get AC => _armorClass;
   int get proficiencyBonus => _proficiencyBonus;
   int get movement => _charRace.speed;
   String get name => _name;
   String get size => _charRace.size;
-  String get race => _charRace.name;
-  String get type => _type == null? "humanoid" : _type; // eg. Humanoid, Abberation, Construct etc.
+  String get raceName => _charRace.name;
+  String get className => _charClass.name;
+  String get creatureType => _type == null ? "humanoid" : _type; // eg. Humanoid, Abberation, Construct etc.
   String get allignment => _alignment;
   String get status => _status;
-      
+  String get deity => _deity == null ? _patron : _deity;
+  String get patron => _patron == null ? _deity : _patron;
+  
 //  // "Generic" getter that returns any single skill and value.
 //  int getSkill(String skillName) {
 //    skillName = skillName.toLowerCase();
@@ -322,7 +350,8 @@ class Entity {
 //  void set type(String type) { _type = type;} // eg. Humanoid, Abberation, Construct etc.
   void set allignment(String allignment) { _alignment = allignment;}
   void set status(String status) { _status = status;}
-
+  void set deity(String deity) {_deity = deity;}
+  void set patron(String patron) {_patron = patron;}
   
 } // End class Entity  
 

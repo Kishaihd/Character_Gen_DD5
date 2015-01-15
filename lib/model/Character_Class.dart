@@ -1,6 +1,5 @@
-library model.CharClass;
-import 'Ability.dart';
-import 'Entity.dart';
+library model.character_class;
+import 'ability.dart';
 
 class CharClass {
   final int TIER_ONE = 4;
@@ -16,6 +15,7 @@ class CharClass {
   int _proficiencyBonus;
   List<String> _primaryAbility;
   String _numberOfSkills;
+  bool _knowsSpells = false;
   List<String> _skillProficiency;
   List<String> _armorProficiency;
   List<String> _weaponProficiency;
@@ -31,9 +31,16 @@ class CharClass {
   int _spellsKnown;
   int _spellSlots;
   
-  //Entity entity
-  CharClass() {
-    _level = 1;
+
+  CharClass([int level = 1]) {
+    _level = level;
+    
+    _spellSaveDC = 0;
+    _spellAttackMod = 0;
+    _cantripsKnown = 0;
+    _spellsKnown = 0;
+    _spellSlots = 0;
+  
     calcProficiencyBonus();
   }
   
@@ -42,7 +49,7 @@ class CharClass {
     calcProficiencyBonus();
   }
   
-  // This should never be used. In fact, I'll probably take this out later.
+  // This should never or rarely be used. 
   void levelDown() {
     _level -= 1;
     calcProficiencyBonus();
@@ -62,16 +69,16 @@ class CharClass {
     if (_level <= TIER_ONE) {
       _proficiencyBonus = 2;
     }
-    if (_level > TIER_ONE && _level <= TIER_TWO) {
+    else if (_level > TIER_ONE && _level <= TIER_TWO) {
           _proficiencyBonus = 3;
     }
-    if (_level > TIER_TWO && _level  <= TIER_THREE) {
+    else if (_level > TIER_TWO && _level  <= TIER_THREE) {
           _proficiencyBonus = 4;
     }
-    if (_level > TIER_THREE && _level  <= TIER_FOUR) {
+    else if (_level > TIER_THREE && _level  <= TIER_FOUR) {
           _proficiencyBonus = 5;
     }
-    if (_level > TIER_FOUR && _level  <= TIER_FIVE) {
+    else if (_level > TIER_FOUR && _level  <= TIER_FIVE) {
           _proficiencyBonus = 6;
     }
     return _proficiencyBonus;
@@ -82,6 +89,9 @@ class CharClass {
     _spellSaveDC = (BASE_SPELL_MOD + _spellAttackMod);
   }  
   
+  void learnsSpells(bool answer) {
+    _knowsSpells = answer;
+  }
   
   // Getters.
   String get name => _name;
@@ -90,6 +100,7 @@ class CharClass {
   int get proficiencyBonus => _proficiencyBonus;
   String get numSkills => _numberOfSkills;
   String get description => _description;
+  bool get knowsSpells => _knowsSpells;
   List<String> get skills => _skillProficiency;
   List<String> get armors => _armorProficiency;
   List<String> get weapons => _weaponProficiency;
@@ -104,6 +115,7 @@ class CharClass {
   int get baseSpellMod => BASE_SPELL_MOD;
   
   // Setters.
+  void setLevel(int level) {_level = level;}
   //void setProficiencyBonus(int proficiency) {_proficiencyBonus = proficiency;}
     
 } // End CharClass parent class.
@@ -121,7 +133,7 @@ class Warlock extends CharClass {
   int _invocationsKnown = 0;
   
   // What a huge constructor...
-  Warlock() { //(Entity entity) : super(entity)
+  Warlock([int level = 1]) : super(level) {
     _name = "Warlock";
     _hitDie = 8;
     _level = level;

@@ -1,6 +1,6 @@
-library model.Skill;
+library model.skill;
 
-import 'Ability.dart';
+import 'ability.dart';
 
 class Skill /*implements Comparable*/ {
   final String _name;

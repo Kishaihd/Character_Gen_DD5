@@ -1,4 +1,4 @@
-library model.Ability;
+library model.ability;
 
 class Ability {
   final int LIMIT = 20; // Limit for PCs for now.

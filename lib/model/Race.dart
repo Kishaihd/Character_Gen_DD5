@@ -7,13 +7,14 @@ class Race {
   String _size;
   int _speed;
   List<String> _languages;
-  bool _chooseLanguage;
+  bool _canChooseLanguage;
   String _subrace;
   String _vision;
   List<String> _traits;
   List<String> _skillProficiencies;
   List<String> _weaponProficiencies;
   List<String> _armorProficiencies;
+  List<String> _toolProficiencies;
   
   Race([String subrace]) {
     if (subrace != null) {
@@ -21,23 +22,25 @@ class Race {
     }
   }
   
-  List get skillProficiencies => _skillProficiencies;
-  List get weaponProficiencies => _weaponProficiencies;
-  List get armorProficiencies => _armorProficiencies;
+  List<String> get skillProficiencies => (skillProficiencies.isEmpty ? "None" : _skillProficiencies);
+  List<String> get weaponProficiencies => (skillProficiencies.isEmpty ? "None" : _weaponProficiencies);
+  List<String> get armorProficiencies => (skillProficiencies.isEmpty ? "None" : _armorProficiencies);
+  List<String> get toolProficiencies => (toolProficiencies.isEmpty ? "None" : _toolProficiencies);
   
   String get name => _name;
   String get type => _type;
   Map<String, int> get racialAbilities => _racialAbilities;
-//  // Is this getter even necessary?
-  int getRacialAbility(int idx) {
+  
+  // Is this getter even necessary?
+  int getRacialAbility(String idx) {
     return _racialAbilities[idx];
   }
   String get size => _size;  
   int get speed => _speed;
-  List get languages => _languages;
-  bool get chooseLanguage => _chooseLanguage;
+  List<String> get languages => (_languages.isEmpty ? "None" :  _languages);
+  bool get canChooseLanguage => _canChooseLanguage;
   String get subrace => (_subrace == null ? "None" : _subrace);
-  List get traits => _traits;
+  List<String> get traits => (_traits.isEmpty ? "None" :  _traits);
   
 }
 
