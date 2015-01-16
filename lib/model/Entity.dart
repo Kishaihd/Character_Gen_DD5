@@ -195,7 +195,7 @@ class Entity {
         "\nAlignment: $_alignment   Size: $_size   Hit Die: d${_hitDie}"
         "\nHP: $_maxHitPoints   Armor Class: $_armorClass   Speed: $_movement"
         "\nProficiency Bonus: $_proficiencyBonus   Status: $_status"
-        "\nDeity/Patron: ";
+        "\nDeity/Patron: $getDeityPatron()";
   }
   
   void chooseSkillProficiency(Skill skill) {
@@ -215,27 +215,6 @@ class Entity {
   } // End skillsPlusAbilities()
   
  
-//  void chooseStatIncrease() {
-//    print("This function is only for the command line version of this app!\n"
-//          "Choose a stat to increase, nigga! (s)tr, (d)ex, (c)on, (i)nt, (w)is, (c)ha.");
-//    String answer = stdin.readLineSync();
-//    switch(answer) {
-//      case 's':
-//          
-//      case 'd':
-//        
-//      case 'c':
-//        
-//      case 'i':
-//        
-//      case 'w':
-//        
-//      case 'c':
-//        
-//        break;
-//    }
-//  }
-  
 //  void increaseStat(String stat, int bonus) {
 //    stat = stat.toLowerCase();
 //        int thisSkill; 
@@ -302,8 +281,8 @@ class Entity {
   String get creatureType => _type == null ? "humanoid" : _type; // eg. Humanoid, Abberation, Construct etc.
   String get allignment => _alignment;
   String get status => _status;
-  String get deity => _deity == null ? _patron : _deity;
-  String get patron => _patron == null ? _deity : _patron;
+  String get deity => getDeityPatron(); // _deity == null ? _patron : _deity;
+  String get patron => getDeityPatron(); // _patron == null ? _deity : _patron;
   
 //  // "Generic" getter that returns any single skill and value.
 //  int getSkill(String skillName) {
