@@ -1,4 +1,4 @@
-
+library model.race;
 
 class Race {
   String _name;

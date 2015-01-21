@@ -12,7 +12,7 @@ class Item {
   bool _enchanted;
   int _magicBonusValue;
   
-  Item(String name, String type, String size, int value, int weight, String description, [bool enchanted = false, int magicBonusValue = 0]) {
+  Item(String name, String type, String size, int value, int weight, [String description, bool enchanted = false, int magicBonusValue = 0]) {
     _name = name;
     _type = type;
     _size = size;
@@ -54,16 +54,24 @@ class Armor extends Item {
   int _armorBonus;  
   int _maxDex;
   int _movementPenalty;
+  String _location;
   
-  Armor(String name, String type, String size, int value, int weight, int bonus, int maxDex, int movePenalty, String description, [bool enchanted = false, int magicBonusValue = 0]) : super(name, type, size, value, weight, description, enchanted, magicBonusValue) {
+  
+  Armor(String name, String type, String size, int value, int weight, String location, int bonus, int maxDex, int movePenalty, [String description = "", bool enchanted = false, int magicBonusValue = 0]) : super(name, type, size, value, weight, description, enchanted, magicBonusValue) {
+    _location = location;
     _armorBonus = bonus;
-    _movementPenalty = movePenalty;
     _maxDex = maxDex;
+    _movementPenalty = movePenalty;
   }
   
   int get armorBonus => _enchanted == true ? (_magicBonusValue + _armorBonus) : _armorBonus;
   
-  @override toString() => "$_name\n AC bonus: $_armorBonus Max Dexterity: $_maxDex Movement Penalty: $_movementPenalty";
+  @override toString() => "$_name \nLocation: $_location \nAC bonus: $_armorBonus \nMax Dexterity: $_maxDex \nMovement Penalty: $_movementPenalty\n";
+  
+  //int get armorBonus => _armorBonus;
+  int get movePenalty => _movementPenalty;
+  String get location => _location;
+  int get maxDex => _maxDex == null ? 5 : _maxDex;
   
 } // End class Armor.
 
@@ -86,7 +94,13 @@ class Weapon extends Item {
       _magicBonusValue = bonusValue;
     }
   
-  @override toString() => "$_name\n Deals ${_numDice}d${_damageDie} $_dmgType";
+  @override toString() => "$_name \nDeals ${_numDice}d${_damageDie} $_dmgType damage.\n";
+
+  int get damageDie => _damageDie;
+  int get numDice => _numDice;
+  String get dmgType => _dmgType;
+  int get magicDmg => _magicDmg == null ? 0 : _magicDmg;
+  String get magicDmgType => _magicDmgType == null ? 0 : _magicDmgType;
 }
 
 

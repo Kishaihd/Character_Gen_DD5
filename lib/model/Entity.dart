@@ -5,6 +5,8 @@ import 'ability.dart';
 import 'skill.dart';
 import 'character_class.dart';
 import 'race.dart';
+import 'equipment.dart';
+
 
 class Entity {
   // Living attributes
@@ -26,13 +28,17 @@ class Entity {
   int _maxHitPoints;
   int _currentHitPoints;
   final int BASE_AC = 10;
-  int _armorClass;
+  int _armorClass;  
   int _proficiencyBonus;
   String _status;
   
   // Equipment attributes
-  int _armor = 0;
-  int _shield = 0;
+  Armor _armor;
+  Weapon _weapon;
+  List<Item> itemList = [];
+  List<Weapon> weaponList = [];
+  Map<String, Armor> armorList = {}; // Location, Armor
+  
   
   Ability Strength = new Ability("Strength");
   Ability Dexterity = new Ability("Dexterity");
@@ -148,13 +154,50 @@ class Entity {
     
   } // End constructor.
   
-    
-  int calcArmorClass() {
-    return (BASE_AC + Dexterity.mod + _armor);   
+  
+  //Map<String, Map> itemList = {};
+  void equipWeapon([Weapon weapon = null]) {
+    if (weapon != null) {
+      weaponList.add(weapon);
+    }
+    else {
+      // You haven't a weapon to equip, fool!
+    }
+  }
+  
+  void equipArmor([Armor armor = null]) {
+    if (armor != null) {
+      armorList.putIfAbsent(armor.location, () => armor);
+      calcArmorClass(armor);
+    }
+    else {
+      // Nothing
+    }
+  }
+  
+  
+  int calcArmorClass([Armor armor]) {
+    if (armor != null) {
+      _armorClass = (BASE_AC + Dexterity.mod + (armor.armorBonus == null ? 0 : armor.armorBonus));       
+    }
+    else {
+      _armorClass = (BASE_AC + Dexterity.mod);       
+    }
+    return _armorClass;    
   }
   
   String showAcSources() {
-    String armorBonuses = "Base: $BASE_AC\n Dexterity: ${Dexterity.mod}\n Armor: ";
+    String armorBonuses;
+    
+    String baseArmor = "Base: $BASE_AC";
+    String dex = "\nDexterity: ${Dexterity.mod}";
+    String armor = "\nArmor: ";
+    if (armorList["torso"].armorBonus == null) {
+      armor += "0";
+    }
+    else {
+      armor += "${armorList["torso"].armorBonus}";            
+    }
     /*
      * Armor
      * Dex
@@ -163,6 +206,8 @@ class Entity {
      * 
      * if (tempBonus == true)
      */
+    armorBonuses = baseArmor + dex + armor;
+    
     return armorBonuses;
   }
   
@@ -177,17 +222,17 @@ class Entity {
     }); // End .forEach
   } // End addRacialAbilities()
   
-  String getDeityPatron() {
-    if (_deity == null && _patron == null) {
-      return "None";
-    }
-    else if (_deity == null) {
-      return _patron;
-    }
-    else {
-      return _deity;
-    }
-  }
+//  String getDeityPatron() {
+//    if (_deity == null && _patron == null) {
+//      return "None";
+//    }
+//    else if (_deity == null) {
+//      return _patron;
+//    }
+//    else {
+//      return _deity;
+//    }
+//  }
   
   @override String toString() {
     return 
@@ -195,7 +240,9 @@ class Entity {
         "\nAlignment: $_alignment   Size: $_size   Hit Die: d${_hitDie}"
         "\nHP: $_maxHitPoints   Armor Class: $_armorClass   Speed: $_movement"
         "\nProficiency Bonus: $_proficiencyBonus   Status: $_status"
-        "\nDeity/Patron: $getDeityPatron()";
+        "\nDeity: $_deity Patron: $_patron"
+        "\nArmor: ${armorList["torso".toLowerCase()].toString()}" // {armorList["torso"].name}
+        "\nWeapon(s): ${weaponList.forEach((Weapon weapon) => print(weapon)) }";
   }
   
   void chooseSkillProficiency(Skill skill) {
@@ -281,8 +328,8 @@ class Entity {
   String get creatureType => _type == null ? "humanoid" : _type; // eg. Humanoid, Abberation, Construct etc.
   String get allignment => _alignment;
   String get status => _status;
-  String get deity => getDeityPatron(); // _deity == null ? _patron : _deity;
-  String get patron => getDeityPatron(); // _patron == null ? _deity : _patron;
+  String get deity => _deity == null ? "None" : _deity;
+  String get patron => _patron == null ? "None" : _patron;
   
 //  // "Generic" getter that returns any single skill and value.
 //  int getSkill(String skillName) {
