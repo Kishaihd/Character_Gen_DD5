@@ -61,54 +61,51 @@
         -webkit-user-drag: none;
         user-drag: none;
       }
+          
+      .list {
+        display: block;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        background: #666;
+        color: white;
+        list-style: none;
+        margin: 4px 0em 0em 0em;
+        padding: 0;
+      }
       
+      .elfList {
+        margin: 5em 0px 0px 2em;
+      }
       
-
+      .dwarfList {
+        margin: 3em 0px 0px 2em;
+      }
       
-        .list {
-          display: block;
-          border: 1px solid #ccc;
-          border-bottom: none;
-          background: #666;
-          color: white;
-          list-style: none;
-          margin: 4px 0em 0em 0em;
-          padding: 0;
-        }
-        
-        .elfList {
-          margin: 5em 0px 0px 2em;
-        }
-        
-        .dwarfList {
-          margin: 3em 0px 0px 2em;
-        }
-        
-        .list > * {
-          height: 40px;
-          line-height: 40px;
-          padding: 0 20px;
-          border-bottom: 1px solid #ccc;
-        }
-        
-        .list > *.core-selected {
-          background: #333;
-        }
-        
-        li {
-          height: 30px;
-        }
-        
-        li.core-selected:after {
-          content: "\2713";
-          position: absolute;
-          padding-left: 10px;
-        }
+      .list > * {
+        height: 40px;
+        line-height: 40px;
+        padding: 0 20px;
+        border-bottom: 1px solid #ccc;
+      }
       
-        #statInputs {
-          padding: 1em;
-        }
+      .list > *.core-selected {
+        background: #333;
+      }
       
+      li {
+        height: 30px;
+      }
+      
+      li.core-selected:after {
+        content: "\2713";
+        position: absolute;
+        padding-left: 10px;
+      }
+    
+      #statInputs {
+        padding: 1em;
+      }
+    
         
       
     </style>
@@ -135,11 +132,11 @@
         </core-toolbar>
         
         <core-menu valueattr="label" theme="core-light-theme">
+          <core-item icon="send" label="Character"><a on-tap="{{changeView}}" data-view="CHAR_VIEW"></a></core-item>
           <core-item icon="send" label="Abilities"><a on-tap="{{changeView}}" data-view="ABILITIES_VIEW"></a></core-item>
           <core-item icon="send" label="Race"><a on-tap="{{changeView}}" data-view="RACE_VIEW"></a></core-item>
           <core-item icon="send" label="Class"><a on-tap="{{changeView}}" data-view="CLASS_VIEW"></a></core-item>
-          <!--core-item icon="send" label="thing 1"><a on-tap="{{changeView}}" data-view="VERB_VIEW"></a></core-item>
-          <core-item icon="send" label="thing 2"><a on-tap="{{changeView}}" data-view="VOCAB_VIEW"></a></core-item>
+          <!--core-item icon="send" label="thing 2"><a on-tap="{{changeView}}" data-view="VOCAB_VIEW"></a></core-item>
           <core-item icon="send" label="thing 3?"><a on-tap="{{changeView}}" data-view="DIC_VIEW"></a></core-item-->
         </core-menu>
       </core-header-panel>
@@ -149,45 +146,43 @@
       <div class="content">
 
           <template if="{{currentView == 'INTRO_VIEW'}}">
-                <h4>Pull out the side menu and roll some abilities scores to get started!</h4> 
-                <div class="box-container" vertical layout center>
-                  {{bindingTest_intro}}
-                </div>
+            <h4>Pull out the side menu and roll some abilities scores to get started!</h4> 
+            <div class="box-container" vertical layout center>
+              {{bindingTest_intro}}
+            </div>
           </template>
           
+          <template if="{{currentView == 'CHAR_VIEW'}}">
+            <label>Character name: </label>
+            <input id="nameBox" type="text" placeholder="Type name here..." on-submit="{{setCharName}}"/>
+            <div id="raceBox">
+            <input type="text" text="" placeholder="Select a race..."/>
+            </div>
+          </template>
+          
+          
           <template if="{{currentView == 'ABILITIES_VIEW'}}">
-              <paper-tabs selected="{{tabSelected}}">
-                <paper-tab>Roll For Stats</paper-tab>
-                <paper-tab>Manual Input</paper-tab>
-              </paper-tabs>
-            
             <!--  -->
-            <core-pages selected="{{tabSelected}}">
-              <div vertical layout> <!-- Roll for stats -->
-                
-              </div>
-              
-              <div vertical layout> <!-- Manual Inputs -->
-                
-              </div>                  
-            </core-pages> <!-- ABILITIES_VIEW Core Pages, End.-->  
+            
+            <table>
+              <caption><br>Ability Scores</caption>
+              <tr layout template repeat="{{ability in ABILITIES}}">
+                <th>{{item}}</th>
+                <td>{{}}</td>
+              </tr>                                
+            </table>
+            
+            <!-- ABILITIES_VIEW Core Pages, End.-->  
           </template>
 
           <template if="{{currentView == 'RACE_VIEW'}}">
-            <paper-tabs selected="{{tabSelected}}" class="transparent-teal">
-              <paper-tab>Declensions</paper-tab>
-              <paper-tab>Examples</paper-tab>
-            </paper-tabs>
-            
-            <!--  -->
-            <core-pages selected="{{tabSelected}}">
               <div horizontal layout>
                 
                 <div horizontal layout>
-                  <core-selector class="list" selected="HUMAN">
-                    <core-item name="HUMAN" on-tap="{{toggle}}">Human<a on-tap="{{changeRaceChoice}}" race-view="HUMAN"></a></core-item>
-                    <core-item name="DWARF" on-tap="{{toggle}}">Dwarf<a on-tap="{{changeRaceChoice}}" race-view="DWARF"></a></core-item>
-                    <core-item name="ELF" on-tap="{{toggle}}">Elf<a on-tap="{{changeRaceChoice}}" race-view="ELF"></a></core-item>   
+                  <core-selector class="raceList" selected="HUMAN">
+                    <core-item name="HUMAN">Human<a on-tap="{{changeRaceChoice}}" race-view="HUMAN"></a></core-item>
+                    <core-item name="DWARF">Dwarf<a on-tap="{{changeRaceChoice}}" race-view="DWARF"></a></core-item>
+                    <core-item name="ELF">Elf<a on-tap="{{changeRaceChoice}}" race-view="ELF"></a></core-item>   
                     <core-item name="GNOME">Gnome<a on-tap="{{changeRaceChoice}}" race-view="GNOME"></a></core-item>
                     <core-item name="HALFLING">Halfling<a on-tap="{{changeRaceChoice}}" race-view="HAFLING"></a></core-item>
                     <core-item name="DRAGONBORN">Dragonborn<a on-tap="{{changeRaceChoice}}" race-view="DRAGONBORN"></a></core-item>
@@ -217,22 +212,13 @@
                   
                         
               </div>                  
-            </core-pages> <!-- RACE_VIEW Core Pages, End. -->  
           </template>
 
           <template if="{{currentView == 'CLASS_VIEW'}}">
-              <paper-tabs selected="{{tabSelected}}" class="transparent-teal">
-                <paper-tab>Declensions</paper-tab>
-                <paper-tab>Examples</paper-tab>
-              </paper-tabs>
-            
-            <!--  -->
-            <core-pages selected="{{tabSelected}}">
               <div horizontal layout>
               
-              </div>                  
-            </core-pages> <!-- CLASS_VIEW Core Pages, End. -->  
-          </template>
+              </div>                   
+          </template> <!-- End CLASS_VIEW -->
                
       </div> <!-- End class="content" -->
     </core-scaffold>

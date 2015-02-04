@@ -6,8 +6,13 @@ class Ability {
   int _score;
   int _mod;
   
+  int _tempScore;
+  int _tempMod;
+  
   Ability(this._name, [this._score = 0]) {
+    _tempScore = _score;
     calcMod();
+    _tempMod = _mod;
   }
 
   String get name => _name;
@@ -15,13 +20,16 @@ class Ability {
   int get mod => _mod;
   int get limit => LIMIT;
 
+  int get tempScore => _tempScore;
+  int get tempMod => _tempMod;
+  
   @override String toString() => "${_name}: ${_score} (${modAsString()})";
   String modAsString() => "${(_mod >= 0) ? '+' : ''}${_mod.toString()}"; 
   
   void calcMod() {
     _mod = (_score/2 - 5).floor();
   }
-  
+    
   // Cap set to 20, can change later.
   void setAbility(int value) {
     if (value > LIMIT) {
@@ -46,5 +54,33 @@ class Ability {
     _score -= value;
     calcMod();
   }
+  
+  // Temp Score/ Modifier -----------------------
+  
+  void setTempAbility(int value) {
+    _tempScore = value;
+  }
+  
+  void calcTempMod() {
+      _tempMod = (_tempScore/2 - 5).floor();
+  }
+  
+  void increaseTempAbility(int value) {
+      _tempScore += value;
+      calcTempMod();
+  }
+  
+  void decreaseTempAbility(int value) {
+    _tempScore -= value;
+    calcTempMod();
+  }
+  
+  void resetTemp() {
+    _tempScore = _score;
+    calcTempMod();
+  }
+  
+  
+  
   
 }

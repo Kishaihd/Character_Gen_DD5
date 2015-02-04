@@ -8,10 +8,13 @@ import '../../utils/filters.dart';
 import 'package:core_elements/core_icon_button.dart';
 import 'package:core_elements/core_collapse.dart';
 
+import '../../model/entity.dart';
+import '../../model/character_class.dart';
+
 @CustomTag('app-view')
 class AppView extends PolymerElement {
-
   static const String INTRO_VIEW = "INTRO_VIEW";
+  static const String CHAR_VIEW = "CHAR_VIEW";
   static const String ABILITIES_VIEW = "ABILITIES_VIEW";
   static const String RACE_VIEW = "RACE_VIEW";
     static const String HUMAN = "HUMAN";
@@ -30,6 +33,11 @@ class AppView extends PolymerElement {
     "Wisdom",
     "Charisma"
   ];
+  
+  Entity character;
+  CharClass bob = new Warlock();
+  String charName;
+  
   
   // initialize system log
   bool _logInitialized = initLog();
@@ -54,7 +62,13 @@ class AppView extends PolymerElement {
   
   void changeRaceChoice(Event e, var detail, Element target) {
     raceChoice = target.attributes['race-view'];
-    log.info("$runtimeType::changeRaceChoice()");
+    log.info("$runtimeType::changeRaceChoice()::$raceChoice");
+  }
+  
+  void setCharName(Event e, var detail, Element target) {    
+    charName = target.text;
+        //document.querySelector('.raceList').text;
+    log.info("$runtimeType::setCharName()::$charName");
   }
   
   // filters and transformers can be referenced as class fields

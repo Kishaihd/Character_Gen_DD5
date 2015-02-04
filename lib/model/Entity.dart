@@ -2,11 +2,11 @@ library model.entity;
 
 
 import 'ability.dart';
-import 'skill.dart';
 import 'character_class.dart';
-import 'race.dart';
 import 'equipment.dart';
-
+import 'modify.dart';
+import 'race.dart';
+import 'skill.dart';
 
 class Entity {
   // Living attributes
@@ -222,27 +222,32 @@ class Entity {
     }); // End .forEach
   } // End addRacialAbilities()
   
-//  String getDeityPatron() {
-//    if (_deity == null && _patron == null) {
-//      return "None";
-//    }
-//    else if (_deity == null) {
-//      return _patron;
-//    }
-//    else {
-//      return _deity;
-//    }
-//  }
-  
   @override String toString() {
-    return 
-        "Name: $_name   Race: ${_charRace.name}   Class: ${_charClass.name}  Level: $_level"
-        "\nAlignment: $_alignment   Size: $_size   Hit Die: d${_hitDie}"
-        "\nHP: $_maxHitPoints   Armor Class: $_armorClass   Speed: $_movement"
-        "\nProficiency Bonus: $_proficiencyBonus   Status: $_status"
-        "\nDeity: $_deity Patron: $_patron"
-        "\nArmor: ${armorList["torso".toLowerCase()].toString()}" // {armorList["torso"].name}
-        "\nWeapon(s): ${weaponList.forEach((Weapon weapon) => print(weapon)) }";
+    StringBuffer sb = new StringBuffer();
+    
+    sb.writeln("Name: ${capitalize(name)}   Race: ${capitalize(raceName)}   Class: ${capitalize(className)}  Level: $level");
+    sb.writeln("Alignment: ${capitalize(alignment)}   Size: ${capitalize(size)}   Hit Die: ${hitDie}");
+    sb.writeln("HP: $_maxHitPoints   Armor Class: $_armorClass   Speed: $_movement");
+    sb.writeln("Proficiency Bonus: $_proficiencyBonus   Status: ${capitalize(status)}");
+    sb.writeln(statBlock());
+    sb.writeln("Deity: ${capitalize(deity)} Patron: ${capitalize(patron)}");
+    sb.writeln("____________________");
+    sb.writeln("Armor: ${armorList["torso"]}"); // {armorList["torso"].name}
+    sb.writeln("____________________");
+    sb.write("Weapon(s): ");
+    weaponList.forEach(sb.write);
+    
+    return sb.toString();
+  }
+  
+  String statBlock() {
+    StringBuffer sb = new StringBuffer();
+    
+    abilities.forEach((Ability ability) {
+      sb.writeln("${ability.name}: ${ability.score}");
+    });
+    
+    return sb.toString();
   }
   
   void chooseSkillProficiency(Skill skill) {
@@ -316,7 +321,7 @@ class Entity {
   int get charisma => Charisma.score;
   int get currentHP => _currentHitPoints;
   int get level => _level;
-  String get HitDie => "d${_charClass.hitDie}";
+  String get hitDie => "d${_charClass.hitDie}";
   int get maxHP => _maxHitPoints;
   int get AC => _armorClass;
   int get proficiencyBonus => _proficiencyBonus;
@@ -326,7 +331,7 @@ class Entity {
   String get raceName => _charRace.name;
   String get className => _charClass.name;
   String get creatureType => _type == null ? "humanoid" : _type; // eg. Humanoid, Abberation, Construct etc.
-  String get allignment => _alignment;
+  String get alignment => _alignment;
   String get status => _status;
   String get deity => _deity == null ? "None" : _deity;
   String get patron => _patron == null ? "None" : _patron;

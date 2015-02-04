@@ -1,6 +1,7 @@
 library model.equipment;
 
 import 'dice.dart';
+import 'modify.dart';
 
 class Item {
   String _name;
@@ -22,6 +23,15 @@ class Item {
     _enchanted = enchanted;
     _magicBonusValue = magicBonusValue;
   }
+  
+//  String capitalize(String word) {
+//    String firstLetter = word[0].toUpperCase();
+//    
+//    if (word.length > 1) {
+//      return "${firstLetter}${word.substring(1)}";
+//    }    
+//    return "${firstLetter}";
+//  }
   
   void enchant(int bonusValue) {
     _enchanted = true;
@@ -56,9 +66,8 @@ class Armor extends Item {
   int _movementPenalty;
   String _location;
   
-  
   Armor(String name, String type, String size, int value, int weight, String location, int bonus, int maxDex, int movePenalty, [String description = "", bool enchanted = false, int magicBonusValue = 0]) : super(name, type, size, value, weight, description, enchanted, magicBonusValue) {
-    _location = location;
+    _location = location.toLowerCase();
     _armorBonus = bonus;
     _maxDex = maxDex;
     _movementPenalty = movePenalty;
@@ -66,7 +75,7 @@ class Armor extends Item {
   
   int get armorBonus => _enchanted == true ? (_magicBonusValue + _armorBonus) : _armorBonus;
   
-  @override toString() => "$_name \nLocation: $_location \nAC bonus: $_armorBonus \nMax Dexterity: $_maxDex \nMovement Penalty: $_movementPenalty\n";
+  @override toString() => "${capitalize(name)} \nLocation: ${capitalize(_location)} \nAC bonus: $_armorBonus \nMax Dexterity: $maxDex \nMovement Penalty: $_movementPenalty";
   
   //int get armorBonus => _armorBonus;
   int get movePenalty => _movementPenalty;
@@ -94,7 +103,7 @@ class Weapon extends Item {
       _magicBonusValue = bonusValue;
     }
   
-  @override toString() => "$_name \nDeals ${_numDice}d${_damageDie} $_dmgType damage.\n";
+  @override toString() => "${capitalize(name)} - Deals ${_numDice}d${_damageDie} ${capitalize(dmgType)} damage.";
 
   int get damageDie => _damageDie;
   int get numDice => _numDice;

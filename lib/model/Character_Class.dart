@@ -84,6 +84,20 @@ class CharClass {
     return _proficiencyBonus;
   }
   
+  
+  // ################
+  // ### UNTESTED ###
+  // ################
+  // Alternate, shorter proficiency calculation! :D
+  void calcProfBonus() {
+    const int QUARTER = 4;
+    const num ROUND = 0.25;
+    
+    int tier = ((_level / QUARTER) + ROUND).round(); // 1 to 5
+
+    _proficiencyBonus = tier + 1;
+  }
+  
   void calcCasterStats(Ability ability) {
     _spellAttackMod = (_proficiencyBonus + ability.mod);
     _spellSaveDC = (BASE_SPELL_MOD + _spellAttackMod);
