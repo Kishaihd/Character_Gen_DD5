@@ -10,6 +10,7 @@ import 'package:core_elements/core_collapse.dart';
 
 import '../../model/entity.dart';
 import '../../model/character_class.dart';
+import '../../model/dice.dart';
 
 @CustomTag('app-view')
 class AppView extends PolymerElement {
@@ -25,7 +26,7 @@ class AppView extends PolymerElement {
     static const String TIEFLING = "TIEFLING";
     static const String HALF_ELF = "HALF_ELF";
   static const String CLASS_VIEW = "CLASS_VIEW";
-  static final List ABILITIES = [ // Might not even need these.
+  @observable final List ABILITIES = [ // Might not even need these.
     "Strength",
     "Dexterity",
     "Constitution",
@@ -34,14 +35,14 @@ class AppView extends PolymerElement {
     "Charisma"
   ];
   
-  Entity character;
+  @observable Entity character;
+  @observable String charName;
   CharClass bob = new Warlock();
-  String charName;
-  
+  Die dice = new Die(6);
   
   // initialize system log
   bool _logInitialized = initLog();
-
+  
   @observable String bindingTest = "Binding is working...";
   @observable String bindingTest_abilities1 = "Abilities Page one. Sup.";
   @observable String bindingTest_abilities2 = "Abilities Page two. Sup.";
@@ -102,5 +103,9 @@ class AppView extends PolymerElement {
     event.preventDefault();
   }
   
+  void randStat() {
+    log.info("$runtimeType::randStat()");
+    querySelector('#abilityValue'). = (dice.rollDndAbility()).toString();
+  }
 }
 

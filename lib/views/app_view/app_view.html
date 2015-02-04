@@ -37,7 +37,7 @@
       }
 
       .content {
-        padding: 0 15px;
+        padding: 15px;
       }
 
       .box-container {
@@ -105,8 +105,11 @@
       #statInputs {
         padding: 1em;
       }
-    
-        
+      
+      #abilityTable {
+        border: 1px black solid;
+      }
+      
       
     </style>
 
@@ -153,28 +156,39 @@
           </template>
           
           <template if="{{currentView == 'CHAR_VIEW'}}">
+          
             <label>Character name: </label>
-            <input id="nameBox" type="text" placeholder="Type name here..." on-submit="{{setCharName}}"/>
+            <input id="nameBox" type="text" placeholder="Type name here..." on-submit="{{setCharName}}">
+           
             <div id="raceBox">
-            <input type="text" text="" placeholder="Select a race..."/>
+              <input type="text" text="" placeholder="Select a race...">
+            </div>
+          
+            <div>
+              <select name="Race" >
+                <option value="human">Human</option>
+                <option value="elf">Elf</option>
+                <option value="dwarf">Dwarf</option>
+                <option value="tiefling">Tiefling</option>
+              </select>
             </div>
           </template>
-          
-          
+                    
           <template if="{{currentView == 'ABILITIES_VIEW'}}">
             <!--  -->
             
-            <table>
+            <table id="abilityTable">
               <caption><br>Ability Scores</caption>
               <tr layout template repeat="{{ability in ABILITIES}}">
-                <th>{{item}}</th>
-                <td>{{}}</td>
+                <th id="abilityTable">{{ability}}:</th>
+                <td id="abilityTable"><input id="abilityValue" type="int"></td>
+                <td id="abilityTable"><button on-click="{{randStat}}" id="randDie"></button></td>
               </tr>                                
             </table>
             
             <!-- ABILITIES_VIEW Core Pages, End.-->  
           </template>
-
+          
           <template if="{{currentView == 'RACE_VIEW'}}">
               <div horizontal layout>
                 
