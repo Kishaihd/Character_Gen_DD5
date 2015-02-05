@@ -103,9 +103,9 @@ class AppView extends PolymerElement {
     event.preventDefault();
   }
   
-  void randStat() {
-    log.info("$runtimeType::randStat()");
-    querySelector('#abilityValue'). = (dice.rollDndAbility()).toString();
-  }
+//  void randStat() {
+//    log.info("$runtimeType::randStat()");
+//    querySelector('#abilityValue'). = (dice.rollDndAbility()).toString();
+//  }
 }
 
