@@ -4,11 +4,13 @@
   <template>
   
     <style>
-    
+      div {
+        width: 100px;
+      }
     </style>
 
-    <div style="width: 100px; ">{{ability}}:</div>
-    <input id="abilityValue" type="number" value="{{ability.value}}">
+    <div>{{abilityName}}:</div>
+    <input id="abilityValue" type="number" on-keyUp="{{keySubmit}}" inputValue="{{ability.score}}">
     <button icon="next" on-click="{{randStat}}" id="randDie"></button> 
 
   </template>

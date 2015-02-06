@@ -180,7 +180,7 @@
             <div id="abilityTable" layout vertical>
               <div>ABILITY SCORES</div>
               <template repeat="{{ability in ABILITIES}}">
-                <ability-view ability="{{ability}}"></ability-view>
+                <ability-view abilityName="{{ability}}"></ability-view>
                 
               </template>                             
             </div>
@@ -237,4 +237,5 @@
     </core-scaffold>
 
   <script type="application/dart" src="app_view.dart"></script>
+  </template>
 </polymer-element>

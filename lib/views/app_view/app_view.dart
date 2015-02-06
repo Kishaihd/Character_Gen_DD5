@@ -102,10 +102,6 @@ class AppView extends PolymerElement {
     // prevent app reload on <form> submission
     event.preventDefault();
   }
-  
-//  void randStat() {
-//    log.info("$runtimeType::randStat()");
-//    querySelector('#abilityValue'). = (dice.rollDndAbility()).toString();
-//  }
+
 }
 

@@ -5,21 +5,27 @@ import 'dice.dart';
 class Ability {
   static const int LIMIT = 20; // Limit for PCs for now.
   static const int ABILITY_DICE = 3;
-  final String _name;
+  String _name;
   int _score;
   int _mod;
   
   int _tempScore;
   int _tempMod;
   
-  Ability(this._name, [this._score = 0]) {
+  Ability([this._name, this._score = 0]) {
     _tempScore = _score;
     calcMod();
     _tempMod = _mod;
   }
   
+  void setName(String name) {
+    if (_name == null || _name == "") {
+      _name = name;      
+    }
+  }
+  
   String get name => _name;
-  int get score => _score;
+  int get score => _score == null ? 0 : _score;
   int get mod => _mod;
   int get limit => LIMIT;
 
@@ -43,7 +49,7 @@ class Ability {
   }
   
   // Cap set to 20, can change later.
-  void setAbility(int value) {
+  void setAbilityScore(int value) {
     if (value > LIMIT) {
       // Oh fuck off.
       _score = LIMIT;
