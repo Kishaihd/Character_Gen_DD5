@@ -1,0 +1,17 @@
+<link rel="import" href="../../../../packages/polymer/polymer.html">
+
+<polymer-element name="ability-view" layout horizontal>
+  <template>
+  
+    <style>
+    
+    </style>
+
+    <div style="width: 100px; ">{{ability}}:</div>
+    <input id="abilityValue" type="number" value="{{ability.value}}">
+    <button icon="next" on-click="{{randStat}}" id="randDie"></button> 
+
+  </template>
+
+  <script type="application/dart" src="ability_view.dart"></script>
+</polymer-element>

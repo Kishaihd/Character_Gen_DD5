@@ -90,10 +90,8 @@ class CharClass {
   // ################
   // Alternate, shorter proficiency calculation! :D
   void calcProfBonus() {
-    const int QUARTER = 4;
-    const num ROUND = 0.25;
-    
-    int tier = ((_level / QUARTER) + ROUND).round(); // 1 to 5
+    // Divide level by 4, then add the "rounding constant", then round the number. Pulling up or down to the correct number.
+    int tier = ((_level / 4) + 0.25).round(); // 1 to 5
 
     _proficiencyBonus = tier + 1;
   }
@@ -287,3 +285,143 @@ class Warlock extends CharClass {
   
   
 } // End Warlock class.
+
+
+
+
+
+
+//// === The Bard Class! ===
+//class Bard extends CharClass {
+//int _spellSlotLevel;
+//
+//// What a huge constructor...
+//Bard([int level = 1]) : super(level) {
+// _name = "Bard";
+// _hitDie = 8;
+// _level = level;
+// _casterStat = "Charisma";
+// _primaryAbility = ["Charisma"];    
+// _numberOfSkills = "Choose any three skills.";
+// _skillProficiency = [];
+// _armorProficiency = ["Light Armor"];
+// _weaponProficiency = ["Simple Weapons", "Hand Crossbows", "Longswords", "Rapiers", "Shortswords"];
+// _toolProficiency = ["Three musical instruments of your choice"];
+// _savingThrowProficiency = [
+//   "Dexterity",
+//   "Charisma"
+// ];
+// _description = "An inspiring magician whose power echoes the music of creation.";
+//     
+// calcProficiencyBonus();
+//}
+//
+//void BardLevelUp() {
+// levelUp();
+// calcCantripsKnown();
+// calcSpellsKnown();
+// calcSpellSlots();
+// calcSpellSlotLevel();
+//}
+//
+//int calcCantripsKnown() {
+// if (_level <= 3) {
+//   _cantripsKnown = 2;
+// }
+// if (_level >= 4 && _level <= 9) {
+//   _cantripsKnown = 3;
+// }
+// if (_level >= 10 && _level  <= TIER_FIVE) {
+//   _cantripsKnown = 4;
+// }
+// return _cantripsKnown;
+//}
+//
+//// Better way to do this? Ugh.
+//int calcSpellsKnown() {
+// if (_level < 10) {
+//   _spellsKnown = _level + 3;
+// }
+// if (_level == 10) {
+//   _spellsKnown = 10;
+// }
+// if (_level == 11 || _level  == 12) {
+//   _spellsKnown = 11;
+// }
+// if (_level == 13 || _level  == 14) {
+//   _spellsKnown = 12;
+// }
+// if (_level == 15 || _level  == 16) {
+//   _spellsKnown = 13;
+// }
+// if (_level == 17 || _level  == 18) {
+//   _spellsKnown = 14;
+// }
+// if (_level == 19 || _level  == 20) {
+//   _spellsKnown = 15;
+// }
+// return _spellsKnown;
+//}
+//
+//int calcSpellSlots() {
+// if (_level == 1) {
+//   _spellSlots = 1;
+// }
+// if (_level > 1 && _level <= 10) {
+//   _spellSlots = 2;
+// }
+// if (_level > 10 && _level <= 16) {
+//   _spellSlots = 3;
+// }
+// if (_level > 16 && _level <= 20) {
+//   _spellSlots = 4;
+// }    
+// return _spellSlots;
+//}
+// 
+//int calcSpellSlotLevel() {
+// if (_level > 0 && _level <= 8) {
+//   _spellSlotLevel = (_level / 2).ceil(); // TEST THIS.
+// }
+// else {
+//   _spellSlotLevel = 5;
+// }
+// return _spellSlotLevel;
+//}
+//
+//int calcInvocationsKnown() {
+// if (_level > 1 && _level <= 4) {
+//   _invocationsKnown = 2;
+// }
+// if (_level == 5 || _level == 6) {
+//   _invocationsKnown = 3;
+// }
+// if (_level == 7 || _level == 8) {
+//   _invocationsKnown = 4;
+// }    
+// if (_level > 8 && _level <= 11) {
+//   _invocationsKnown = 4;
+// }    
+// if (_level > 11 && _level <= 14) {
+//   _invocationsKnown = 4;
+// }
+// if (_level > 14 && _level <= 17) {
+//   _invocationsKnown = 4;
+// }
+// if (_level > 17 && _level <= 20) {
+//   _invocationsKnown = 4;
+// }
+// return _invocationsKnown;
+//}
+//
+//String get patron => _patron;
+//int get spellSlotLevel => _spellSlotLevel;
+//int get invocationsKnown => _invocationsKnown;
+//
+//
+//
+//
+//
+//
+//
+//} // End Bard class.

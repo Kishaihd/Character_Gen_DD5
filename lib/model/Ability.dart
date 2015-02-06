@@ -1,7 +1,10 @@
 library model.ability;
 
+import 'dice.dart';
+
 class Ability {
-  final int LIMIT = 20; // Limit for PCs for now.
+  static const int LIMIT = 20; // Limit for PCs for now.
+  static const int ABILITY_DICE = 3;
   final String _name;
   int _score;
   int _mod;
@@ -14,7 +17,7 @@ class Ability {
     calcMod();
     _tempMod = _mod;
   }
-
+  
   String get name => _name;
   int get score => _score;
   int get mod => _mod;
@@ -23,13 +26,22 @@ class Ability {
   int get tempScore => _tempScore;
   int get tempMod => _tempMod;
   
+  int roll() {
+    int theRoll = 0;
+    
+    for (int i = 0; i < ABILITY_DICE; i++) {
+      theRoll += Die.rollDie(6);
+    }    
+    return theRoll;  
+  }
+  
   @override String toString() => "${_name}: ${_score} (${modAsString()})";
   String modAsString() => "${(_mod >= 0) ? '+' : ''}${_mod.toString()}"; 
   
   void calcMod() {
     _mod = (_score/2 - 5).floor();
   }
-    
+  
   // Cap set to 20, can change later.
   void setAbility(int value) {
     if (value > LIMIT) {

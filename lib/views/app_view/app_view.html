@@ -18,7 +18,7 @@
 <link rel="import" href="../../../../packages/paper_elements/paper_radio_button.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_radio_group.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_input.html">
-
+<link rel="import" href="../ability_view/ability_view.html">
 
 <polymer-element name="app-view">
   <template>
@@ -177,14 +177,13 @@
           <template if="{{currentView == 'ABILITIES_VIEW'}}">
             <!--  -->
             
-            <table id="abilityTable">
-              <caption><br>Ability Scores</caption>
-              <tr layout template repeat="{{ability in ABILITIES}}">
-                <th id="abilityTable">{{ability}}:</th>
-                <td id="abilityTable"><input id="abilityValue" type="int"></td>
-                <td id="abilityTable"><button on-click="{{randStat}}" id="randDie"></button></td>
-              </tr>                                
-            </table>
+            <div id="abilityTable" layout vertical>
+              <div>ABILITY SCORES</div>
+              <template repeat="{{ability in ABILITIES}}">
+                <ability-view ability="{{ability}}"></ability-view>
+                
+              </template>                             
+            </div>
             
             <!-- ABILITIES_VIEW Core Pages, End.-->  
           </template>
