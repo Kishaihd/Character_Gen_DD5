@@ -29,7 +29,18 @@ class CharClass {
   int _spellAttackMod;
   int _cantripsKnown;
   int _spellsKnown;
-  int _spellSlots;
+  Map<int, int> spellSlotsPerLevel = {
+    1 : 0,
+    2 : 0,
+    3 : 0,
+    4 : 0,
+    5 : 0,
+    6 : 0,
+    7 : 0,
+    8 : 0,
+    9 : 0
+  };
+  
   
 
   CharClass([int level = 1]) {
@@ -39,7 +50,6 @@ class CharClass {
     _spellAttackMod = 0;
     _cantripsKnown = 0;
     _spellsKnown = 0;
-    _spellSlots = 0;
   
     calcProficiencyBonus();
   }
@@ -54,8 +64,6 @@ class CharClass {
     _level -= 1;
     calcProficiencyBonus();
   }
-  
-  
   
 //  void calcSpellSaveDC() {
 //    
@@ -101,8 +109,156 @@ class CharClass {
     _spellSaveDC = (BASE_SPELL_MOD + _spellAttackMod);
   }  
   
+  void calcSmallSpellSlots() {
+    // First level
+    if (_level < 3) {
+      spellSlotsPerLevel[1] = 0;
+    }
+    else if (_level == 3) {
+      spellSlotsPerLevel[1] = 2;
+    }
+    else if (_level >= 4 && _level <= 6) {
+      spellSlotsPerLevel[1] = 3;
+    }
+    else {
+      spellSlotsPerLevel[1] = 4;
+    }
+    
+    // Second level
+    if (_level < 7) {
+      spellSlotsPerLevel[2] = 0;
+    }
+    else if (_level >= 7 && _level <= 9) {
+        spellSlotsPerLevel[2] = 2;
+    }
+    else {
+      spellSlotsPerLevel[2] = 3;
+    }
+    // Third level
+    if (_level < 13) {
+      spellSlotsPerLevel[3] = 0;
+    }
+    else if (_level >= 13 && _level <= 15) {
+      spellSlotsPerLevel[3] = 2;
+    }
+    else {
+      spellSlotsPerLevel[3] = 3;
+    }
+     
+    // Fourth level
+    if (_level < 19) {
+      spellSlotsPerLevel[4] = 0;
+    }
+    else {
+      spellSlotsPerLevel[4] = 1;
+    }
+  }
+  
+  void calcBigSpellSlots() {
+    // First level
+    if (_level < 4) {
+      spellSlotsPerLevel[1] = _level + 1;
+    }
+    else {
+      spellSlotsPerLevel[1] = 4;
+    }
+    
+    // Second level
+    if (_level < 3) {
+      spellSlotsPerLevel[2] = 0;
+    }
+    else if (_level == 3) {
+        spellSlotsPerLevel[2] = 2;
+    }
+    else {
+      spellSlotsPerLevel[2] = 3;
+    }
+
+    // Third level
+    if (_level < 5) {
+      spellSlotsPerLevel[3] = 0;
+    }
+    else if (_level == 5) {
+      spellSlotsPerLevel[3] = 2;
+    }
+    else {
+      spellSlotsPerLevel[3] = 3;
+    }
+    
+    // Fourth level
+    if (_level < 7) {
+      spellSlotsPerLevel[4] = 0;
+    }
+    else if (_level == 7) {
+      spellSlotsPerLevel[4] = 1;
+    }
+    else if (_level == 8) {
+      spellSlotsPerLevel[4] = 2;
+    }
+    else {
+      spellSlotsPerLevel[4] = 3;
+    }
+    
+    // Fifth level
+    if (_level < 9) {
+      spellSlotsPerLevel[5] = 0;
+    }
+    else if (_level == 9) {
+      spellSlotsPerLevel[5] = 1;
+    }
+    else if (_level >= 10 || _level <= 17) {
+      spellSlotsPerLevel[5] = 2;
+    }
+    else {
+      spellSlotsPerLevel[5] = 3;
+    }
+    
+    // Sixth level
+    if (_level < 11) {
+      spellSlotsPerLevel[6] = 0;
+    }
+    else if (_level >= 11 || _level <= 18) {
+      spellSlotsPerLevel[6] = 1;
+    }
+    else {
+      spellSlotsPerLevel[6] = 2;
+    }
+    
+    // Seventh level
+    if (_level < 13) {
+      spellSlotsPerLevel[7] = 0;
+    }
+    else if (_level >= 13 || _level <= 19) {
+      spellSlotsPerLevel[7] = 1;
+    }
+    else {
+      spellSlotsPerLevel[7] = 2;
+    }
+    
+    // Eighth level
+    if (_level < 15) {
+      spellSlotsPerLevel[8] = 0;
+    }
+    else {
+      spellSlotsPerLevel[8] = 1;
+    }
+    
+    // Ninth level
+    if (_level < 17) {
+      spellSlotsPerLevel[9] = 0;
+    }
+    else {
+      spellSlotsPerLevel[9] = 1;
+    }
+     
+  }
+  
   void learnsSpells(bool answer) {
     _knowsSpells = answer;
+  }
+  
+  int spellSlotsAtLevel(int spellLevel) {
+    return spellSlotsPerLevel[spellLevel];
   }
   
   // Getters.
@@ -122,13 +278,15 @@ class CharClass {
   int get spellAttackMod => _spellAttackMod;
   String get casterStat => _casterStat;
   int get cantripsKnown => _cantripsKnown;
-  int get spellsKnown => _spellsKnown;
-  int get spellSlots => _spellSlots;
   int get baseSpellMod => BASE_SPELL_MOD;
+
+  int getSpellSlotsAt(int spellLevel) => spellSlotsPerLevel[spellLevel];
   
   // Setters.
   void setLevel(int level) {_level = level;}
-  //void setProficiencyBonus(int proficiency) {_proficiencyBonus = proficiency;}
+  void setSpellSlotsAtLevel(int spellLevel, int numberOfSlots) {
+    spellSlotsPerLevel[spellLevel] = numberOfSlots;
+  }
     
 } // End CharClass parent class.
 
@@ -171,16 +329,18 @@ class Ranger extends CharClass {
 
   void levelUpRanger() {
     levelUp();
+    calcSmallSpellSlots();
   }
   
 }
-
+// === End Ranger Class ===
 
 
 
 // === The Warlock Class! ===
 class Warlock extends CharClass {
   String _patron;
+  int _spellSlots;
   int _spellSlotLevel;
   int _invocationsKnown = 0;
   
@@ -218,7 +378,7 @@ class Warlock extends CharClass {
   void warlockLevelUp() {
     levelUp();
     calcCantripsKnown();
-    calcSpellsKnown();
+    calcNumSpellsKnown();
     calcSpellSlots();
     calcSpellSlotLevel();
     calcInvocationsKnown();
@@ -238,7 +398,7 @@ class Warlock extends CharClass {
   }
   
   // Better way to do this? Ugh.
-  int calcSpellsKnown() {
+  int calcNumSpellsKnown() {
     if (_level < 10) {
       _spellsKnown = _level + 1;
     }
@@ -317,6 +477,7 @@ class Warlock extends CharClass {
   String get patron => _patron;
   int get spellSlotLevel => _spellSlotLevel;
   int get invocationsKnown => _invocationsKnown;
+  int get spellSlots => _spellSlots;
  
   
 } // End Warlock class.
@@ -337,7 +498,7 @@ Bard([int level = 1]) : super(level) {
  _casterStat = "Charisma";
  _primaryAbility = ["Charisma"];    
  _numberOfSkills = "Choose any three skills.";
- _skillProficiency = [];
+ _skillProficiency = [""];
  _armorProficiency = ["Light Armor"];
  _weaponProficiency = ["Simple Weapons", "Hand Crossbows", "Longswords", "Rapiers", "Shortswords"];
  _toolProficiency = ["Three musical instruments of your choice"];
@@ -353,8 +514,8 @@ Bard([int level = 1]) : super(level) {
 void BardLevelUp() {
  levelUp();
  calcCantripsKnown();
- calcSpellsKnown();
- calcSpellSlots();
+ calcNumSpellsKnown();
+ calcBigSpellSlots();
 }
 
 int calcCantripsKnown() {
@@ -371,90 +532,36 @@ int calcCantripsKnown() {
 }
 
 // Better way to do this? Ugh.
-int calcSpellsKnown() {
+void calcNumSpellsKnown() {
  if (_level < 10) {
    _spellsKnown = _level + 3;
  }
  if (_level == 10) {
-   _spellsKnown = 10;
- }
- if (_level == 11 || _level  == 12) {
-   _spellsKnown = 11;
- }
- if (_level == 13 || _level  == 14) {
-   _spellsKnown = 12;
- }
- if (_level == 15 || _level  == 16) {
-   _spellsKnown = 13;
- }
- if (_level == 17 || _level  == 18) {
    _spellsKnown = 14;
  }
- if (_level == 19 || _level  == 20) {
+ if (_level == 11 || _level  == 12) {
    _spellsKnown = 15;
  }
- return _spellsKnown;
+ if (_level == 13) {
+   _spellsKnown = 16;
+ }
+ if (_level == 14) {
+   _spellsKnown = 18;
+ }
+ if (_level == 15 || _level  == 16) {
+   _spellsKnown = 19;
+ }
+ if (_level == 17) {
+   _spellsKnown = 20;
+ }
+ if (_level >= 18 && _level  <= 20) {
+   _spellsKnown = 22;
+ }
 }
 
-int calcSpellSlots() {
- if (_level == 1) {
-   _spellSlots = 1;
- }
- if (_level > 1 && _level <= 10) {
-   _spellSlots = 2;
- }
- if (_level > 10 && _level <= 16) {
-   _spellSlots = 3;
- }
- if (_level > 16 && _level <= 20) {
-   _spellSlots = 4;
- }    
- return _spellSlots;
-}
+
  
-int calcSpellSlotLevel() {
- if (_level > 0 && _level <= 8) {
-   _spellSlotLevel = (_level / 2).ceil(); // TEST THIS.
- }
- else {
-   _spellSlotLevel = 5;
- }
- return _spellSlotLevel;
-}
-
-int calcInvocationsKnown() {
- if (_level > 1 && _level <= 4) {
-   _invocationsKnown = 2;
- }
- if (_level == 5 || _level == 6) {
-   _invocationsKnown = 3;
- }
- if (_level == 7 || _level == 8) {
-   _invocationsKnown = 4;
- }    
- if (_level > 8 && _level <= 11) {
-   _invocationsKnown = 4;
- }    
- if (_level > 11 && _level <= 14) {
-   _invocationsKnown = 4;
- }
- if (_level > 14 && _level <= 17) {
-   _invocationsKnown = 4;
- }
- if (_level > 17 && _level <= 20) {
-   _invocationsKnown = 4;
- }
- return _invocationsKnown;
-}
-
-String get patron => _patron;
-int get spellSlotLevel => _spellSlotLevel;
-int get invocationsKnown => _invocationsKnown;
-
-
-
-
-
-
 
 } // End Bard class.
+
+

@@ -104,12 +104,12 @@ class Entity {
     _alignment = "Neutral Good"; // Default. Set after creation.
     
     // Put rolled stats into their respective abilities.
-    Strength.setAbility(strength);
-    Dexterity.setAbility(dexterity);
-    Constitution.setAbility(constitution);
-    Intelligence.setAbility(intelligence);
-    Wisdom.setAbility(wisdom);
-    Charisma.setAbility(charisma);           
+    Strength.setAbilityScore(strength);
+    Dexterity.setAbilityScore(dexterity);
+    Constitution.setAbilityScore(constitution);
+    Intelligence.setAbilityScore(intelligence);
+    Wisdom.setAbilityScore(wisdom);
+    Charisma.setAbilityScore(charisma);           
     abilities = [Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma];
     
     // Now add Racial ability modifiers.
