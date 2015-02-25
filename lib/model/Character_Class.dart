@@ -1,5 +1,7 @@
 library model.character_class;
+
 import 'ability.dart';
+import 'dart:convert';
 
 class CharClass {
   final int TIER_ONE = 4;
@@ -294,46 +296,7 @@ class CharClass {
 
 /*=======================================================================================*/
 
-// === The Ranger Class! === 
-class Ranger extends CharClass {
 
-  Ranger([int level = 1]) : super(level) {
-       _name = "Ranger";
-       _hitDie = 8;
-       _level = level;
-       _casterStat = "Wisdom";
-       _primaryAbility = ["Charisma"];    
-       _numberOfSkills = "Choose two skills from: ";
-       _skillProficiency = [
-         "Arcana", 
-         "Deception", 
-         "History", 
-         "Intimidation", 
-         "Investigation",
-         "Nature",
-         "Religion"
-       ];
-       _armorProficiency = ["Light Armor"];
-       _weaponProficiency = ["Simple Weapons"];
-       _toolProficiency = ["None"];
-       _savingThrowProficiency = [
-         "Wisdom",
-         "Charisma"
-       ];
-       _description = " ";
-           
-       calcProficiencyBonus();
-//  calcCasterStats(Entity entity.Charisma);    
- 
-  }
-
-  void levelUpRanger() {
-    levelUp();
-    calcSmallSpellSlots();
-  }
-  
-}
-// === End Ranger Class ===
 
 
 
@@ -343,6 +306,10 @@ class Warlock extends CharClass {
   int _spellSlots;
   int _spellSlotLevel;
   int _invocationsKnown = 0;
+  
+  final String FEATURES_PATH = "model/warlock_class_features.json";
+  
+  List<Map<String, String>> class_features = [];
   
   // What a huge constructor...
   Warlock([int level = 1]) : super(level) {
@@ -370,13 +337,50 @@ class Warlock extends CharClass {
     ];
     _description = "The Warlock is a wielder of magic that is derived from a bargain with an extraplanar entity.";
         
+    class_features = JSON.decode(FEATURES_PATH);
+    
     calcProficiencyBonus();
-//  calcCasterStats(Entity entity.Charisma);    
+    refactor(); 
 
   }
+
+//  List<Map<String, String>> class_features = [
+//    {"Otherworldly Patron" : "stuff", "Pact Magic" : "stuff"},
+//    {"Eldritch Invocations" : ""},
+//    {"" : ""},
+//    {"" : ""},
+//    {},
+//    {"" : ""},
+//    {},
+//    {"" : ""},
+//    {},
+//    {"" : ""},
+//    {"" : ""},
+//    {"" : ""},
+//    {"" : ""},
+//    {"" : ""},
+//    {"" : ""},
+//    {"" : ""},
+//    {"" : ""},
+//    {},
+//    {"" : ""},
+//    {"" : ""}
+//  ];                            
+  
+  void otherworldyPatron(patronChoice) {
+    _patron = patronChoice;
+  }
+  
+  Map<int, String> features = {
+    1 : "Otherworldy Partron"
+  };
   
   void warlockLevelUp() {
     levelUp();
+    refactor();
+  }
+  
+  void refactor() {
     calcCantripsKnown();
     calcNumSpellsKnown();
     calcSpellSlots();
@@ -487,6 +491,57 @@ class Warlock extends CharClass {
 
 
 
+
+
+
+// === The Ranger Class! === 
+class Ranger extends CharClass {
+
+  Ranger([int level = 1]) : super(level) {
+       _name = "Ranger";
+       _hitDie = 8;
+       _level = level;
+       _casterStat = "Wisdom";
+       _primaryAbility = ["Charisma"];    
+       _numberOfSkills = "Choose two skills from: ";
+       _skillProficiency = [
+         "Arcana", 
+         "Deception", 
+         "History", 
+         "Intimidation", 
+         "Investigation",
+         "Nature",
+         "Religion"
+       ];
+       _armorProficiency = ["Light Armor"];
+       _weaponProficiency = ["Simple Weapons"];
+       _toolProficiency = ["None"];
+       _savingThrowProficiency = [
+         "Wisdom",
+         "Charisma"
+       ];
+       _description = " ";
+           
+       calcProficiencyBonus();
+//  calcCasterStats(Entity entity.Charisma);    
+ 
+  }
+
+  void levelUpRanger() {
+    levelUp();
+    calcSmallSpellSlots();
+  }
+  
+}
+// === End Ranger Class ===
+
+
+
+
+
+
+
+
 // === The Bard Class! ===
 class Bard extends CharClass {
 
@@ -509,6 +564,9 @@ Bard([int level = 1]) : super(level) {
  _description = "An inspiring magician whose power echoes the music of creation.";
      
  calcProficiencyBonus();
+ calcCantripsKnown();
+ calcNumSpellsKnown();
+ calcBigSpellSlots();
 }
 
 void BardLevelUp() {
