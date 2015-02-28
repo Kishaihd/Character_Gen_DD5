@@ -1,0 +1,61 @@
+// A Map of List of List of Map<String, String>
+// First map<List> distinguishes which character class.
+// First List<List> is the 1 - 20 features list.
+// Second List<map> is to hold multiple features, if they exist.
+// Each map<String, String> is the actual class feature,
+// The first list is the main 1 - 20 character development list.
+// The second list is to accomodate the levels that have multiple features.
+// I may possibly further expand this to include numbers and values to
+// implement imported functions? For mechanical changes to character.
+// <core-ajax-dart auto url="{{pathToThing}}" handleAs="json" on-core-response="{{dataLoaded}}>
+// String get pathToThing => "data/thing.json";
+//
+//void newDataLoaded(event, deatil, etc)
+//  mapList = detail['response'];
+//
+{ "warlock" :
+  [ 
+    [ // Level one 
+      {"String one" : "String two"},
+      {"String one" : "String two"}
+    ],
+    
+    [ // Level two
+      {"String one" : "String two"},
+      {"String one" : "String two"}
+    ],
+    
+    [ // Level three
+      {"String one" : "String two"},
+      {"String one" : "String two"}
+    ],
+    
+    [ // Level four
+      {"String one" : "String two"},
+      {"String one" : "String two"}
+    ],
+    
+    [ // Level five
+      {"String one" : "String two"},
+      {"String one" : "String two"}
+    ]
+  
+  ] // End class-features list.
+},
+
+{
+  "ranger" :
+  [
+    [ // Level One
+      {"String one" : "String two"},
+      {"String one" : "String two"}
+    ],
+    [ // Level Two
+      {}
+    ],
+    [ // Level Three
+      {}
+    ]
+  ]
+
+}

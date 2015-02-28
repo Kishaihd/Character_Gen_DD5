@@ -35,10 +35,25 @@ class AppView extends PolymerElement {
     "Charisma"
   ];
   
+  // Getting class features from JSON
+  String get dataURL => "../web/resources/data/warlock_class_features.json";
+  @observable Map<String, List<List<Map<String, String>>>> dataFromJSON = toObservable({});  
+  @observable List<List<Map<String, String>>> barbarianFeatureList = toObservable([]);
+  @observable List<List<Map<String, String>>> bardFeatureList = toObservable([]);
+  @observable List<List<Map<String, String>>> clericFeatureList = toObservable([]);
+  @observable List<List<Map<String, String>>> druidFeatureList = toObservable([]);
+  @observable List<List<Map<String, String>>> fighterFeatureList = toObservable([]);
+  @observable List<List<Map<String, String>>> rangerFeatureList = toObservable([]);
+  @observable List<List<Map<String, String>>> rogueFeatureList = toObservable([]);
+  @observable List<List<Map<String, String>>> sorcererFeatureList = toObservable([]);
+  @observable List<List<Map<String, String>>> warlockFeatureList = toObservable([]);
+  @observable List<List<Map<String, String>>> wizardFeatureList = toObservable([]);
+  
+  
   @observable Entity character;
   @observable String charName;
-  CharClass bob = new Warlock();
-  Die dice = new Die(6);
+  //CharClass bob = new Warlock();
+  //Die dice = new Die(6);
   
   // initialize system log
   bool _logInitialized = initLog();
@@ -70,6 +85,23 @@ class AppView extends PolymerElement {
     charName = target.text;
         //document.querySelector('.raceList').text;
     log.info("$runtimeType::setCharName()::$charName");
+  }
+  
+  void onFeatureLoaded(Event event, var detail, Element target) {
+    log.info("$runtimeType::onFeatureLoaded():: ");
+    dataFromJSON = detail['response'];
+    barbarianFeatureList = dataFromJSON["barbarian"];
+    bardFeatureList = dataFromJSON["bard"];
+    clericFeatureList = dataFromJSON["cleric"];
+    druidFeatureList = dataFromJSON["druid"];
+    fighterFeatureList = dataFromJSON["fighter"];
+    rangerFeatureList = dataFromJSON["ranger"];
+    rogueFeatureList = dataFromJSON["rogue"];
+    sorcererFeatureList = dataFromJSON["sorcerer"];
+    warlockFeatureList = dataFromJSON["warlock"];
+    wizardFeatureList = dataFromJSON["wizard"];
+    
+  
   }
   
   // filters and transformers can be referenced as class fields

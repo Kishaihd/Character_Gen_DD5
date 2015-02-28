@@ -11,6 +11,8 @@ class CharClass {
   final int TIER_FIVE = 20;
   final int BASE_SPELL_MOD = 8;
   
+  String CLASS_FEATURES_PATH;
+  
   String _name;
   int _hitDie;
   int _level;
@@ -31,6 +33,7 @@ class CharClass {
   int _spellAttackMod;
   int _cantripsKnown;
   int _spellsKnown;
+  int _spellSlots;
   Map<int, int> spellSlotsPerLevel = {
     1 : 0,
     2 : 0,
@@ -268,10 +271,13 @@ class CharClass {
   int get hitDie => _hitDie;
   int get level => _level;
   int get proficiencyBonus => _proficiencyBonus;
-  String get numSkills => _numberOfSkills;
   String get description => _description;
   bool get knowsSpells => _knowsSpells;
-  List<String> get skills => _skillProficiency;
+  String get numSkills => _numberOfSkills;      // Use these two together!
+  List<String> get skills => _skillProficiency; // Use these two together!
+
+  //  String get numAndSkills =>
+  
   List<String> get armors => _armorProficiency;
   List<String> get weapons => _weaponProficiency;
   List<String> get tools => _toolProficiency;
@@ -281,7 +287,9 @@ class CharClass {
   String get casterStat => _casterStat;
   int get cantripsKnown => _cantripsKnown;
   int get baseSpellMod => BASE_SPELL_MOD;
-
+  String get FEATURES_PATH => CLASS_FEATURES_PATH;
+  
+  
   int getSpellSlotsAt(int spellLevel) => spellSlotsPerLevel[spellLevel];
   
   // Setters.
@@ -303,13 +311,19 @@ class CharClass {
 // === The Warlock Class! ===
 class Warlock extends CharClass {
   String _patron;
-  int _spellSlots;
+  String _pact;
+//  int _spellsKnown;
+//  int _spellSlots;
   int _spellSlotLevel;
-  int _invocationsKnown = 0;
+  int _invocationsKnown = 0;  
   
-  final String FEATURES_PATH = "model/warlock_class_features.json";
+  final String CLASS_FEATURES_PATH = "model/warlock_class_features.json";
   
   List<Map<String, String>> class_features = [];
+  
+  List<String> patronChoices = ["Demonic", "Fey", "Far realms"];
+  
+  List<String> pactChoices = ["Blade", "Tome", "Chain"];
   
   // What a huge constructor...
   Warlock([int level = 1]) : super(level) {
@@ -336,7 +350,7 @@ class Warlock extends CharClass {
       "Charisma"
     ];
     _description = "The Warlock is a wielder of magic that is derived from a bargain with an extraplanar entity.";
-        
+    
     class_features = JSON.decode(FEATURES_PATH);
     
     calcProficiencyBonus();
@@ -460,28 +474,31 @@ class Warlock extends CharClass {
     if (_level == 5 || _level == 6) {
       _invocationsKnown = 3;
     }
-    if (_level == 7 || _level == 8) {
-      _invocationsKnown = 4;
-    }    
-    if (_level > 8 && _level <= 11) {
-      _invocationsKnown = 4;
-    }    
-    if (_level > 11 && _level <= 14) {
-      _invocationsKnown = 4;
-    }
-    if (_level > 14 && _level <= 17) {
-      _invocationsKnown = 4;
-    }
-    if (_level > 17 && _level <= 20) {
+    if (_level >= 7 || _level <= 20) {
       _invocationsKnown = 4;
     }
     return _invocationsKnown;
   }
   
+  String fullStats() {
+    StringBuffer sb = new StringBuffer();
+    
+    sb.writeln("Otherwordly patron: $_patron");
+    sb.writeln("Pact of the: $_pact");
+    sb.writeln("Spells known: ${calcNumSpellsKnown()}");
+    sb.writeln("Spell slots: ${calcSpellSlots()}");
+    sb.writeln("Spell slot level: ${calcSpellSlotLevel()}");
+    sb.writeln("Invocations known: ${calcInvocationsKnown()}");
+    
+    return sb.toString();
+  }
+  
   String get patron => _patron;
-  int get spellSlotLevel => _spellSlotLevel;
-  int get invocationsKnown => _invocationsKnown;
-  int get spellSlots => _spellSlots;
+  String get pact => _pact; 
+  int get spellsKnown => calcNumSpellsKnown();
+  int get spellSlots => calcSpellSlots();
+  int get spellSlotLevel => calcSpellSlotLevel();
+  int get invocationsKnown => calcInvocationsKnown();
  
   
 } // End Warlock class.

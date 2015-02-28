@@ -5,46 +5,83 @@ import 'dart:convert';
 
 class Feature {
   int _level;
-  String _name;
+  String _feature;
   String _description;
-
   
-  Feature(String level, this._name, this._description) {
-    _level = int.parse(level);
+  
+  Feature(this._feature, this._description) {
+    
   }
-
-  Feature.fromMap(Map<String, String> map) : this(map["level"], map["name"], map["description"]);
+  
+  Feature.fromMap(Map<String, String> map) : this(map["feature"], map["description"]);
   
  
   @override String toString() {
-    return "${_name.toUpperCase()}: ${_description} ";
+    return "${_feature.toUpperCase()}: ${_description} ";
   }
   
   int get level => _level;
+  String get featureName => _feature;
+  String get featureDesc => _description;  
   
+  void set level(int lvl) {
+    _level = lvl;
+  }
 }
 
 
 
 class FeatureList {
-  List<Feature> classFeatures = [];
+  String _className;
+  List<List<Feature>> classFeatures = [];
  
-  FeatureList();
-  
-  FeatureList.fromMap(Map<int, Object> map) {
-    List<Map<String, String>> featureMaps = map["classFeatures"];
+  FeatureList(this._className, this.classFeatures);
 
-    featureMaps.forEach((Map<String, String> feature) {
-      classFeatures.add(new Feature.fromMap(feature));      
+//  FeatureList.fromMap(Map<String, List<List<Map<String, String>>>> allFeatures) {
+//    allFeatures.forEach((String className) {
+//      
+//    });
+//  }
+  
+  FeatureList.fromList(String className, List<List<Map<String, String>>> list) : this(className) {
+    List<Map<String, String>> featuresByLevel;
+    list.forEach(() {
+      
     });
+
+//    featureMaps.forEach((Map<String, String> feature) {
+//      classFeatures.add(new Feature.fromMap(feature));      
+//    });
     
     //    map.forEach((Map<String, String> asd) {
 //      
-//    });
-    
-    
+//    });   
     
     
   }
   
+  List featuresAtLevel(int charLevel) {
+    return classFeatures[charLevel];
+  }
+
+  List get featresList => classFeatures;
+  
+  void set className(String className) {
+    _className = className;
+  }
+  
+  
+  
 }
+
+
+
+
+
+
+
+
+
+
+
+

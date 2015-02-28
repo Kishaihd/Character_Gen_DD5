@@ -1,0 +1,19 @@
+<link rel="import" href="../../../../packages/polymer/polymer.html">
+
+<polymer-element name="feature-view" layout horizontal>
+  <template>
+    
+    <style>
+      div {
+        width: 100px;
+      }
+    </style>
+    <div>{{featureLevel}}</div>
+    <div>{{featureName}}</div>
+    <input id="feature" type="text" on-load="{{showNameList}}" >
+    <button icon="next" on-mouseover="{{showFeature}}" id="feature"></button> 
+    
+  </template>
+    
+  <script type="application/dart" src="feature_view.dart"></script>
+</polymer-element>

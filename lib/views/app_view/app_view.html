@@ -1,6 +1,7 @@
 <!-- Polymer Element HTML import links go here (above <polymer-element> tag) -->
 <link rel="import" href="../../../../packages/polymer/polymer.html">
 <link rel="import" href="../../../../packages/core_elements/core_scaffold.html">
+<link rel="import" href="../../../../packages/core_elements/core_ajax_dart.html">
 <link rel="import" href="../../../../packages/core_elements/core_header_panel.html">
 <link rel="import" href="../../../../packages/core_elements/core_drawer_panel.html">
 <link rel="import" href="../../../../packages/core_elements/core_toolbar.html">
@@ -19,6 +20,7 @@
 <link rel="import" href="../../../../packages/paper_elements/paper_radio_group.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_input.html">
 <link rel="import" href="../ability_view/ability_view.html">
+
 
 <polymer-element name="app-view">
   <template>
@@ -229,7 +231,11 @@
 
           <template if="{{currentView == 'CLASS_VIEW'}}">
               <div horizontal layout>
-              
+                
+                <core-ajax-dart auto url="{{dataURL}}" handleAs="json" on-core-response="{{onFeatureLoaded}}"></core-ajax-dart>
+                             
+                
+                
               </div>                   
           </template> <!-- End CLASS_VIEW -->
                
