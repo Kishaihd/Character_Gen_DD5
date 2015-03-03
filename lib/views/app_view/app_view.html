@@ -181,10 +181,10 @@
             
             <div id="abilityTable" layout vertical>
               <div>ABILITY SCORES</div>
-              <template repeat="{{ability in ABILITIES}}">
-                <ability-view abilityName="{{ability}}"></ability-view>
-                
-              </template>                             
+              <template repeat="{{String in ABILITIES}}">
+                <ability-view abilityName="{{String}}"></ability-view>               
+              </template>      
+              <button on-tap={{abilitiesSubmit}}>Accept</button>                       
             </div>
             
             <!-- ABILITIES_VIEW Core Pages, End.-->  
@@ -234,8 +234,8 @@
                 
                 <core-ajax-dart auto url="{{dataURL}}" handleAs="json" on-core-response="{{onFeatureLoaded}}"></core-ajax-dart>
                 
-                <template repeat="{{map in dataFromJSON}}">
-                  <feature-view className="{{class}}" featureList="{{list}}">
+                <template repeat="{{list in listOfFeatureLists}}">
+                  <feature-view className="{{list.name}}" featureList="{{list}}">
                   
                 </feature-view>
                 </template>

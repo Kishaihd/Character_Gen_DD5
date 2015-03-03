@@ -9,8 +9,9 @@ import 'package:core_elements/core_icon_button.dart';
 import 'package:core_elements/core_collapse.dart';
 
 import '../../model/entity.dart';
-import '../../model/character_class.dart';
-import '../../model/dice.dart';
+import '../../model/features.dart';
+//import '../../model/character_class.dart';
+//import '../../model/dice.dart';
 
 @CustomTag('app-view')
 class AppView extends PolymerElement {
@@ -35,19 +36,29 @@ class AppView extends PolymerElement {
     "Charisma"
   ];
   
+  Map<String, int> abilityValues = { // Might not even need these.
+      "Strength" : 0,
+      "Dexterity" : 0,
+      "Constitution" : 0,
+      "Intelligence" : 0,
+      "Wisdom" : 0,
+      "Charisma" : 0
+  };
+  
   // Getting class features from JSON
   String get dataURL => "../web/resources/data/class_features.json";
   @observable Map<String, List<List<Map<String, String>>>> dataFromJSON = toObservable({});  
-  @observable List<List<Map<String, String>>> barbarianFeatureList = toObservable([]);
-  @observable List<List<Map<String, String>>> bardFeatureList = toObservable([]);
-  @observable List<List<Map<String, String>>> clericFeatureList = toObservable([]);
-  @observable List<List<Map<String, String>>> druidFeatureList = toObservable([]);
-  @observable List<List<Map<String, String>>> fighterFeatureList = toObservable([]);
-  @observable List<List<Map<String, String>>> rangerFeatureList = toObservable([]);
-  @observable List<List<Map<String, String>>> rogueFeatureList = toObservable([]);
-  @observable List<List<Map<String, String>>> sorcererFeatureList = toObservable([]);
-  @observable List<List<Map<String, String>>> warlockFeatureList = toObservable([]);
-  @observable List<List<Map<String, String>>> wizardFeatureList = toObservable([]);
+  @observable List<FeatureList> listOfFeatureLists;
+  //  @observable List<List<Map<String, String>>> barbarianFeatureList = toObservable([]);
+//  @observable List<List<Map<String, String>>> bardFeatureList = toObservable([]);
+//  @observable List<List<Map<String, String>>> clericFeatureList = toObservable([]);
+//  @observable List<List<Map<String, String>>> druidFeatureList = toObservable([]);
+//  @observable List<List<Map<String, String>>> fighterFeatureList = toObservable([]);
+//  @observable List<List<Map<String, String>>> rangerFeatureList = toObservable([]);
+//  @observable List<List<Map<String, String>>> rogueFeatureList = toObservable([]);
+//  @observable List<List<Map<String, String>>> sorcererFeatureList = toObservable([]);
+//  @observable List<List<Map<String, String>>> warlockFeatureList = toObservable([]);
+//  @observable List<List<Map<String, String>>> wizardFeatureList = toObservable([]);
   
   @observable Entity character;
   @observable String charName;
@@ -89,16 +100,19 @@ class AppView extends PolymerElement {
   void onFeatureLoaded(Event event, var detail, Element target) {
     log.info("$runtimeType::onFeatureLoaded():: ");
     dataFromJSON = detail['response'];
-    barbarianFeatureList = dataFromJSON["barbarian"];
-    bardFeatureList = dataFromJSON["bard"];
-    clericFeatureList = dataFromJSON["cleric"];
-    druidFeatureList = dataFromJSON["druid"];
-    fighterFeatureList = dataFromJSON["fighter"];
-    rangerFeatureList = dataFromJSON["ranger"];
-    rogueFeatureList = dataFromJSON["rogue"];
-    sorcererFeatureList = dataFromJSON["sorcerer"];
-    warlockFeatureList = dataFromJSON["warlock"];
-    wizardFeatureList = dataFromJSON["wizard"];
+    dataFromJSON.forEach((String name, List featureList) {
+      listOfFeatureLists.add(new FeatureList.fromList(name, featureList));
+    });
+//    barbarianFeatureList = dataFromJSON["barbarian"];
+//    bardFeatureList = dataFromJSON["bard"];
+//    clericFeatureList = dataFromJSON["cleric"];
+//    druidFeatureList = dataFromJSON["druid"];
+//    fighterFeatureList = dataFromJSON["fighter"];
+//    rangerFeatureList = dataFromJSON["ranger"];
+//    rogueFeatureList = dataFromJSON["rogue"];
+//    sorcererFeatureList = dataFromJSON["sorcerer"];
+//    warlockFeatureList = dataFromJSON["warlock"];
+//    wizardFeatureList = dataFromJSON["wizard"];
     
   
   }
@@ -123,6 +137,14 @@ class AppView extends PolymerElement {
     log.info("$runtimeType::toggleCollapse()");
   }
   
+  void abilitiesSubmit(Event event, var detail, Element target) {
+      log.info("$runtimeType::abilitiesSubmit()");
+      abilityValues['Strength'] = int.parse(detail['Strength']);
+      abilitiesDone = true;
+      
+      log.info("Str:${abilityValues['Strength']}");
+      
+    }
   
   // a sample event handler function
   void eventHandler(Event event, var detail, Element target) {

@@ -44,6 +44,7 @@ class FeatureList {
 //    });
 //  }
   
+  
   FeatureList.fromList(String className, List<List<Map<String, String>>> fullList) { 
     _className = className;
     //List<Map<String, String>> featuresByLevel;
@@ -61,6 +62,7 @@ class FeatureList {
     return classFeatures[charLevel - 1];
   }
 
+  String get name => _className;
   List get featuresList => classFeatures;
   
   // Necessary?

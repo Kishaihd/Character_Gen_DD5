@@ -10,9 +10,9 @@
     </style>
 
     <div>{{abilityName}}</div>
-    <input id="abilityValue" type="number" on-tap="{{keySubmit}}" inputValue="{{ability.score}}">
-    <button icon="next" on-tap="{{randStat}}" id="randDie"></button> 
-
+    <input id="abilityValue" type="text" on-enter="{{keySubmit}}" inputValue="{{abilityScore}}">
+    <button icon="next" on-tap="{{randStat}}" id="randDie">Random</button> 
+    
   </template>
 
   <script type="application/dart" src="ability_view.dart"></script>

@@ -27,7 +27,7 @@ class FeatureView extends PolymerElement {
   @override void attached() {
     super.attached();
     log.info("$runtimeType::attached()");
-    list = new FeatureList(className, featureList);
+    list = new FeatureList.fromList(className, featureList);
     
   }
   

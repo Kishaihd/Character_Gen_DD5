@@ -10,6 +10,7 @@ class AbilityView extends PolymerElement {
 
   @published String abilityName; 
   @observable int inputValue;
+  @observable int abilityScore;
   Ability ability;
   
   AbilityView.created() : super.created();
@@ -19,28 +20,44 @@ class AbilityView extends PolymerElement {
     log.info("$runtimeType::attached()");
     
     ability = new Ability(abilityName);
-    inputValue = ability.score == null ? 0 : ability.score;
+    abilityScore = ability.score == null ? 0 : ability.score;
   }
   
-  void inputValueChanged(oldValue) {
-    log.info("$runtimeType::inputValueChanged()");
+  void abilityScoreChanged(oldValue) {
+    log.info("$runtimeType::abilityScoreChanged()");
     // Do validation on the parsed string (inputValue)
     if (oldValue != null) {
       if (oldValue == int) {
         ability.setAbilityScore(oldValue);
+        
       }
     }
     // if it passes, set the ability.score to that value. 
     // otherwise... eat a butt.
     // 
   }
+  
+  void inputValueChanged(oldValue) {
+      log.info("$runtimeType::inputValueChanged()");
+      // Do validation on the parsed string (inputValue)
+      if (oldValue != null) {
+        if (oldValue == int) {
+          ability.setAbilityScore(oldValue);
+          
+        }
+      }
+      // if it passes, set the ability.score to that value. 
+      // otherwise... eat a butt.
+      // 
+    }
 
   // a sample event handler function
   void randStat(Event event, var detail, Element target) {
     
     log.info("$runtimeType::randStat()");
-    
-    inputValue = ability.roll();
+    abilityScore = ability.roll();
+    inputValue = abilityScore;
+    ability.setAbilityScore(abilityScore);
   }
   
   void setName(Event event, var detail, Element target) {
@@ -51,7 +68,8 @@ class AbilityView extends PolymerElement {
   void keySubmit(KeyboardEvent event, var detail, Element target) {
     log.info("$runtimeType::keySubmit()");  
     if (event.keyCode == KeyCode.ENTER) {
-        ability.setAbilityScore(inputValue);
+      abilityScore = int.parse(target.text);
+        ability.setAbilityScore(abilityScore);
     }
   }
 }
