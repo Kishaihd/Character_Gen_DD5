@@ -36,7 +36,7 @@ class AppView extends PolymerElement {
   ];
   
   // Getting class features from JSON
-  String get dataURL => "../web/resources/data/warlock_class_features.json";
+  String get dataURL => "../web/resources/data/class_features.json";
   @observable Map<String, List<List<Map<String, String>>>> dataFromJSON = toObservable({});  
   @observable List<List<Map<String, String>>> barbarianFeatureList = toObservable([]);
   @observable List<List<Map<String, String>>> bardFeatureList = toObservable([]);
@@ -48,7 +48,6 @@ class AppView extends PolymerElement {
   @observable List<List<Map<String, String>>> sorcererFeatureList = toObservable([]);
   @observable List<List<Map<String, String>>> warlockFeatureList = toObservable([]);
   @observable List<List<Map<String, String>>> wizardFeatureList = toObservable([]);
-  
   
   @observable Entity character;
   @observable String charName;

@@ -8,10 +8,12 @@
         width: 100px;
       }
     </style>
-    <div>{{featureLevel}}</div>
-    <div>{{featureName}}</div>
+    <div>{{className}} {{featureList}}</div>  <!--/div><div-->
     <input id="feature" type="text" on-load="{{showNameList}}" >
     <button icon="next" on-mouseover="{{showFeature}}" id="feature"></button> 
+    <template repeat="{{}}">
+    
+    </template>
     
   </template>
     

@@ -20,7 +20,7 @@
 <link rel="import" href="../../../../packages/paper_elements/paper_radio_group.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_input.html">
 <link rel="import" href="../ability_view/ability_view.html">
-
+<link rel="import" href="../feature_view/feature_view.html">
 
 <polymer-element name="app-view">
   <template>
@@ -233,8 +233,12 @@
               <div horizontal layout>
                 
                 <core-ajax-dart auto url="{{dataURL}}" handleAs="json" on-core-response="{{onFeatureLoaded}}"></core-ajax-dart>
-                             
                 
+                <template repeat="{{map in dataFromJSON}}">
+                  <feature-view className="{{class}}" featureList="{{list}}">
+                  
+                </feature-view>
+                </template>
                 
               </div>                   
           </template> <!-- End CLASS_VIEW -->
