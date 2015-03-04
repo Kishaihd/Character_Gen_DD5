@@ -44,6 +44,7 @@ class AbilityView extends PolymerElement {
     CoreInput input = document.getElementById('abilityBox');
     decorator.isInvalid = !input.validity.valid;
   }
+  
   // a sample event handler function
   void randStat(Event event, var detail, Element target) {    
     log.info("$runtimeType::randStat()");
