@@ -51,7 +51,7 @@ class FeatureList {
     for (int i = 0; i < fullList.length; i++) {
       fullList[i].forEach((Map featuresByLevel) {
         featuresByLevel.forEach((String key, String value) {
-          classFeatures[i].add(new Feature(i, key, value));          
+          classFeatures[i].add(new Feature((i + 1), key, value));          
         });
       });
     }
