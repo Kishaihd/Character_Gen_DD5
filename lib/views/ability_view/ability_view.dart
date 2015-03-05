@@ -13,7 +13,7 @@ class AbilityView extends PolymerElement {
   @published String abilityName; 
   @observable String abilityScore;
   
-  Ability ability;
+  @published Ability ability;
   
   AbilityView.created() : super.created();
 

@@ -8,13 +8,14 @@ import '../../utils/filters.dart';
 import 'package:core_elements/core_icon_button.dart';
 import 'package:core_elements/core_collapse.dart';
 
+import '../../model/chargen_model/chargen_model.dart';
 import '../../model/entity.dart';
 import '../../model/features.dart';
 //import '../../model/character_class.dart';
 //import '../../model/dice.dart';
 
 @CustomTag('app-view')
-class AppView extends PolymerElement {
+class AppView extends PolymerElement {  
   static const String INTRO_VIEW = "INTRO_VIEW";
   static const String CHAR_VIEW = "CHAR_VIEW";
   static const String ABILITIES_VIEW = "ABILITIES_VIEW";
@@ -27,28 +28,38 @@ class AppView extends PolymerElement {
     static const String TIEFLING = "TIEFLING";
     static const String HALF_ELF = "HALF_ELF";
   static const String CLASS_VIEW = "CLASS_VIEW";
-  @observable final List ABILITIES = [ // Might not even need these.
-    "Strength",
-    "Dexterity",
-    "Constitution",
-    "Intelligence",
-    "Wisdom",
-    "Charisma"
-  ];
+ 
+  @observable ChargenModel model;
   
-  Map<String, int> abilityValues = { // Might not even need these.
-      "Strength" : 0,
-      "Dexterity" : 0,
-      "Constitution" : 0,
-      "Intelligence" : 0,
-      "Wisdom" : 0,
-      "Charisma" : 0
-  };
+//  @observable final List ABILITIES = [ // Might not even need these.
+//    "Strength",
+//    "Dexterity",
+//    "Constitution",
+//    "Intelligence",
+//    "Wisdom",
+//    "Charisma"
+//  ];
   
-  // Getting class features from JSON
-  String get dataURL => "../web/resources/data/class_features.json";
-  @observable Map<String, List<List<Map<String, String>>>> dataFromJSON = toObservable({});  
-  @observable List<FeatureList> listOfFeatureLists;
+//  Map<String, int> abilityValues = { // Might not even need these.
+//      "Strength" : 0,
+//      "Dexterity" : 0,
+//      "Constitution" : 0,
+//      "Intelligence" : 0,
+//      "Wisdom" : 0,
+//      "Charisma" : 0
+//  };
+  
+  
+//  @observable FeatureList barbarianFeatureList;
+//  @observable FeatureList bardFeatureList;
+//  @observable FeatureList clericFeatureList;
+//  @observable FeatureList druidFeatureList;
+//  @observable FeatureList fighterFeatureList;
+//  @observable FeatureList rangerFeatureList;
+//  @observable FeatureList rogueFeatureList;
+//  @observable FeatureList sorcererFeatureList;
+//  @observable FeatureList warlockFeatureList;
+//  @observable FeatureList wizardFeatureList;
   //  @observable List<List<Map<String, String>>> barbarianFeatureList = toObservable([]);
 //  @observable List<List<Map<String, String>>> bardFeatureList = toObservable([]);
 //  @observable List<List<Map<String, String>>> clericFeatureList = toObservable([]);
@@ -60,8 +71,8 @@ class AppView extends PolymerElement {
 //  @observable List<List<Map<String, String>>> warlockFeatureList = toObservable([]);
 //  @observable List<List<Map<String, String>>> wizardFeatureList = toObservable([]);
   
-  @observable Entity character;
-  @observable String charName;
+//  @observable Entity character;
+//  @observable String charName;
   //CharClass bob = new Warlock();
   //Die dice = new Die(6);
   
@@ -92,30 +103,12 @@ class AppView extends PolymerElement {
   }
   
   void setCharName(Event e, var detail, Element target) {    
-    charName = target.text;
+    model.character.name = target.text;
         //document.querySelector('.raceList').text;
-    log.info("$runtimeType::setCharName()::$charName");
+    log.info("$runtimeType::setCharName()::${model.character.name}");
   }
   
-  void onFeatureLoaded(Event event, var detail, Element target) {
-    log.info("$runtimeType::onFeatureLoaded():: ");
-    dataFromJSON = detail['response'];
-    dataFromJSON.forEach((String name, List featureList) {
-      listOfFeatureLists.add(new FeatureList.fromList(name, featureList));
-    });
-//    barbarianFeatureList = dataFromJSON["barbarian"];
-//    bardFeatureList = dataFromJSON["bard"];
-//    clericFeatureList = dataFromJSON["cleric"];
-//    druidFeatureList = dataFromJSON["druid"];
-//    fighterFeatureList = dataFromJSON["fighter"];
-//    rangerFeatureList = dataFromJSON["ranger"];
-//    rogueFeatureList = dataFromJSON["rogue"];
-//    sorcererFeatureList = dataFromJSON["sorcerer"];
-//    warlockFeatureList = dataFromJSON["warlock"];
-//    wizardFeatureList = dataFromJSON["wizard"];
-    
   
-  }
   
   // filters and transformers can be referenced as class fields
   final Transformer asInteger = new StringToInt();
@@ -129,6 +122,8 @@ class AppView extends PolymerElement {
     CoreIconButton menuButton = querySelector('core-scaffold::shadow core-icon-button');
     menuButton.icon = 'folder';
     log.info("$runtimeType::attached()");
+    model = $['model'];
+    
   }
 
   void toggle(Event event, var detail, Element target) {
@@ -139,10 +134,10 @@ class AppView extends PolymerElement {
   
   void abilitiesSubmit(Event event, var detail, Element target) {
       log.info("$runtimeType::abilitiesSubmit()");
-      abilityValues['Strength'] = int.parse(detail['Strength']);
+     // abilityValues['Strength'] = int.parse(detail['Strength']);
       abilitiesDone = true;
       
-      log.info("Str:${abilityValues['Strength']}");
+     // log.info("Str:${abilityValues['Strength']}");
       
     }
   

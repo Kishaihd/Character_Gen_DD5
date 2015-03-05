@@ -4,6 +4,7 @@ library model.entity;
 import 'ability.dart';
 import 'character_class.dart';
 import 'equipment.dart';
+import 'features.dart';
 import 'modify.dart';
 import 'race.dart';
 import 'skill.dart';
@@ -13,6 +14,7 @@ class Entity {
   String _name;
   CharClass _charClass;
   Race _charRace;
+  FeatureList _classFeatures;
   String _type; // eg. Humanoid, Abberation, Construct etc.
   String _alignment;
   String _size;
@@ -23,11 +25,11 @@ class Entity {
   String _patron;
   
   // Game attributes
+  final int BASE_AC = 10;
   int _level;
   int _hitDie;
   int _maxHitPoints;
   int _currentHitPoints;
-  final int BASE_AC = 10;
   int _armorClass;  
   int _proficiencyBonus;
   String _status;
@@ -86,11 +88,49 @@ class Entity {
   // Does not include Constitution.
   List<int> abilitiesForSkills = [];
   
-  bool statsCalculated = false;
+  bool _charCreationIsCreated = false;
+  
+  Entity() {
+    _status = "Normal";
+    _level = 1;
+
+    _alignment = ""; // Default. Set after creation.
+    
+    Athletics = new Skill.fromBlank("Athletics");
+    Acrobatics = new Skill.fromBlank("Acrobatics");
+    SleightOfHand = new Skill.fromBlank("SleightOfHand");
+    Stealth = new Skill.fromBlank("Stealth");
+    Arcana = new Skill.fromBlank("Arcana");
+    History = new Skill.fromBlank("History");
+    Investigation = new Skill.fromBlank("Investigation");
+    Nature = new Skill.fromBlank("Nature");
+    Religion = new Skill.fromBlank("Religion");
+    AnimalHandling = new Skill.fromBlank("AnimalHandling");
+    Insight = new Skill.fromBlank("Insight");
+    Medicine = new Skill.fromBlank("Medicine");
+    Perception = new Skill.fromBlank("Perception");
+    Survival = new Skill.fromBlank("Survival");
+    Deception = new Skill.fromBlank("Deception");
+    Intimidation = new Skill.fromBlank("Intimidation");
+    Performance = new Skill.fromBlank("Performance");
+    Persuasion = new Skill.fromBlank("Persuasion");
+    
+    strSkills = [Athletics];
+    dexSkills = [Acrobatics, SleightOfHand, Stealth];
+    intSkills = [Arcana, History, Investigation, Nature, Religion];
+    wisSkills = [AnimalHandling, Insight, Medicine, Perception, Survival];
+    chaSkills = [Deception, Intimidation, Performance, Persuasion];
+    
+    fullSkillList = [strSkills, dexSkills, intSkills, wisSkills, chaSkills];
+
+    _armorClass = 10;
+        
+  }
+  
   
   // Parameterized constructor.
   // Name, Character's class, Race, ability scores.
-  Entity(this._name, Race race, CharClass characterClass, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
+  Entity.parameterized(this._name, Race race, CharClass characterClass, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
     _status = "Normal";
     _level = 1;
 
@@ -175,6 +215,10 @@ class Entity {
     }
   }
   
+  void setAbilitiesForSkills() {
+    abilitiesForSkills = [Strength.mod, Dexterity.mod, Intelligence.mod, Wisdom.mod, Charisma.mod];  
+
+  }
   
   int calcArmorClass([Armor armor]) {
     if (armor != null) {
@@ -319,6 +363,7 @@ class Entity {
   int get intelligence => Intelligence.score;
   int get wisdom => Wisdom.score;
   int get charisma => Charisma.score;
+  List<Ability> get abilitiesList => abilities;
   int get currentHP => _currentHitPoints;
   int get level => _level;
   String get hitDie => "d${_charClass.hitDie}";
@@ -335,7 +380,7 @@ class Entity {
   String get status => _status;
   String get deity => _deity == null ? "None" : _deity;
   String get patron => _patron == null ? "None" : _patron;
-  
+  bool get isCompleted => _charCreationIsCreated;
 //  // "Generic" getter that returns any single skill and value.
 //  int getSkill(String skillName) {
 //    skillName = skillName.toLowerCase();
@@ -369,20 +414,51 @@ class Entity {
 //  void set wisdom(int wis) { _wisdom = wis;}
 //  void set charisma(int cha) { _charisma = cha;}
   void set currentHP(int hp) { _currentHitPoints = hp;}
-//  void set size(String size) { _size = size;}
+  void set size(String size) { _size = size;}
   void set level(int lvl) { _level = lvl;}
-//  void set HD(int hd) { _hitDie = hd;}
+  void set HD(int hd) {
+    _hitDie = hd;    
+  }
 //  void set maxHP(int hpMax) {_maxHitPoints = hpMax;}
   //void set AC(int ac) { _armorClass = ac;} // Calculated automatically.
   //void set proficiencyBonus(int prof) { _proficiency = prof;}
   //void set movement => _movement
   void set name(String name) { _name = name;}
-//  void set race(String race) { _race = race;}
-//  void set type(String type) { _type = type;} // eg. Humanoid, Abberation, Construct etc.
+  void set characterClass(CharClass charClass) {
+    _charClass = charClass;
+    _proficiencyBonus = charClass.proficiencyBonus;
+    _hitDie = charClass.hitDie;
+  }
+  void set race(Race race) {
+    _charRace = race;
+    _movement = race.speed;
+    _size = race.size;
+    _type = race.type;    
+  }
   void set allignment(String allignment) { _alignment = allignment;}
+  void setAbilities(Ability str, Ability dex, Ability con, Ability int, Ability wis, Ability cha) {
+    Strength.setAbilityScore(str.score);
+    Dexterity.setAbilityScore(dex.score);
+    Constitution.setAbilityScore(con.score);
+    Intelligence.setAbilityScore(int.score);
+    Wisdom.setAbilityScore(wis.score);
+    Charisma.setAbilityScore(cha.score);
+    abilities = [Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma];
+    abilitiesForSkills = [Strength.mod, Dexterity.mod, Intelligence.mod, Wisdom.mod, Charisma.mod];
+  }
+//  void set type(String type) { _type = type;} // eg. Humanoid, Abberation, Construct etc.
   void set status(String status) { _status = status;}
   void set deity(String deity) {_deity = deity;}
   void set patron(String patron) {_patron = patron;}
+  void calcHpAtLevelOne() {
+    if (Constitution.score > 0 && _hitDie > 0) {
+      _maxHitPoints = Constitution.mod + _hitDie;
+    }
+  }
+
+  void set isCompleted(bool isDone) {
+    _charCreationIsCreated = isDone;
+  }
   
 } // End class Entity  
 

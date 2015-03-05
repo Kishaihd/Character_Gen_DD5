@@ -12,7 +12,8 @@
 //
 //void newDataLoaded(event, deatil, etc)
 //  mapList = detail['response'];
-//
+
+
 { "warlock" :
   [ 
     [ // Level one 

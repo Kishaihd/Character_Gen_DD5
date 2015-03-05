@@ -20,6 +20,7 @@
 <link rel="import" href="../../../../packages/paper_elements/paper_radio_group.html">
 <link rel="import" href="../ability_view/ability_view.html">
 <link rel="import" href="../feature_view/feature_view.html">
+<link rel="import" href="../../model/chargen_model/chargen_model.html">
 
 <polymer-element name="app-view">
   <template>
@@ -113,6 +114,8 @@
       
       
     </style>
+
+    <chargen-model id="model"></chargen-model>
 
     <!--
       Scaffold
@@ -231,7 +234,7 @@
           <template if="{{currentView == 'CLASS_VIEW'}}">
               <div horizontal layout>
                 
-                <core-ajax-dart auto url="{{dataURL}}" handleAs="json" on-core-response="{{onFeatureLoaded}}"></core-ajax-dart>
+                
                 
                 <template repeat="{{list in listOfFeatureLists}}">
                   <feature-view className="{{list.name}}" featureList="{{list}}">
