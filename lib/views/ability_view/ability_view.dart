@@ -6,12 +6,12 @@ import 'package:core_elements/core_input.dart';
 import 'package:paper_elements/paper_input_decorator.dart';
 import '../../model/global.dart';
 import '../../model/ability.dart';
-import '../../model/chargen_model/chargen_model.dart';
+//import '../../model/chargen_model/chargen_model.dart';
 
 @CustomTag('ability-view')
 class AbilityView extends PolymerElement {
 
-  @observable ChargenModel model; 
+//  @observable ChargenModel model; 
 //  @published String abilityName; 
   @observable String abilityScore;
   
@@ -30,9 +30,7 @@ class AbilityView extends PolymerElement {
 //        abilityIdx = i;
 //        ability = ab[i];
 //      }
-//    }
-    
-    
+//    }  
     abilityScore = (ability.score == null ? 0 : ability.score).toString();
   }
   

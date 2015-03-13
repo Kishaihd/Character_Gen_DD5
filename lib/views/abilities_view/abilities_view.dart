@@ -10,8 +10,8 @@ import 'package:paper_elements/paper_toast.dart';
 @CustomTag('abilities-view')
 class AbilitiesView extends PolymerElement {
   
-  @published ChargenModel model;
-  @observable List<Ability> abList = toObservable([]);
+  //@published ChargenModel model;
+  @published List<Ability> abList;// = toObservable([]);
   
   PaperToast pt;
   
@@ -19,7 +19,7 @@ class AbilitiesView extends PolymerElement {
 
   @override void attached() {
     super.attached();
-    abList = model.abList;
+    //abList = model.abList;
 //    abList = model.character.abilitiesList;
     pt = $['acceptedToast'];
     log.info("$runtimeType::attached()");
