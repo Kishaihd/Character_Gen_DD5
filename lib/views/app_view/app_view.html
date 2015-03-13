@@ -18,7 +18,7 @@
 <link rel="import" href="../../../../packages/paper_elements/paper_input.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_radio_button.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_radio_group.html">
-<link rel="import" href="../ability_view/ability_view.html">
+<link rel="import" href="../abilities_view/abilities_view.html">
 <link rel="import" href="../feature_view/feature_view.html">
 <link rel="import" href="../../model/chargen_model/chargen_model.html">
 
@@ -152,7 +152,16 @@
       
       <div class="content">
 
-          <template if="{{currentView == 'INTRO_VIEW'}}">
+      <core-pages selected="0">
+        <div>Intro View
+          <abilities-view></abilities-view>
+        </div>
+        <div>Abilities View</div>
+        <div>Race View</div>
+        <div>Class View</div>        
+      </core-pages>
+
+          <!--template if="{{currentView == 'INTRO_VIEW'}}">
             <h4>Pull out the side menu and roll some abilities scores to get started!</h4> 
             <div class="box-container" vertical layout center>
               {{bindingTest_intro}}
@@ -179,17 +188,9 @@
           </template>
                     
           <template if="{{currentView == 'ABILITIES_VIEW'}}">
-            <!--  -->
             
-            <div id="abilityTable" layout vertical>
-              <div>ABILITY SCORES</div>
-              <template repeat="{{String in ABILITIES}}">
-                <ability-view abilityName="{{String}}"></ability-view>               
-              </template>      
-              <button on-tap={{abilitiesSubmit}}>Accept</button>                       
-            </div>
+           
             
-            <!-- ABILITIES_VIEW Core Pages, End.-->  
           </template>
           
           <template if="{{currentView == 'RACE_VIEW'}}">
@@ -243,7 +244,7 @@
                 </template>
                 
               </div>                   
-          </template> <!-- End CLASS_VIEW -->
+          </template--> 
                
       </div> <!-- End class="content" -->
     </core-scaffold>

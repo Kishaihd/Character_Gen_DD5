@@ -31,6 +31,7 @@ class AppView extends PolymerElement {
  
   @observable ChargenModel model;
   
+  
 //  @observable final List ABILITIES = [ // Might not even need these.
 //    "Strength",
 //    "Dexterity",

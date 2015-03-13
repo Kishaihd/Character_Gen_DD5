@@ -96,6 +96,8 @@ class Entity {
 
     _alignment = ""; // Default. Set after creation.
     
+    abilities = [Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma];
+    
     Athletics = new Skill.fromBlank("Athletics");
     Acrobatics = new Skill.fromBlank("Acrobatics");
     SleightOfHand = new Skill.fromBlank("SleightOfHand");
@@ -150,7 +152,7 @@ class Entity {
     Intelligence.setAbilityScore(intelligence);
     Wisdom.setAbilityScore(wisdom);
     Charisma.setAbilityScore(charisma);           
-    abilities = [Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma];
+//    abilities = [Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma];
     
     // Now add Racial ability modifiers.
     addRacialAbilities(_charRace, abilities);
@@ -436,7 +438,18 @@ class Entity {
     _type = race.type;    
   }
   void set allignment(String allignment) { _alignment = allignment;}
-  void setAbilities(Ability str, Ability dex, Ability con, Ability int, Ability wis, Ability cha) {
+  void setAbilitiesByList(List<Ability> incomingList) {
+      incomingList.forEach((Ability newAb) {
+        abilities.forEach((Ability ab) {
+          if (ab.name == newAb.name) {
+            ab.setAbilityScore(newAb.score);
+          }
+        });
+      });
+      abilities = [Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma];
+      abilitiesForSkills = [Strength.mod, Dexterity.mod, Intelligence.mod, Wisdom.mod, Charisma.mod];
+    }
+  void setEachAbility(Ability str, Ability dex, Ability con, Ability int, Ability wis, Ability cha) {
     Strength.setAbilityScore(str.score);
     Dexterity.setAbilityScore(dex.score);
     Constitution.setAbilityScore(con.score);

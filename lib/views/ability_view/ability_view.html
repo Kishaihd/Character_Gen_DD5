@@ -11,11 +11,10 @@
       }
     </style>
 
-    <div>{{abilityName}}</div>
+    <div>{{ability}}</div>
     <paper-input-decorator id="paperAbility" error="Input must be a number!" isInvalid="{{!$.abilityBox.validity.valid}}">
-      <input is="core-input" id="abilityBox" pattern="^[0-9].*" on-enter="{{keySubmit}}" value="{{abilityScore}}">
-    </paper-input-decorator>
-    <button icon="next" on-tap="{{randStat}}" id="randDie">Random</button> 
+      <input is="core-input" id="abilityBox" pattern="^[0-9].*" value="{{abilityScore}}">
+    </paper-input-decorator> 
     
   </template>
 
