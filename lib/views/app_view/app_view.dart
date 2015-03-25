@@ -9,8 +9,9 @@ import 'package:core_elements/core_icon_button.dart';
 import 'package:core_elements/core_collapse.dart';
 
 import '../../model/chargen_model/chargen_model.dart';
-import '../../model/entity.dart';
-import '../../model/features.dart';
+import '../../views/abilities_view/abilities_view.dart';
+//import '../../model/entity.dart';
+//import '../../model/features.dart';
 //import '../../model/character_class.dart';
 //import '../../model/dice.dart';
 
@@ -29,7 +30,7 @@ class AppView extends PolymerElement {
     static const String HALF_ELF = "HALF_ELF";
   static const String CLASS_VIEW = "CLASS_VIEW";
  
-  @observable ChargenModel model;
+  @published ChargenModel model;
   
   
 //  @observable final List ABILITIES = [ // Might not even need these.
@@ -104,9 +105,9 @@ class AppView extends PolymerElement {
   }
   
   void setCharName(Event e, var detail, Element target) {    
-    model.character.name = target.text;
+    model.charCreate.name = target.text;
         //document.querySelector('.raceList').text;
-    log.info("$runtimeType::setCharName()::${model.character.name}");
+    log.info("$runtimeType::setCharName()::${model.charCreate.name}");
   }
   
   
@@ -140,7 +141,7 @@ class AppView extends PolymerElement {
       
      // log.info("Str:${abilityValues['Strength']}");
       
-    }
+  }
   
   // a sample event handler function
   void eventHandler(Event event, var detail, Element target) {

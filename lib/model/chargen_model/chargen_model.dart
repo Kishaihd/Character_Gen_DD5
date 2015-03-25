@@ -4,20 +4,20 @@ import 'dart:html';
 import 'package:polymer/polymer.dart';
 import '../../model/global.dart';
 import '../ability.dart';
-import '../character_class.dart';
-import '../dice.dart';
+//import '../character_class.dart';
+//import '../dice.dart';
 import '../entity.dart';
-import '../equipment.dart';
+//import '../equipment.dart';
 import '../features.dart';
-import '../modify.dart';
-import '../race.dart';
-import '../skill.dart';
-import '../weapon.dart';
+//import '../modify.dart';
+//import '../race.dart';
+//import '../skill.dart';
+//import '../weapon.dart';
 
 @CustomTag('chargen-model')
 class ChargenModel extends PolymerElement {  
   
-  @observable Entity character;  
+  @published Entity character;  
   
   // Getting class features from JSON
   String get dataURL => "../resources/data/class_features.json";
@@ -65,7 +65,8 @@ class ChargenModel extends PolymerElement {
       
     
     }
-
-  Entity get charCreate => character;
   List<Ability> get abList => character.abilitiesList;
+  
+  //Entity get charCreate => character;
+  //List<Ability> get abList => character.abilitiesList;
 }

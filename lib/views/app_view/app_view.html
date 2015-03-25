@@ -19,7 +19,7 @@
 <link rel="import" href="../../../../packages/paper_elements/paper_radio_button.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_radio_group.html">
 <link rel="import" href="../abilities_view/abilities_view.html">
-<link rel="import" href="../feature_view/feature_view.html">
+<!-- link rel="import" href="../feature_view/feature_view.html"-->
 <link rel="import" href="../../model/chargen_model/chargen_model.html">
 
 <polymer-element name="app-view">
@@ -153,9 +153,13 @@
       <div class="content">
 
       <core-pages selected="0">
-        <div>Intro View
-          <abilities-view abList="{{model.character.abilities}}"></abilities-view>
+        <div>
+          <abilities-view>
+ 
+          </abilities-view> <!--  abList="{{mode.character.abilitiesList}}" -->
         </div>
+
+        <div>Intro View</div>
         <div>Abilities View</div>
         <div>Race View</div>
         <div>Class View</div>        

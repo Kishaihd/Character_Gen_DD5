@@ -1,20 +1,25 @@
 <link rel="import" href="../../../../packages/polymer/polymer.html">
 <link rel="import" href="../ability_view/ability_view.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_toast.html">
+<link rel="import" href="../../../../packages/core_elements/core_icon.html">
 
 <polymer-element name="abilities-view">
   <template>
     <style>
+      .abilitiesTable {
+        padding: 2px;
+        width: 110px;
+      }
     
     </style>
     
      <div id="abilitiesTable" layout vertical>
-       <div>ABILITY SCORES</div>
-       <template repeat="{{Ability in abList">
+       <div>Character Abilities</div>
+       <template repeat="{{Ability in model.abList}}">
          <ability-view ability="{{Ability}}"></ability-view>               
        </template>
-        <button icon="next" on-tap="{{randStats}}" id="randDice"  center-justified>Random</button>      
-        <button on-tap="{{abilitiesSubmit}}" center-justified>Accept</button>
+        <button icon="cached" on-tap="{{randStats}}" id="randDice"  center-justified>Random</button>      
+        <button icon="thumb-up" on-tap="{{abilitiesSubmit}}" center-justified>Accept</button>
      </div>   
 
     <paper-toast id="acceptedToast" text="Abilities Saved!" duration="250" on-click="{{closeToast}}"></paper-toast>

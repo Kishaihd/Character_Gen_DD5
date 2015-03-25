@@ -439,16 +439,20 @@ class Entity {
   }
   void set allignment(String allignment) { _alignment = allignment;}
   void setAbilitiesByList(List<Ability> incomingList) {
-      incomingList.forEach((Ability newAb) {
-        abilities.forEach((Ability ab) {
-          if (ab.name == newAb.name) {
-            ab.setAbilityScore(newAb.score);
-          }
-        });
-      });
+    if (incomingList[0].name == "Strength") {
+      setEachAbility(incomingList[0], incomingList[1], incomingList[2], incomingList[3], incomingList[4], incomingList[5]);       
+    }
+//    incomingList.forEach((Ability newAb) {
+//        abilities.forEach((Ability ab) {
+//          if (ab.name == newAb.name) {
+//            ab.setAbilityScore(newAb.score);
+//          }
+//        });
+//      });
       abilities = [Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma];
       abilitiesForSkills = [Strength.mod, Dexterity.mod, Intelligence.mod, Wisdom.mod, Charisma.mod];
-    }
+  }
+  
   void setEachAbility(Ability str, Ability dex, Ability con, Ability int, Ability wis, Ability cha) {
     Strength.setAbilityScore(str.score);
     Dexterity.setAbilityScore(dex.score);
