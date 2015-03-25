@@ -15,9 +15,12 @@
     
      <div id="abilitiesTable" layout vertical>
        <div>Character Abilities</div>
-       <template repeat="{{Ability in model.abList}}">
-         <ability-view ability="{{Ability}}"></ability-view>               
-       </template>
+       <div>
+          <template repeat="{{Ability in model.character.abilitiesList}}">
+            <ability-view ability="{{Ability}}"></ability-view>
+          </template>
+        </div>
+        
         <button icon="cached" on-tap="{{randStats}}" id="randDice"  center-justified>Random</button>      
         <button icon="thumb-up" on-tap="{{abilitiesSubmit}}" center-justified>Accept</button>
      </div>   

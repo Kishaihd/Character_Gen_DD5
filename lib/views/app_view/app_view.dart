@@ -9,7 +9,8 @@ import 'package:core_elements/core_icon_button.dart';
 import 'package:core_elements/core_collapse.dart';
 
 import '../../model/chargen_model/chargen_model.dart';
-import '../../views/abilities_view/abilities_view.dart';
+//import '../../views/ability_view/ability_view.dart';
+//import '../../views/abilities_view/abilities_view.dart';
 //import '../../model/entity.dart';
 //import '../../model/features.dart';
 //import '../../model/character_class.dart';
@@ -105,9 +106,9 @@ class AppView extends PolymerElement {
   }
   
   void setCharName(Event e, var detail, Element target) {    
-    model.charCreate.name = target.text;
+    model.character.name = target.text;
         //document.querySelector('.raceList').text;
-    log.info("$runtimeType::setCharName()::${model.charCreate.name}");
+    log.info("$runtimeType::setCharName()::${model.character.name}");
   }
   
   
