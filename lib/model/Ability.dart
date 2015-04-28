@@ -9,6 +9,10 @@ class Ability {
   String _name;
   int _score;
   int _mod;
+  // int _totalScore;
+  // int _fromRaceScore;
+  // int _fromClassScore;
+  // int _fromLevelUpScore;
   
   int _tempScore;
   int _tempMod;

@@ -8,6 +8,7 @@ import 'features.dart';
 import 'modify.dart';
 import 'race.dart';
 import 'skill.dart';
+import 'speed.dart';
 
 class Entity {
   // Living attributes
@@ -18,7 +19,8 @@ class Entity {
   String _type; // eg. Humanoid, Abberation, Construct etc.
   String _alignment;
   String _size;
-  int _movement;
+//  int _movement;
+  Speed _movement;
   
   // Patron attributes
   String _deity;
@@ -141,7 +143,9 @@ class Entity {
     _size = race.size;
     _charClass = characterClass;
     _hitDie = characterClass.hitDie;
-    _movement = race.speed;
+    _movement.addLandMod("Racial", race.landSpeed);
+    _movement.addSwimMod("Racial", race.swimSpeed);
+    _movement.addFlyMod("Racial", race.flySpeed);
     _proficiencyBonus = characterClass.proficiencyBonus;
     _alignment = "Neutral Good"; // Default. Set after creation.
     
@@ -372,7 +376,9 @@ class Entity {
   int get maxHP => _maxHitPoints;
   int get AC => _armorClass;
   int get proficiencyBonus => _proficiencyBonus;
-  int get movement => _charRace.speed;
+  int get landMovement => _movement.landSpeed;
+  int get swimMovement => _movement.swimSpeed;
+  int get flyMovement => _movement.flySpeed;
   String get name => _name;
   String get size => _charRace.size;
   String get raceName => _charRace.name;

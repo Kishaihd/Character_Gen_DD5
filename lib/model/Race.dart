@@ -5,11 +5,13 @@ class Race {
   String _type;
   Map<String, int> _racialAbilities;
   String _size;
-  int _speed;
+  int _landSpeed;
+  int _swimSpeed = 0;
+  int _flySpeed = 0;
   List<String> _languages;
   bool _canChooseLanguage;
   String _subrace;
-  String _vision;
+  Map<String, int> _vision;
   List<String> _traits;
   List<String> _skillProficiencies;
   List<String> _weaponProficiencies;
@@ -36,7 +38,9 @@ class Race {
     return _racialAbilities[idx];
   }
   String get size => _size;  
-  int get speed => _speed;
+  int get landSpeed => _landSpeed;
+  int get swimSpeed => _swimSpeed;
+  int get flySpeed => _flySpeed;
   List<String> get languages => (_languages.isEmpty ? "None" :  _languages);
   bool get canChooseLanguage => _canChooseLanguage;
   String get subrace => (_subrace == null ? "None" : _subrace);
@@ -54,9 +58,9 @@ class Tiefling extends Race {
     };
     _type = "Outsider";
     _size = "Medium";
-    _speed = 30;
+    _landSpeed = 30;
     _languages = ["Common", "Infernal"];
-    _vision = "Darkvision (60')";
+    _vision = {"Darkvision" : 60};
     _traits = ["Hellish Resistance", "Infernal Legacy"];
   }  
 }
@@ -75,9 +79,9 @@ class Human extends Race {
     };
     _type = "Human"; // ?
     _size = "Medium";
-    _speed = 30;
+    _landSpeed = 30;
     _languages = ["Common"];
-    _vision = "Normal";
+    _vision = {"Common" : 0};
     _traits = ["Bonus language"];
   }
   
@@ -88,19 +92,23 @@ class Human extends Race {
 
 class Elf extends Race {
   
-  Elf(String subrace) : super(subrace) {
-    _racialAbilities = {
-      "Dexterity": 2        
-    };
-    
-    if (subrace == null) {
-      subrace == "high elf";
-    }
+  Elf([String subrace = null]) : super(subrace) {
+    _racialAbilities = {"Dexterity": 2};
     _type = "Humanoid"; // Right?
     _size = "Medium";
-    _speed = 30;
+    _landSpeed = 30;
+  
+    if (subrace == null) {
+      setSubrace("high elf");
+    }
+    
+  }
+  
+  
+  void setSubrace(String raceName) {
     _languages = ["Common", "Elvish"];
     _traits = ["Keen Senses", "Fey Ancestry", "Trance"];
+    _vision = {"Darkvision" : 60};
     
     if (subrace.toLowerCase() == "high elf") {
       _name = "High Elf";
@@ -108,24 +116,22 @@ class Elf extends Race {
       _traits.add("Elf Weapon Training");
       _traits.add("Cantrip");
       _traits.add("Extra Language");
-      _vision = "Darkvision (60')";
     }
     if (subrace.toLowerCase() == "wood elf") {
       _name = "Wood Elf";
       _racialAbilities.putIfAbsent("Wisdom", () => 1);
       _traits.add("Elf Weapon Training");
       _traits.add("Fleet of Foot");
-      _speed += 5;
+      _landSpeed += 5;
       _traits.add("Mask of the Wild");
-      _vision = "Darkvision (60')";
     }
     if (subrace.toLowerCase() == "dark elf") {
       _name = "Dark Elf";
       _racialAbilities.putIfAbsent("Charisma", () => 1);
-      _vision = "Superior Darkvision (120')";
+      _vision = {"Superior Darkvision" : 120};
+      _traits.add("Drow Weapon Training");
       _traits.add("Sunlight Sensitivity");
       _traits.add("Drow Magic");
-      _traits.add("Drow Weapon Training");
     }  
   } // End Elf() constructor.
   
