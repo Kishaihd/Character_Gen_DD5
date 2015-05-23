@@ -3,16 +3,15 @@ library abilities_view;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 import '../../model/global.dart';
+import '../../model/entity.dart';
+import '../../model/chargen_model/model.dart' as model;
 import '../../model/chargen_model/chargen_model.dart'; //???
 import '../../model/ability.dart';
 import 'package:paper_elements/paper_toast.dart';
 
 @CustomTag('abilities-view')
 class AbilitiesView extends PolymerElement {
-  
-  @published ChargenModel model;
-  List<Ability> abList;
-//  @published List<Ability> abList;
+  List<Ability> abList; // Need?
   //@published List<Ability> abList;// = toObservable([]);
   
   PaperToast pt;
@@ -21,7 +20,7 @@ class AbilitiesView extends PolymerElement {
   
   @override void attached() {
     super.attached();
-    @published abList = model.abList;
+    @published abList =  model.player.abilitiesList; //model.character.abList;
 //    @published model.character.abilitiesList;
     //abList = model.character.abilitiesList;
     //abList = model.abList;
@@ -38,22 +37,11 @@ class AbilitiesView extends PolymerElement {
 
   void randStats(Event event, var detail, Element target) {        
     log.info("$runtimeType::randStat()");
-//    abList.forEach((Ability ab) {
-//      ab.setAbilityScore(ab.roll());
-//    });
-    model.charCreate.abilitiesList.forEach((Ability ab) {
+  
+    model.player.abilitiesList.forEach((Ability ab) {
       ab.setAbilityScore(ab.roll());
     });
-//    model.abList.forEach((Ability ab) {
-//      ab.setAbilityScore(ab.roll());
-//    });
-//      model.character.abilitiesList.forEach((Ability ab) {
-//        ab.setAbilityScore(ab.roll());
-//      });
-//      abilityScore = ability.toString();
-//    inputValue = abilityScore;
-//      ability.setAbilityScore(int.parse(abilityScore));
-    }
+  }
 
   void abilitiesSubmit() {
     log.info("$runtimeType::abilitiesSubmit()");

@@ -7,7 +7,7 @@ import 'package:polymer_expressions/filter.dart';
 import '../../utils/filters.dart';
 import 'package:core_elements/core_icon_button.dart';
 import 'package:core_elements/core_collapse.dart';
-
+import '../../model/chargen_model/model.dart' as model;
 import '../../model/chargen_model/chargen_model.dart';
 //import '../../views/ability_view/ability_view.dart';
 //import '../../views/abilities_view/abilities_view.dart';
@@ -30,7 +30,8 @@ class AppView extends PolymerElement {
     static const String TIEFLING = "TIEFLING";
     static const String HALF_ELF = "HALF_ELF";
   static const String CLASS_VIEW = "CLASS_VIEW";
- 
+
+
   @published ChargenModel model;
   
   

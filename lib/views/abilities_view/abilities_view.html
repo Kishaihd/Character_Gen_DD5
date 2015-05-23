@@ -16,7 +16,7 @@
      <div id="abilitiesTable" layout vertical>
        <div>Character Abilities</div>
        <div>
-          <template repeat="{{Ability in model.character.abilitiesList}}">
+          <template repeat="{{Ability in abList}}"> <!-- model.player.abilitiesList -->
             <ability-view ability="{{Ability}}"></ability-view>
           </template>
         </div>

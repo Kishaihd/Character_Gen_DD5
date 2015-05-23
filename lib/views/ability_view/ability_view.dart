@@ -6,7 +6,7 @@ import 'package:core_elements/core_input.dart';
 import 'package:paper_elements/paper_input_decorator.dart';
 import '../../model/global.dart';
 import '../../model/ability.dart';
-//import '../../model/chargen_model/chargen_model.dart';
+//import '../../model/chargen_model/model.dart' as model;
 
 @CustomTag('ability-view')
 class AbilityView extends PolymerElement {
