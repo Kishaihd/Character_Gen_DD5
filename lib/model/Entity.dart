@@ -9,6 +9,7 @@ import 'modify.dart';
 import 'race.dart';
 import 'skill.dart';
 import 'speed.dart';
+import 'condition.dart';
 
 class Entity {
   // Living attributes
@@ -35,6 +36,11 @@ class Entity {
   int _armorClass;  
   int _proficiencyBonus;
   String _status;
+  
+  // Map of modified attributes
+  List<Modify> _modList;
+  List<Condition> _conditions;  
+//  Map<String, Map<String, int>> _characterMods; // Map< mod_name, Map <thing modified, mod_value>>
   
   // Equipment attributes
   Armor _armor;
@@ -336,8 +342,8 @@ class Entity {
 //        }
 //        else {
 //          skillIdx--;
-//          skillList[skillIdx][stat] += bonus;
-//        }
+//          skillList[skillIdx][stat] +=         }bonus;
+//
 //  }
   
   void takeDamage(int dmg) {
@@ -439,7 +445,11 @@ class Entity {
   }
   void set race(Race race) {
     _charRace = race;
-    _movement = race.speed;
+    _movement.addLandMod("Racial", race.landSpeed);
+    _movement.addSwimMod("Racial", race.swimSpeed);
+    if (race.canFly()) {
+      _movement.addFlyMod("Racial", race.flySpeed);  // Somehow document whether or not char can fly. 
+    }
     _size = race.size;
     _type = race.type;    
   }
@@ -481,6 +491,44 @@ class Entity {
 
   void set isCompleted(bool isDone) {
     _charCreationIsCreated = isDone;
+  }
+  
+  
+  void addAbilityMod(Mod_Ability mod) {
+
+    Ability ab = abilities.firstWhere((Ability ability) {
+      ability.name == mod.ability;
+    });
+    
+    abilities[ abilities.indexOf(ab) ].increaseTempAbility(mod.value);
+
+    _modList.add(mod);
+
+  }
+  
+  
+  void removeAbilityMod(String modName) {
+    Mod_Ability mAb = _modList.singleWhere((Mod_Ability mod) {
+      mod.name == modName;
+    });
+    Ability ab = abilities.firstWhere((Ability ability) {
+      ability.name == modName;
+    });
+    
+    abilities[ abilities.indexOf(ab) ].decreaseTempAbility(mAb.value);
+    _modList.removeWhere((Mod_Ability mod) {
+      mod.name == modName;
+    });
+//    _characterMods[mod.name].addAll(modMap);
+  }
+
+  void addCondition(Condition cd) {
+    _conditions.add(cd);
+  }
+  
+  // Mebe format this a little better?
+  List<Condition> get conditions { 
+   return _conditions;
   }
   
 } // End class Entity  

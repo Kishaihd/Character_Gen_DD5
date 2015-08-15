@@ -84,32 +84,5 @@ class Armor extends Item {
   
 } // End class Armor.
 
-class Weapon extends Item {
-  int _damageDie;
-  int _numDice;
-  String _dmgType;
-  int _magicDmg;
-  String _magicDmgType;
-  
-  Weapon(String name, String type, String size, int value, int weight, int dmgDie, int numDice, String dmgType, String description, [bool enchanted = false, int magicBonusValue = 0]) : super(name, type, size, value, weight, description, enchanted, magicBonusValue) {
-    _damageDie = dmgDie;
-    _numDice = numDice;
-    _dmgType = dmgType;
-  }
-
-  void enchant(int bonusValue) {
-      _enchanted = true;
-      _description = _description == null ? "Enchanted Weapon" : "Enchanted " + _description;
-      _magicBonusValue = bonusValue;
-    }
-  
-  @override toString() => "${capitalize(name)} - Deals ${_numDice}d${_damageDie} ${capitalize(dmgType)} damage.";
-
-  int get damageDie => _damageDie;
-  int get numDice => _numDice;
-  String get dmgType => _dmgType;
-  int get magicDmg => _magicDmg == null ? 0 : _magicDmg;
-  String get magicDmgType => _magicDmgType == null ? 0 : _magicDmgType;
-}
 
 

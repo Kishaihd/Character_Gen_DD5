@@ -41,7 +41,7 @@ class AbilitiesView extends PolymerElement {
 //    abList.forEach((Ability ab) {
 //      ab.setAbilityScore(ab.roll());
 //    });
-    model.charCreate.abilitiesList.forEach((Ability ab) {
+    model.character.abilitiesList.forEach((Ability ab) {
       ab.setAbilityScore(ab.roll());
     });
 //    model.abList.forEach((Ability ab) {
