@@ -4,16 +4,14 @@ library model.entity;
 import 'ability.dart';
 import 'character_class.dart';
 import 'equipment.dart';
+import 'weapon.dart';
 import 'features.dart';
 import 'modify.dart';
 import 'race.dart';
 import 'skill.dart';
 import 'speed.dart';
-<<<<<<< HEAD
 import 'background.dart';
-=======
 import 'condition.dart';
->>>>>>> origin/master
 
 class Entity {
   // Living attributes
@@ -22,7 +20,7 @@ class Entity {
   Race _charRace;
   FeatureList _classFeatures;
   Background _background;
-  String _type; // eg. Humanoid, Abberation, Construct etc.
+  String _type; // eg. Humanoid, Aberration, Construct etc.
   String _alignment;
   String _size;
   Speed _movement;
@@ -40,7 +38,7 @@ class Entity {
   int _armorClass;  
   int _proficiencyBonus;
   String _status;
-  
+
   // Map of modified attributes
   List<Modify> _modList;
   List<Condition> _conditions;  
@@ -154,11 +152,11 @@ class Entity {
     _size = race.size;
     _charClass = characterClass;
     _hitDie = characterClass.hitDie;
-    _movement.addLandMod("Racial", race.landSpeed);
-    _movement.addSwimMod("Racial", race.swimSpeed);
-    _movement.addFlyMod("Racial", race.flySpeed);
+    _movement.addLandMod("Racial", race.racialLandSpeed);
+    _movement.addSwimMod("Racial", race.racialSwimSpeed);
+    _movement.addFlyMod("Racial", race.racialFlySpeed);
     _proficiencyBonus = characterClass.proficiencyBonus;
-    _alignment = "Neutral Good"; // Default. Set after creation.
+    _alignment = "Neutral"; // Default. Set after creation.
     
     // Put rolled stats into their respective abilities.
     Strength.setAbilityScore(strength);

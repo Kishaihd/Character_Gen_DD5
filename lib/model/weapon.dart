@@ -1,4 +1,5 @@
 import 'equipment.dart';
+import 'modify.dart';
 
 Map<String, dynamic> weaponProperties = {
   "Ammunition" : "Must have ammunition to attack with this weapon; Can recover half ammo at end of battle if one minute is spent; Can use ammo as an improvised weapon.",
@@ -47,6 +48,7 @@ class Weapon extends Item {
 
 }
 
+// Should I have a list somewhere of all the weapons? Mebe?
 class Scimitar implements Weapon {
   Scimitar() {
     _name = "Scimitar";

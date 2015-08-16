@@ -16,7 +16,9 @@ class Ability {
   
   int _tempScore;
   int _tempMod;
-  
+
+  Map<String, int> _modList;
+
   Ability([this._name, this._score = 0]) {
     _tempScore = _score;
     calcMod();
@@ -30,7 +32,7 @@ class Ability {
   }
   
   String get name => _name;
-  int get score => _score == null ? 0 : _score;
+  int get score => _score == null ? 0 : calcAbilityScore();
   int get mod => _mod;
   int get limit => LIMIT;
 
@@ -52,7 +54,19 @@ class Ability {
   void calcMod() {
     _mod = (_score/2 - 5).floor();
   }
-  
+
+  int calcAbilityScore() {
+    int total = 0;
+    if (_modList.isNotEmpty) {
+      _modList.forEach((String k, int v) {
+        total += v;
+      });
+    }
+    total += _score;
+    _score = total;
+    return _score;
+  }
+
   // Cap set to 20, can change later.
   void setAbilityScore(int value) {
     if (value > LIMIT) {
