@@ -35,8 +35,15 @@ class AbilitiesView extends PolymerElement {
 
   void randStats(Event event, var detail, Element target) {        
     log.info("$runtimeType::randStat()");
+<<<<<<< HEAD
+//    abList.forEach((Ability ab) {
+//      ab.setAbilityScore(ab.roll());
+//    });
+    model.character.abilitiesList.forEach((Ability ab) {
+=======
   
     model.player.abilitiesList.forEach((Ability ab) {
+>>>>>>> origin/master
       ab.setAbilityScore(ab.roll());
     });
   }

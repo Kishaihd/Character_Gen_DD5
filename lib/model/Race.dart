@@ -23,6 +23,10 @@ class Race {
       _subrace = subrace;      
     }
   }
+
+  bool canFly() {
+    return _flySpeed > 0 ? true : false;
+  }
   
   List<String> get skillProficiencies => (skillProficiencies.isEmpty ? "None" : _skillProficiencies);
   List<String> get weaponProficiencies => (skillProficiencies.isEmpty ? "None" : _weaponProficiencies);
