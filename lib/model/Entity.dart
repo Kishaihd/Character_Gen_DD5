@@ -9,6 +9,7 @@ import 'modify.dart';
 import 'race.dart';
 import 'skill.dart';
 import 'speed.dart';
+import 'background.dart';
 
 class Entity {
   // Living attributes
@@ -16,10 +17,10 @@ class Entity {
   CharClass _charClass;
   Race _charRace;
   FeatureList _classFeatures;
+  Background _background;
   String _type; // eg. Humanoid, Abberation, Construct etc.
   String _alignment;
   String _size;
-//  int _movement;
   Speed _movement;
   
   // Patron attributes
@@ -134,6 +135,7 @@ class Entity {
   
   // Parameterized constructor.
   // Name, Character's class, Race, ability scores.
+//  Entity.parameterized(this._name, this._charRace, this._charClass, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
   Entity.parameterized(this._name, Race race, CharClass characterClass, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
     _status = "Normal";
     _level = 1;

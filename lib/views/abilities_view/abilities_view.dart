@@ -9,25 +9,23 @@ import '../../model/chargen_model/chargen_model.dart'; //???
 import '../../model/ability.dart';
 import 'package:paper_elements/paper_toast.dart';
 
+// To use!
+//<abilities-view abList = {{model.player.abilitiesList}}></abilities-view>
+
 @CustomTag('abilities-view')
 class AbilitiesView extends PolymerElement {
-  List<Ability> abList; // Need?
-  //@published List<Ability> abList;// = toObservable([]);
+  @observable List<Ability> abList = toObservable([]);
   
   PaperToast pt;
-  
+
   AbilitiesView.created() : super.created();
-  
+
   @override void attached() {
-    super.attached();
-    @published abList =  model.player.abilitiesList; //model.character.abList;
-//    @published model.character.abilitiesList;
-    //abList = model.character.abilitiesList;
-    //abList = model.abList;
-    //abList = model.character.abilitiesList;
+  super.attached();
+
     pt = $['acceptedToast'];
     
-    log.info("$runtimeType::attached()");
+    log.info("${runtimeType}::attached()");
   }
 
   // a sample event handler function

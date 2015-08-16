@@ -10,20 +10,20 @@
         padding: 2px;
         width: 110px;
       }
-    
     </style>
     
      <div id="abilitiesTable" layout vertical>
        <div>Character Abilities</div>
-       <div>
+        <div>
           <template repeat="{{Ability in abList}}"> <!-- model.player.abilitiesList -->
             <ability-view ability="{{Ability}}"></ability-view>
           </template>
         </div>
         
         <button icon="cached" on-tap="{{randStats}}" id="randDice"  center-justified>Random</button>      
-        <button icon="thumb-up" on-tap="{{abilitiesSubmit}}" center-justified>Accept</button>
-     </div>   
+     </div>
+
+     <button icon="thumb-up" on-tap="{{abilitiesSubmit}}" center-justified>Accept</button>
 
     <paper-toast id="acceptedToast" text="Abilities Saved!" duration="250" on-click="{{closeToast}}"></paper-toast>
 

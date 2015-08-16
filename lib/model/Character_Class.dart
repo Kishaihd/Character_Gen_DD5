@@ -17,7 +17,7 @@ class CharClass {
   int _hitDie;
   int _level;
   int _proficiencyBonus;
-  List<String> _primaryAbility;
+  List<String> _primaryAbilities;
   String _numberOfSkills;
   bool _knowsSpells = false;
   List<String> _skillProficiency;
@@ -321,7 +321,7 @@ class Warlock extends CharClass {
   
   List<Map<String, String>> class_features = [];
   
-  List<String> patronChoices = ["Demonic", "Fey", "Far realms"];
+  List<String> patronChoices = ["The Fiend", "The Archfey", "The Great Old One"];
   
   List<String> pactChoices = ["Blade", "Tome", "Chain"];
   
@@ -381,7 +381,7 @@ class Warlock extends CharClass {
 //    {"" : ""}
 //  ];                            
   
-  void otherworldyPatron(patronChoice) {
+  void setPatron(patronChoice) {
     _patron = patronChoice;
   }
   
@@ -483,12 +483,12 @@ class Warlock extends CharClass {
   String fullStats() {
     StringBuffer sb = new StringBuffer();
     
-    sb.writeln("Otherwordly patron: $_patron");
-    sb.writeln("Pact of the: $_pact");
-    sb.writeln("Spells known: ${calcNumSpellsKnown()}");
-    sb.writeln("Spell slots: ${calcSpellSlots()}");
-    sb.writeln("Spell slot level: ${calcSpellSlotLevel()}");
-    sb.writeln("Invocations known: ${calcInvocationsKnown()}");
+    sb.writeln("Otherwordly patron: $patron");
+    sb.writeln("Pact of the: $pact");
+    sb.writeln("Spells known: ${spellsKnown}");
+    sb.writeln("Spell slots: ${spellSlots}");
+    sb.writeln("Spell slot level: ${spellSlotLevel}");
+    sb.writeln("Invocations known: ${invocationsKnown}");
     
     return sb.toString();
   }
