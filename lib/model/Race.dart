@@ -1,4 +1,3 @@
-
 library model.race;
 
 import 'trait.dart';
