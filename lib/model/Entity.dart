@@ -471,7 +471,18 @@ class Entity {
       abilities = [Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma];
       abilitiesForSkills = [Strength.mod, Dexterity.mod, Intelligence.mod, Wisdom.mod, Charisma.mod];
   }
-  
+
+  void setAbilitiesByInt(int str, int dex, int con, int intl, int wis, int cha) {
+    Strength.setAbilityScore(str);
+    Dexterity.setAbilityScore(dex);
+    Constitution.setAbilityScore(con);
+    Intelligence.setAbilityScore(intl);
+    Wisdom.setAbilityScore(wis);
+    Charisma.setAbilityScore(cha);
+    abilities = [Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma];
+    abilitiesForSkills = [Strength.mod, Dexterity.mod, Intelligence.mod, Wisdom.mod, Charisma.mod];
+  }
+
   void setEachAbility(Ability str, Ability dex, Ability con, Ability int, Ability wis, Ability cha) {
     Strength.setAbilityScore(str.score);
     Dexterity.setAbilityScore(dex.score);

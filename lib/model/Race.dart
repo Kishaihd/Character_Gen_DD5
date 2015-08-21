@@ -119,8 +119,8 @@ class Elf extends Race {
   void setSubrace(String raceName) {
     _languages = ["Common", "Elvish"];
     Trait KeenSenses = new Trait.fromParam("Keen Senses", "You have proficiency in the Perception skill.");
-    Trait FeyAncestry = new Trait.fromParam("Fey Ancestry", "You have advantage on saving throws against being charmed, and magic canít put you to sleep.");
-    Trait Trance = new Trait.fromParam("Trance", """Elves donít need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is ìtrance.î) While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years o f practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep.""");
+    Trait FeyAncestry = new Trait.fromParam("Fey Ancestry", "You have advantage on saving throws against being charmed, and magic can‚Äôt put you to sleep.");
+    Trait Trance = new Trait.fromParam("Trance", """Elves don‚Äôt need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is ‚Äútrance.‚Äù) While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years o f practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep.""");
     _traits = [KeenSenses, FeyAncestry, Trance];
     _vision = {"Darkvision" : 60};
 
