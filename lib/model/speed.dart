@@ -2,24 +2,46 @@ library model.speed;
 
 class Speed {
 
-  String _encumberance;
-  Map<String, int> _encumberanceMap = {
-    "none" : 0,
-    "light" : 5,
-    "heavy" : 15,
-    "overEncumbered" : 100
-  };
-  
+  String _encumberance = "un";
+  bool isUnencumbered = true;
+  bool isLightlyEncumbered = false;
+  bool isHeavilyEncumbered = false;
+
+  void setUnencumbered() {
+    isUnencumbered = true;
+    isLightlyEncumbered = false;
+    isHeavilyEncumbered = false;
+
+    _encumberance = "un";
+  }
+
+  void setLightEncumberance() {
+    isLightlyEncumbered = true;
+    isUnencumbered = false;
+    isHeavilyEncumbered = false;
+
+    _encumberance = "lightly ";
+  }
+
+  void setHeavyEncumberance() {
+    isHeavilyEncumbered = true;
+    isLightlyEncumbered = false;
+    isUnencumbered = false;
+
+    _encumberance = "heavily ";
+  }
+
+
   Map<String, int> _landSpeeds = {
-    "base" : 0
+    //"base" : 0 // To be filled in by race choice.
   };
   
   Map<String, int> _flySpeeds = {
-      "base" : 0
+      //"base" : 0
     };
   
   Map<String, int> _swimSpeeds = {
-      "base" : 0
+      //"base" : 0
     };
   
   // Default Constructor.
@@ -47,51 +69,66 @@ class Speed {
     _swimSpeeds.remove(modName);
   }
   
-  // This could be a "level" system instead, 0 for none, 1 for lightly, etc.
-  void set encumberance(String type) {
-    _encumberance = type;
-  }
+//  // This could be a "level" system instead, 0 for none, 1 for lightly, etc.
+//  void set encumberance(String type) {
+//    _encumberance = type;
+//  }
   
   int calculateLandSpeed() {
-    int totalSpeed = 0;
+    int speed = 0;
     
     _landSpeeds.forEach((String name, int mod) {
-      totalSpeed += mod;
+      speed += mod;
     });
-    totalSpeed -= _encumberanceMap[_encumberance];
     
-    return totalSpeed;
+    return speed;
   }
   
   int calculateSwimSpeed() {
     if (_swimSpeeds.isNotEmpty) {
-      int totalSpeed = 0;
+      int speed = 0;
       
       _swimSpeeds.forEach((String name, int mod) {
-        totalSpeed += mod;
+        speed += mod;
       });
-      totalSpeed -= _encumberanceMap[_encumberance];
       
-      return totalSpeed;
+      return speed;
     }
     
     else return calculateLandSpeed(); // Is this correct?
   }
   
   int calculateFlySpeed() {
-    int totalSpeed = 0;
+    int speed = 0;
     if (_flySpeeds.isNotEmpty) {          
       _flySpeeds.forEach((String name, int mod) {
-        totalSpeed += mod;
-        totalSpeed -= _encumberanceMap[_encumberance];
+        speed += mod;
       });
     }
+    return speed;
+  }
+
+  int totalSpeed( int speedType ) {
+    int totalSpeed = anySpeed();
+
+    String e = _encumberance;
+    switch(e) {
+      case 'lightly':
+        totalSpeed -= 5;
+        break;
+      case 'heavily':
+        totalSpeed = (totalSpeed/2).floor(); // If 30, = 15. If 35, = 17.
+        break;
+      default:
+
+    }
+
     return totalSpeed;
   }
-  
-  int get landSpeed => calculateLandSpeed();
-  int get swimSpeed => calculateSwimSpeed();
-  int get flySpeed => calculateFlySpeed();
-  
+
+  int get landSpeed => totalSpeed(calculateLandSpeed());
+  int get swimSpeed => totalSpeed(calculateSwimSpeed());
+  int get flySpeed => totalSpeed(calculateFlySpeed());
+  String get encumberance => "You are ${_encumberance}encumbered. ";
 }
 

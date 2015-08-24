@@ -1,18 +1,25 @@
 library model.conditions;
 
+import 'modify.dart';
+
 class Condition {
   String _name;
   String _description;
-  
-  Condition() {
-    
+  Map<String, int> _modList;
+
+  Condition(this._name, this._description, this._modList) {}
+
+  Condition.fromMap(String name, Map<String, dynamic> map) {
+    _name = name;
+    _description = map["Desc"];
+    _modList = map["modList"];
+  }
+
+  @override toString() {
+    return "$_name: $_description";
   }
   
-  // We'll see.
-  
-  // Make a map of maps, stuff and stuff. Or map of lists? I dunno.
-  // Need word tenses. Sleep -> asleep, paralyze -> paralyzed etc.
-  // Any numerical values and such.
-  
-  
+  String get name => _name;
+  String get description => _description;
+  Map get modList => _modList;    // FIX THIS --------------------------------^%%
 }

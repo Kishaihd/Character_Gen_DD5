@@ -1,6 +1,9 @@
-import 'equipment.dart';
+library model.weapon;
 
-Map<String, dynamic> weaponProperties = {
+import 'equipment.dart';
+import 'modify.dart';
+
+Map<String, dynamic> _weaponProperties = {
   "Ammunition" : "Must have ammunition to attack with this weapon; Can recover half ammo at end of battle if one minute is spent; Can use ammo as an improvised weapon.",
   "Finesse" : "Can use Strength OR Dexterity for attacks and damage. Must use same ability for both"
 };
@@ -13,7 +16,7 @@ class Weapon extends Item {
   String _magicDmgType;
 //  List<String> _properties;
 
-  Weapon(String name, String type, String size, int value, int weight, int dmgDie, int numDice, String dmgType, String description, [bool enchanted = false, int magicBonusValue = 0]) : super(name, type, size, value, weight, description, enchanted, magicBonusValue) {
+  Weapon(String name, String type, String size, int value, int weight, bool isEquipable, int dmgDie, int numDice, String dmgType, [String description, bool enchanted = false, int magicBonusValue = 0]) : super(name, type, size, value, weight, true, description, enchanted, magicBonusValue) {
     _damageDie = dmgDie;
     _numDice = numDice;
     _dmgType = dmgType;
@@ -21,7 +24,7 @@ class Weapon extends Item {
     //_properties = [];
   }
 
-  void enchant(int bonusValue) {
+  @override void enchant(int bonusValue) {
     _enchanted = true;
     _description = _description == null ? "Enchanted Weapon" : "Enchanted " + _description;
     _magicBonusValue = bonusValue;
@@ -41,12 +44,13 @@ class Weapon extends Item {
 
   String get properties {
     String props = "";
-    _properties.forEach((String prop) => props += prop + " ");
+    _weaponProperties.forEach((String pro, dynamic val) => props += val + " "});
     return props;
   }
 
 }
 
+// Should I have a list somewhere of all the weapons? Mebe?
 class Scimitar implements Weapon {
   Scimitar() {
     _name = "Scimitar";

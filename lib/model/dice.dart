@@ -1,4 +1,4 @@
-library model.die;
+library model.dice;
 
 import 'dart:math' show Random;
 

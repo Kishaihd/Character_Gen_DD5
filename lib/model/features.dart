@@ -22,7 +22,7 @@ class Feature {
   
   int get level => _level;
   String get name => _feature;
-  String get desccription => _description;  
+  String get description => _description;
   
   void set level(int lvl) {
     _level = lvl;

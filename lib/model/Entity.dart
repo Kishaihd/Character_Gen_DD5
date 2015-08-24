@@ -2,14 +2,16 @@ library model.entity;
 
 
 import 'ability.dart';
+import 'background.dart';
 import 'character_class.dart';
+import 'conditions.dart';
 import 'equipment.dart';
 import 'features.dart';
 import 'modify.dart';
 import 'race.dart';
 import 'skill.dart';
 import 'speed.dart';
-import 'condition.dart';
+import 'weapon.dart';
 
 class Entity {
   // Living attributes
@@ -17,10 +19,10 @@ class Entity {
   CharClass _charClass;
   Race _charRace;
   FeatureList _classFeatures;
-  String _type; // eg. Humanoid, Abberation, Construct etc.
+  Background _background;
+  String _type; // eg. Humanoid, Aberration, Construct etc.
   String _alignment;
   String _size;
-//  int _movement;
   Speed _movement;
   
   // Patron attributes
@@ -36,7 +38,7 @@ class Entity {
   int _armorClass;  
   int _proficiencyBonus;
   String _status;
-  
+
   // Map of modified attributes
   List<Modify> _modList;
   List<Condition> _conditions;  
@@ -45,11 +47,10 @@ class Entity {
   // Equipment attributes
   Armor _armor;
   Weapon _weapon;
-  List<Item> itemList = [];
-  List<Weapon> weaponList = [];
-  Map<String, Armor> armorList = {}; // Location, Armor
-  
-  
+  List<Item> _itemList = [];
+  List<Weapon> _weaponList = [];
+  Map<String, Armor> _equippedList = {}; // Location, Armor
+
   Ability Strength = new Ability("Strength");
   Ability Dexterity = new Ability("Dexterity");
   Ability Constitution = new Ability("Constitution");
@@ -140,6 +141,7 @@ class Entity {
   
   // Parameterized constructor.
   // Name, Character's class, Race, ability scores.
+//  Entity.parameterized(this._name, this._charRace, this._charClass, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
   Entity.parameterized(this._name, Race race, CharClass characterClass, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
     _status = "Normal";
     _level = 1;
@@ -149,11 +151,11 @@ class Entity {
     _size = race.size;
     _charClass = characterClass;
     _hitDie = characterClass.hitDie;
-    _movement.addLandMod("Racial", race.landSpeed);
-    _movement.addSwimMod("Racial", race.swimSpeed);
-    _movement.addFlyMod("Racial", race.flySpeed);
+    _movement.addLandMod("Racial", race.racialLandSpeed);
+    _movement.addSwimMod("Racial", race.racialSwimSpeed);
+    _movement.addFlyMod("Racial", race.racialFlySpeed);
     _proficiencyBonus = characterClass.proficiencyBonus;
-    _alignment = "Neutral Good"; // Default. Set after creation.
+    _alignment = "Neutral"; // Default. Set after creation.
     
     // Put rolled stats into their respective abilities.
     Strength.setAbilityScore(strength);
@@ -206,11 +208,16 @@ class Entity {
     
   } // End constructor.
   
-  
+  void equipItem(Item item) {
+    if (item != null) {
+
+    }
+  }
+
   //Map<String, Map> itemList = {};
   void equipWeapon([Weapon weapon = null]) {
     if (weapon != null) {
-      weaponList.add(weapon);
+      _weaponList.add(weapon);
     }
     else {
       // You haven't a weapon to equip, fool!
@@ -219,7 +226,7 @@ class Entity {
   
   void equipArmor([Armor armor = null]) {
     if (armor != null) {
-      armorList.putIfAbsent(armor.location, () => armor);
+      _equippedList.putIfAbsent(armor.location, () => armor);
       calcArmorClass(armor);
     }
     else {
@@ -232,9 +239,13 @@ class Entity {
 
   }
   
-  int calcArmorClass([Armor armor]) {
-    if (armor != null) {
-      _armorClass = (BASE_AC + Dexterity.mod + (armor.armorBonus == null ? 0 : armor.armorBonus));       
+  int calcArmorClass() {
+    if (_equippedList.isNotEmpty) {
+      _armorClass = (BASE_AC + Dexterity.mod);
+      _equippedList.forEach((String k, int armor) {
+        if (armor.)
+        _armorClass += armor.v
+      });
     }
     else {
       _armorClass = (BASE_AC + Dexterity.mod);       
@@ -248,11 +259,11 @@ class Entity {
     String baseArmor = "Base: $BASE_AC";
     String dex = "\nDexterity: ${Dexterity.mod}";
     String armor = "\nArmor: ";
-    if (armorList["torso"].armorBonus == null) {
+    if (_equippedList["torso"].armorBonus == null) {
       armor += "0";
     }
     else {
-      armor += "${armorList["torso"].armorBonus}";            
+      armor += "${_equippedList["torso"].armorBonus}";
     }
     /*
      * Armor
@@ -288,10 +299,10 @@ class Entity {
     sb.writeln(statBlock());
     sb.writeln("Deity: ${capitalize(deity)} Patron: ${capitalize(patron)}");
     sb.writeln("____________________");
-    sb.writeln("Armor: ${armorList["torso"]}"); // {armorList["torso"].name}
+    sb.writeln("Armor: ${_equippedList["torso"]}"); // {armorList["torso"].name}
     sb.writeln("____________________");
     sb.write("Weapon(s): ");
-    weaponList.forEach(sb.write);
+    _weaponList.forEach(sb.write);
     
     return sb.toString();
   }
@@ -317,7 +328,7 @@ class Entity {
   void skillsPlusAbilities(Race race, CharClass charClass) {
     for (int idx = 0; idx < abilitiesForSkills.length; idx++) {
       fullSkillList[idx].forEach((Skill skill) {
-          skill.setValue(abilitiesForSkills[idx]);
+          skill.addAbility(abilitiesForSkills[idx]);
       }); // End fullSkillList.forEach
     } // End for idx loop
   } // End skillsPlusAbilities()
@@ -367,7 +378,9 @@ class Entity {
   // Throw in some if (_status == _____) 
     // statements to add mechanics and maybe flavor text.    
   }
-  
+
+
+
   // Getters
   int get strength => Strength.score;
   int get dexterity => Dexterity.score;
@@ -445,10 +458,10 @@ class Entity {
   }
   void set race(Race race) {
     _charRace = race;
-    _movement.addLandMod("Racial", race.landSpeed);
-    _movement.addSwimMod("Racial", race.swimSpeed);
+    _movement.addLandMod("Racial", race.racialLandSpeed);
+    _movement.addSwimMod("Racial", race.racialSwimSpeed);
     if (race.canFly()) {
-      _movement.addFlyMod("Racial", race.flySpeed);  // Somehow document whether or not char can fly. 
+      _movement.addFlyMod("Racial", race.racialFlySpeed);  // Somehow document whether or not char can fly.
     }
     _size = race.size;
     _type = race.type;    
@@ -456,7 +469,7 @@ class Entity {
   void set allignment(String allignment) { _alignment = allignment;}
   void setAbilitiesByList(List<Ability> incomingList) {
     if (incomingList[0].name == "Strength") {
-      setEachAbility(incomingList[0], incomingList[1], incomingList[2], incomingList[3], incomingList[4], incomingList[5]);       
+      setAbilitiesByObject(incomingList[0], incomingList[1], incomingList[2], incomingList[3], incomingList[4], incomingList[5]);
     }
 //    incomingList.forEach((Ability newAb) {
 //        abilities.forEach((Ability ab) {
@@ -468,8 +481,19 @@ class Entity {
       abilities = [Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma];
       abilitiesForSkills = [Strength.mod, Dexterity.mod, Intelligence.mod, Wisdom.mod, Charisma.mod];
   }
-  
-  void setEachAbility(Ability str, Ability dex, Ability con, Ability int, Ability wis, Ability cha) {
+
+  void setAbilitiesByInt(int str, int dex, int con, int intl, int wis, int cha) {
+    Strength.setAbilityScore(str);
+    Dexterity.setAbilityScore(dex);
+    Constitution.setAbilityScore(con);
+    Intelligence.setAbilityScore(intl);
+    Wisdom.setAbilityScore(wis);
+    Charisma.setAbilityScore(cha);
+    abilities = [Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma];
+    abilitiesForSkills = [Strength.mod, Dexterity.mod, Intelligence.mod, Wisdom.mod, Charisma.mod];
+  }
+
+  void setAbilitiesByObject(Ability str, Ability dex, Ability con, Ability int, Ability wis, Ability cha) {
     Strength.setAbilityScore(str.score);
     Dexterity.setAbilityScore(dex.score);
     Constitution.setAbilityScore(con.score);

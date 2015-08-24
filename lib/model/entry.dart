@@ -1,4 +1,4 @@
-
+library model.entry;
 
 class Entry<T> {
   T _value;

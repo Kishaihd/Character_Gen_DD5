@@ -9,16 +9,18 @@ class Item {
   String _size;
   int _value;
   int _weight;
+  bool _equipable;
   String _description;
   bool _enchanted;
   int _magicBonusValue;
   
-  Item(String name, String type, String size, int value, int weight, [String description, bool enchanted = false, int magicBonusValue = 0]) {
+  Item(String name, String type, String size, int value, int weight, bool equipable, [String description, bool enchanted = false, int magicBonusValue = 0]) {
     _name = name;
     _type = type;
     _size = size;
     _value = value;
     _weight = weight;
+    _equipable = equipable;
     _description = description;
     _enchanted = enchanted;
     _magicBonusValue = magicBonusValue;
@@ -38,12 +40,13 @@ class Item {
     _description = _description == null ? "Enchanted item" : "Enchanted " + _description;
     _magicBonusValue = bonusValue;
   }
-  
+
   String get name => _name;
   String get type => _type;
   String get size => _size;
   int get value => _value;
   int get weight => _weight;
+  bool get equipable => _equipable;
   int get magicBonus => _magicBonusValue;
   String get description => _description == null ? "No description available." : _description;
   bool get isEnchanted => _enchanted;

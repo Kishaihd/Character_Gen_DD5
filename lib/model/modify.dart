@@ -5,8 +5,10 @@ String capitalize(String word) {
   
   if (word.length > 1) {
     return "${firstLetter}${word.substring(1)}";
-  }    
-  return "${firstLetter}";
+  }
+  else {
+    return "${firstLetter}";
+  }
 }
 
 // This class will handle extraneous data modification/manipulations that come from sources
@@ -14,13 +16,15 @@ String capitalize(String word) {
 
 class Modify {
   int _modValue;
+  String _affects; //What does it affect?
   String _effectName;
   String _description;
   
   Modify();
   
-  Modify.parameterized(int value, String name, String description) {
+  Modify.parameterized(int value, String affectedStat, String name, String description) {
     _modValue = value;
+    _affects = affectedStat;
     _effectName = name;
     _description = description;
   }
@@ -32,13 +36,14 @@ class Modify {
     _modValue -= amount;    
   }
   
-  String addAttribute(String attribute) {
-    
-    return attribute;
-  }
+//  String addAttribute(String attribute) {
+//
+//    return attribute;
+//  }
   
   
   int get value => _modValue;
+  String get affects => _affects;
   String get name => _effectName;
   String get description => _description;
 
@@ -48,14 +53,17 @@ class Modify {
 }
 
 
-//Derivative classes will be specificly for abilities, skills, hp, damage, speed? Etc? Maybe?
+//Derivative classes will be specifically for abilities, skills, hp, damage, speed? Etc? Maybe?
 
 class Mod_Ability extends Modify {
   String _source;
 //  int _mod; 
   String _ability;
   
-  Mod_Ability();
+  Mod_Ability(int value, String affectedStat, String name, String description, String source, String ability) : super(value, affectedStat, name, description) {
+    _source = source;
+    _ability = ability;
+  }
   
   String get source => _source;
   String get ability => _ability;
