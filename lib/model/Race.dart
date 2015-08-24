@@ -2,6 +2,8 @@ library model.race; // Why doesn't think work?
 
 import 'trait.dart';
 
+import 'trait.dart';
+
 class Race {
   String _name;
   String _type;

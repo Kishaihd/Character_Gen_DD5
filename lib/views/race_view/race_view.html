@@ -1,16 +1,22 @@
-<!DOCTYPE html>
+<link rel="import" href="../../../../packages/polymer/polymer.html">
+<link rel="import" href="../../../../packages/core_elements/core_input.html">
+<link rel="import" href="../../../../packages/paper_elements/paper_input_decorator.html">
 
-<html>
-  <head>
-  	<meta charset="utf-8">
-  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>race_view</title>
-  </head>
- 
-  <body>   
-    <p id="text"></p>
-    <script type="application/dart" src="race_view.dart"></script>
-    <!-- for this next line to work, your pubspec.yaml file must have a dependency on 'browser' -->
-    <script src="packages/browser/dart.js"></script>
-  </body>
-</html>
+<polymer-element name="race-view" layout horizontal>
+  <template>
+
+    <style>
+      div {
+        width: 100px;
+      }
+    </style>
+
+    <div>{{race}}</div>
+    <paper-input-decorator id="paperRace">
+      <input is="core-input" id="raceBox" value="{{raceName}}">
+    </paper-input-decorator>
+
+  </template>
+
+  <script type="application/dart" src="race_view.dart"></script>
+</polymer-element>

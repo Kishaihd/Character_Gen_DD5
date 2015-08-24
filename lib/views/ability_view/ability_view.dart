@@ -11,14 +11,10 @@ import '../../model/ability.dart';
 @CustomTag('ability-view')
 class AbilityView extends PolymerElement {
 
-//  @observable ChargenModel model; 
-//  @published String abilityName; 
   @observable String abilityScore;
   
   @published Ability ability;
-//  int abilityIdx;
-//  List<Ability> ab;
-  
+
   AbilityView.created() : super.created();
 
   @override void attached() {

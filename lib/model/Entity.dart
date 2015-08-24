@@ -6,12 +6,18 @@ import 'background.dart';
 import 'character_class.dart';
 import 'conditions.dart';
 import 'equipment.dart';
+import 'weapon.dart';
 import 'features.dart';
 import 'modify.dart';
 import 'race.dart';
 import 'skill.dart';
 import 'speed.dart';
+<<<<<<< HEAD
 import 'weapon.dart';
+=======
+import 'background.dart';
+import 'condition.dart';
+>>>>>>> origin/master
 
 class Entity {
   // Living attributes
@@ -493,7 +499,11 @@ class Entity {
     abilitiesForSkills = [Strength.mod, Dexterity.mod, Intelligence.mod, Wisdom.mod, Charisma.mod];
   }
 
+<<<<<<< HEAD
   void setAbilitiesByObject(Ability str, Ability dex, Ability con, Ability int, Ability wis, Ability cha) {
+=======
+  void setEachAbility(Ability str, Ability dex, Ability con, Ability int, Ability wis, Ability cha) {
+>>>>>>> origin/master
     Strength.setAbilityScore(str.score);
     Dexterity.setAbilityScore(dex.score);
     Constitution.setAbilityScore(con.score);

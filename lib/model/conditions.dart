@@ -13,6 +13,7 @@ class Condition {
     _name = name;
     _description = map["Desc"];
     _modList = map["modList"];
+<<<<<<< HEAD
   }
 
   @override toString() {
@@ -22,4 +23,11 @@ class Condition {
   String get name => _name;
   String get description => _description;
   Map get modList => _modList;    // FIX THIS --------------------------------^%%
+=======
+  }
+
+  String get name => _name;
+  String get description => _description;
+  List get modList => _modList;
+>>>>>>> origin/master
 }
