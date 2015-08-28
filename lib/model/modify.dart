@@ -1,4 +1,4 @@
-library model.modify;
+library model.mod;
 
 String capitalize(String word) {
   String firstLetter = word[0].toUpperCase();
@@ -14,17 +14,24 @@ String capitalize(String word) {
 // This class will handle extraneous data modification/manipulations that come from sources
 // such as, items/equipment, conditional/combat bonuses and modifiers.
 
-class Modify {
+/* Example generals:
+  hp, abilities, skills, size, speed, status,
+
+*/
+class Mod {
   int _modValue;
-  String _affects; //What does it affect?
+  String _affects_general; //General type of thing affected (Ability, Skill, Speed, Size, etc)
+  String _affects_specific; // Specific thing affected.
   String _effectName;
   String _description;
+
+
+  Mod(this._modValue, this._affects_general, this._affects_specific, this._effectName, this._description);
   
-  Modify();
-  
-  Modify.parameterized(int value, String affectedStat, String name, String description) {
+  Mod.parameterized(int value, String statType, String affectedStat, String name, String description) {
     _modValue = value;
-    _affects = affectedStat;
+    _affects_general = statType;
+    _affects_specific = affectedStat;
     _effectName = name;
     _description = description;
   }
@@ -43,7 +50,8 @@ class Modify {
   
   
   int get value => _modValue;
-  String get affects => _affects;
+  String get modType => _affects_general;
+  String get affects => _affects_specific;
   String get name => _effectName;
   String get description => _description;
 
@@ -53,21 +61,21 @@ class Modify {
 }
 
 
-//Derivative classes will be specifically for abilities, skills, hp, damage, speed? Etc? Maybe?
-
-class Mod_Ability extends Modify {
-  String _source;
-//  int _mod; 
-  String _ability;
-  
-  Mod_Ability(int value, String affectedStat, String name, String description, String source, String ability) : super(value, affectedStat, name, description) {
-    _source = source;
-    _ability = ability;
-  }
-  
-  String get source => _source;
-  String get ability => _ability;
-}
+////Derivative classes will be specifically for abilities, skills, hp, damage, speed? Etc? Maybe?
+//
+//class Mod_Ability extends Mod {
+//  String _source;
+////  int _mod;
+//  String _ability;
+//
+//  Mod_Ability(int value, String affectedStat, String name, String description, String source, String ability) : super(value, affectedStat, name, description) {
+//    _source = source;
+//    _ability = ability;
+//  }
+//
+//  String get source => _source;
+//  String get ability => _ability;
+//}
 
 
 

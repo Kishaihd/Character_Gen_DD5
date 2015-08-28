@@ -1,23 +1,18 @@
 library model.entity;
 
-
 import 'ability.dart';
+import 'alignment.dart';
 import 'background.dart';
 import 'character_class.dart';
 import 'conditions.dart';
 import 'equipment.dart';
-import 'weapon.dart';
 import 'features.dart';
 import 'modify.dart';
 import 'race.dart';
 import 'skill.dart';
 import 'speed.dart';
-<<<<<<< HEAD
-import 'weapon.dart';
-=======
 import 'background.dart';
-import 'condition.dart';
->>>>>>> origin/master
+import 'conditions.dart';
 
 class Entity {
   // Living attributes
@@ -27,7 +22,7 @@ class Entity {
   FeatureList _classFeatures;
   Background _background;
   String _type; // eg. Humanoid, Aberration, Construct etc.
-  String _alignment;
+  Alignment _alignment;
   String _size;
   Speed _movement;
   
@@ -36,17 +31,19 @@ class Entity {
   String _patron;
   
   // Game attributes
-  final int BASE_AC = 10;
+  static const int BASE_AC = 10;
   int _level;
   int _hitDie;
   int _maxHitPoints;
   int _currentHitPoints;
-  int _armorClass;  
+  int _tempHitPoints;
+  int _armorClass;
+  bool _unarmored;
   int _proficiencyBonus;
   String _status;
 
   // Map of modified attributes
-  List<Modify> _modList;
+  List<Mod> _modList;
   List<Condition> _conditions;  
 //  Map<String, Map<String, int>> _characterMods; // Map< mod_name, Map <thing modified, mod_value>>
   
@@ -109,7 +106,7 @@ class Entity {
     _status = "Normal";
     _level = 1;
 
-    _alignment = ""; // Default. Set after creation.
+    _alignment = new Alignment(); // Default. Set after creation.
     
     abilities = [Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma];
     
@@ -140,7 +137,8 @@ class Entity {
     
     fullSkillList = [strSkills, dexSkills, intSkills, wisSkills, chaSkills];
 
-    _armorClass = 10;
+    _armorClass = BASE_AC;
+    _unarmored = true;
         
   }
   
@@ -161,7 +159,7 @@ class Entity {
     _movement.addSwimMod("Racial", race.racialSwimSpeed);
     _movement.addFlyMod("Racial", race.racialFlySpeed);
     _proficiencyBonus = characterClass.proficiencyBonus;
-    _alignment = "Neutral"; // Default. Set after creation.
+    _alignment = new Alignment.fromString("neutral"); // Default. Set after creation.
     
     // Put rolled stats into their respective abilities.
     Strength.setAbilityScore(strength);
@@ -214,14 +212,17 @@ class Entity {
     
   } // End constructor.
   
-  void equipItem(Item item) {
+  void _equipItem(Item item) {
     if (item != null) {
-
+      _itemList.add(item);
+    }
+    else {
+      // Nothing.
     }
   }
 
   //Map<String, Map> itemList = {};
-  void equipWeapon([Weapon weapon = null]) {
+  void _equipWeapon([Weapon weapon = null]) {
     if (weapon != null) {
       _weaponList.add(weapon);
     }
@@ -230,13 +231,26 @@ class Entity {
     }
   }
   
-  void equipArmor([Armor armor = null]) {
-    if (armor != null) {
-      _equippedList.putIfAbsent(armor.location, () => armor);
-      calcArmorClass(armor);
+  void _equipArmor(Armor armr) {
+    if (armr != null) {
+      _equippedList.putIfAbsent(armr.location, () => armr);
+      _unarmored = false;
+      calcArmorClass();
     }
     else {
       // Nothing
+    }
+  }
+
+  void equip(dynamic equipable) {
+    if (equipable.runtimeType == Item) {
+      _equipItem(equipable);
+    }
+    else if (equipable.runtimeType == Armor) {
+      _equipArmor(equipable);
+    }
+    else if (equipable.runtimeType == Weapon) {
+      _equipWeapon(equipable);
     }
   }
   
@@ -246,15 +260,31 @@ class Entity {
   }
   
   int calcArmorClass() {
+    _armorClass = 0;
     if (_equippedList.isNotEmpty) {
-      _armorClass = (BASE_AC + Dexterity.mod);
-      _equippedList.forEach((String k, int armor) {
-        if (armor.)
-        _armorClass += armor.v
+      _equippedList.forEach((String k, Armor armor) {
+        _armorClass += armor.armorBonus;
       });
+      if (_equippedList.containsKey("torso")) {
+        int maxDex = _equippedList["torso"].maxDex;
+        if (Dexterity.score > maxDex) {
+          _armorClass += maxDex;
+        }
+        else {
+          _armorClass += Dexterity.score;
+        }
+      }
     }
     else {
       _armorClass = (BASE_AC + Dexterity.mod);       
+    }
+
+    if (_modList.isNotEmpty) {
+      _modList.forEach((Mod mod) {
+        if (mod.modType == "armor-class") {
+          _armorClass += mod.value;
+        }
+      });
     }
     return _armorClass;    
   }
@@ -269,17 +299,18 @@ class Entity {
       armor += "0";
     }
     else {
-      armor += "${_equippedList["torso"].armorBonus}";
+      armor += "${_equippedList["torso"].name}[+${_equippedList["torso"].armorBonus}]";
     }
-    /*
-     * Armor
-     * Dex
-     * Dodge
-     * 
-     * 
-     * if (tempBonus == true)
-     */
-    armorBonuses = baseArmor + dex + armor;
+    String mods = "Misc: ";
+    if (_modList.isNotEmpty) {
+      _modList.forEach((Mod mod) {
+        if (mod.modType == 'armor-class') {
+          mods += "\n${mod.name} : ${mod.value}";
+        }
+      });
+    }
+
+    armorBonuses = baseArmor + dex + armor + mods;
     
     return armorBonuses;
   }
@@ -317,7 +348,7 @@ class Entity {
     StringBuffer sb = new StringBuffer();
     
     abilities.forEach((Ability ability) {
-      sb.writeln("${ability.name}: ${ability.score}");
+      sb.writeln("${ability.name}: ${ability.score}");  // Need \n ?
     });
     
     return sb.toString();
@@ -385,9 +416,22 @@ class Entity {
     // statements to add mechanics and maybe flavor text.    
   }
 
-
+  int calcCurrentHP() {
+    if (_currentHitPoints > 0) {
+      if (_tempHitPoints > 0) {
+        return _tempHitPoints + _currentHitPoints;
+      }
+      else {
+        return _currentHitPoints;
+      }
+    }
+    else {
+      return 0;
+    }
+  }
 
   // Getters
+  int get level => _level;
   int get strength => Strength.score;
   int get dexterity => Dexterity.score;
   int get constitution => Constitution.score;
@@ -395,10 +439,10 @@ class Entity {
   int get wisdom => Wisdom.score;
   int get charisma => Charisma.score;
   List<Ability> get abilitiesList => abilities;
-  int get currentHP => _currentHitPoints;
-  int get level => _level;
   String get hitDie => "d${_charClass.hitDie}";
   int get maxHP => _maxHitPoints;
+  int get currentHP => calcCurrentHP();
+  int get tempHP => _tempHitPoints;
   int get AC => _armorClass;
   int get proficiencyBonus => _proficiencyBonus;
   int get landMovement => _movement.landSpeed;
@@ -409,7 +453,7 @@ class Entity {
   String get raceName => _charRace.name;
   String get className => _charClass.name;
   String get creatureType => _type == null ? "humanoid" : _type; // eg. Humanoid, Abberation, Construct etc.
-  String get alignment => _alignment;
+  String get alignment => _alignment.score;
   String get status => _status;
   String get deity => _deity == null ? "None" : _deity;
   String get patron => _patron == null ? "None" : _patron;
@@ -472,7 +516,7 @@ class Entity {
     _size = race.size;
     _type = race.type;    
   }
-  void set allignment(String allignment) { _alignment = allignment;}
+  void set allignment(String allignment) { _alignment.setByString(allignment);}
   void setAbilitiesByList(List<Ability> incomingList) {
     if (incomingList[0].name == "Strength") {
       setAbilitiesByObject(incomingList[0], incomingList[1], incomingList[2], incomingList[3], incomingList[4], incomingList[5]);
@@ -499,11 +543,7 @@ class Entity {
     abilitiesForSkills = [Strength.mod, Dexterity.mod, Intelligence.mod, Wisdom.mod, Charisma.mod];
   }
 
-<<<<<<< HEAD
   void setAbilitiesByObject(Ability str, Ability dex, Ability con, Ability int, Ability wis, Ability cha) {
-=======
-  void setEachAbility(Ability str, Ability dex, Ability con, Ability int, Ability wis, Ability cha) {
->>>>>>> origin/master
     Strength.setAbilityScore(str.score);
     Dexterity.setAbilityScore(dex.score);
     Constitution.setAbilityScore(con.score);
@@ -518,7 +558,7 @@ class Entity {
   void set deity(String deity) {_deity = deity;}
   void set patron(String patron) {_patron = patron;}
   void calcHpAtLevelOne() {
-    if (Constitution.score > 0 && _hitDie > 0) {
+    if (_hitDie > 0) {
       _maxHitPoints = Constitution.mod + _hitDie;
     }
   }
@@ -527,39 +567,77 @@ class Entity {
     _charCreationIsCreated = isDone;
   }
   
-  
-  void addAbilityMod(Mod_Ability mod) {
 
-    Ability ab = abilities.firstWhere((Ability ability) {
-      ability.name == mod.ability;
-    });
-    
-    abilities[ abilities.indexOf(ab) ].increaseTempAbility(mod.value);
-
+  void handleMod(Mod mod) {
     _modList.add(mod);
 
+    switch (mod.modType) {
+    //////////////   HP    /////////////
+      case 'hp' :
+        if (mod.affects == "temprorary-hp") {
+          if (_tempHitPoints > 0) {
+            if (mod.value > _tempHitPoints) {
+              _tempHitPoints = mod.value;
+            }
+            else {
+              //They stay the same
+            }
+          }
+          else {
+            _tempHitPoints = mod.value;
+          }
+        }
+        else if (mod.affects == "permanent-hp") {
+          _maxHitPoints += mod.value;
+        }
+        break;
+      ///////////   Ability   //////////////
+      case 'ability' :
+        if (mod.affects == "strength") {
+
+        }
+        break;
+    }
   }
-  
-  
-  void removeAbilityMod(String modName) {
-    Mod_Ability mAb = _modList.singleWhere((Mod_Ability mod) {
-      mod.name == modName;
-    });
-    Ability ab = abilities.firstWhere((Ability ability) {
-      ability.name == modName;
-    });
-    
-    abilities[ abilities.indexOf(ab) ].decreaseTempAbility(mAb.value);
-    _modList.removeWhere((Mod_Ability mod) {
-      mod.name == modName;
-    });
-//    _characterMods[mod.name].addAll(modMap);
-  }
+
+//  void addAbilityMod(Mod_Ability mod) {
+//    Ability ab = abilities.firstWhere((Ability ability) {
+//      ability.name == mod.ability;
+//    });
+//
+//    abilities[ abilities.indexOf(ab) ].increaseTempAbility(mod.value);
+//
+//    _modList.add(mod);
+//
+//  }
+//
+//  void removeAbilityMod(String modName) {
+//    Mod_Ability mAb = _modList.singleWhere((Mod_Ability mod) {
+//      mod.name == modName;
+//    });
+//    Ability ab = abilities.firstWhere((Ability ability) {
+//      ability.name == modName;
+//    });
+//
+//    abilities[ abilities.indexOf(ab) ].decreaseTempAbility(mAb.value);
+//    _modList.removeWhere((Mod_Ability mod) {
+//      mod.name == modName;
+//    });
+////    _characterMods[mod.name].addAll(modMap);
+//  }
 
   void addCondition(Condition cd) {
     _conditions.add(cd);
   }
-  
+
+  void removeConditionByName(String cd) {
+    _conditions.removeWhere((condition) => condition.name == cd);
+  }
+
+  void removeConditionByObj(Condition cd) { // Should this be a string to look it up by name?
+    _conditions.removeWhere((condition) => condition.name == cd.name);
+  }
+
   // Mebe format this a little better?
   List<Condition> get conditions { 
    return _conditions;

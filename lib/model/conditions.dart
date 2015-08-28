@@ -5,7 +5,7 @@ import 'modify.dart';
 class Condition {
   String _name;
   String _description;
-  Map<String, int> _modList;
+  List<Mod> _modList;
 
   Condition(this._name, this._description, this._modList) {}
 
@@ -13,7 +13,6 @@ class Condition {
     _name = name;
     _description = map["Desc"];
     _modList = map["modList"];
-<<<<<<< HEAD
   }
 
   @override toString() {
@@ -22,12 +21,25 @@ class Condition {
   
   String get name => _name;
   String get description => _description;
-  Map get modList => _modList;    // FIX THIS --------------------------------^%%
-=======
+  List get modList => _modList;
+  String get modListAsString {  // FIX THIS --------------------------------^%%
+    String mods = "${_name}:\n";
+    _modList.forEach((Mod mod) {
+      mods += "${mod.name}: ${mod.affects} ${posOrNeg(mod.value)} ${mod.value} \n";
+    });
+    return mods;
   }
 
-  String get name => _name;
-  String get description => _description;
-  List get modList => _modList;
->>>>>>> origin/master
+  // Inserts a '+' or '-' depending on the value of the mod.
+  String posOrNeg(int value) {
+    if (value == 0) {
+      return "";
+    }
+    else if (value > 0) {
+      return "+";
+    }
+    else {
+      return "-";
+    }
+  }
 }
