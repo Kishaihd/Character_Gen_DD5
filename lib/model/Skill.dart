@@ -27,12 +27,10 @@ class Skill /*implements Comparable*/ {
     _abilityMod = ability.mod;
 //    setValue(_abilityMod);
   }
-<<<<<<< HEAD
 
   void addAbility(int value) {
     _value += value;
   }
-=======
   
 //  void setValue(int value) {
 //    _originalValue = _value;
@@ -43,7 +41,6 @@ class Skill /*implements Comparable*/ {
 //    _originalValue = _value;
 //    _value += value;
 //  }
->>>>>>> origin/master
 
 //  void setValue(int value) {
 //    _originalValue = _value;
