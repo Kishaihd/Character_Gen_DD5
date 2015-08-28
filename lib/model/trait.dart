@@ -1,4 +1,4 @@
-library model.traits;
+library Character_Gen_DD5;
 
 class Trait {
   String _name;

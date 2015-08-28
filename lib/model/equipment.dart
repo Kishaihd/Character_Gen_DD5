@@ -1,4 +1,4 @@
-library model.equipment;
+library Character_Gen_DD5;
 
 import 'dart:convert';
 import 'dice.dart';

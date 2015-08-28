@@ -1,4 +1,4 @@
-library model.speed;
+library Character_Gen_DD5;
 
 class Speed {
 
@@ -109,7 +109,7 @@ class Speed {
   }
 
   int totalSpeed( int speedType ) {
-    int totalSpeed = anySpeed();
+    int totalSpeed = speedType;
 
     String e = _encumberance;
     switch(e) {
@@ -120,9 +120,8 @@ class Speed {
         totalSpeed = (totalSpeed/2).floor(); // If 30, = 15. If 35, = 17.
         break;
       default:
-
+        break;
     }
-
     return totalSpeed;
   }
 

@@ -1,4 +1,4 @@
-library model.entity;
+library Character_Gen_DD5;
 
 import 'ability.dart';
 import 'alignment.dart';

@@ -1,4 +1,4 @@
-library model.skill;
+library Character_Gen_DD5;
 
 import 'ability.dart';
 

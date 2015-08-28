@@ -1,4 +1,4 @@
-library model.entry;
+library Character_Gen_DD5;
 
 class Entry<T> {
   T _value;

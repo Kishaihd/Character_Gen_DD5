@@ -1,4 +1,4 @@
-library model.global;
+library Character_Gen_DD5;
 
 import 'package:logging/logging.dart';
 import 'package:intl/intl.dart' show DateFormat;

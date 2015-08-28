@@ -1,4 +1,4 @@
-library model.mod;
+library Character_Gen_DD5;
 
 String capitalize(String word) {
   String firstLetter = word[0].toUpperCase();
