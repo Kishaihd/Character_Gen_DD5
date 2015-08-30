@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-library model.background;
-=======
-library model.Background;
->>>>>>> origin/master
+library Character_Gen_DD5;
 
 class Background {
 
